@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Default styling for multilingual quotes &amp; quotation marks in HTML</title>
+<link rel="stylesheet" href="local.css"/>
+<style>
+#use_cases li { border: 1px solid #ccc; margin-bottom: 2em; padding: 1em; }
+code { color: brown; }
+#toc { float: right; }
+
+#florian :lang(en) > *:not(q *) { quotes: "“" "”" "‘" "’" } 
+#florian :lang(fr-CA) > *:not(q *) { quotes: "« " " »" "‹ " " ›" } 
+
+</style>
+
+</head>
+
+<body>
+<h1>Default styling for multilingual quotes &amp; quotation marks in HTML</h1>
+
+<p>This page sumarises some findings related to the use of quotation marks around the <code class="kw" translate="no">q</code> element in HTML5 when dealing with multilingual text. It is concerned with the default behaviour, when no CSS styling is applied.</p>
+<p><strong>Note: the actual quotation marks used on this page are immaterial to the discussion. They were simply chosen to make it possible to see the actual issue, which is that the choice of when to use particular language-specific characters (whatever they are), especially in <strong>multilingual</strong> quotations, doesn't produce what people expect.</strong></p>
+
+<h2>The problem</h2>
+<p>Different characters are used for quotation marks in different languages. </p>
+<p>Opinions from <a href="https://www.w3.org/Mail/flatten/index?subject=Expected+behaviour+of+quotation+marks&list=public-digipub-ig">people on the public-digipub and www-international mailing lists</a> point to a desire for quotation marks to remain in the format appropriate to the language of the text which lies outside the principal quotation, rather than to change according to the language of the text inside the quotation. This also means that there is no linguistically-sensitive change to quotation marks used for quotations within quotations.</p>
+<p>This is not currently what browsers produce if they follow <a href="https://www.w3.org/TR/html5/rendering.html#quotes">the HTML5 specification</a>. The HTML5 specification chooses quotation marks on the basis of the language of the quote that they surround.</p>
+
+<h2>Use case examples</h2>
+<p>For each of the use cases below (in total 8), the top line shows the markup of the text. The next line shows what respondents on the list expected to see. The third line shows what browsers produce by default when they follow the HTML5 rendering section.  The final, fourth line shows what is produced by the browser you are currently using, by default (the paragraph has <code translate="no">lang="fr-CA"</code> added).</p>
+<p>All examples assume that the <code class="kw" translate="no">html</code> tag has a <code class="kw" translate="no">lang</code> attribute with the value <code class="kw" translate="no">fr-CA</code>.</p>
+<ol id="use_cases">
+  <li>
+    <p><code translate="no">&lt;p&gt;Mais Lucy répond: &lt;q&gt;Embrassez George de ma part&lt;/q&gt;&lt;/p&gt;</code></p>
+    <p><strong>Expected: </strong>Mais Lucy répond: « Embrassez George de ma part  »</p>
+    <p><strong>HTML5: </strong>Mais Lucy répond: « Embrassez George de ma part  »</p>
+    <p lang="fr-CA"><strong>Your browser:</strong> Mais Lucy répond: <q>Embrassez George de ma part </q></p>
+  </li>
+  <li>
+    <p><code translate="no">&lt;p&gt;Mais Lucy répond: &lt;q lang="en"&gt;Give George my love&lt;/q&gt;&lt;/p&gt;</code></p>
+    <p><strong>Expected: </strong>Mais Lucy répond: « Give George my love  »</p>
+    <p><strong>HTML5: </strong>Mais Lucy répond: “Give George my love ”</p>
+     <p lang="fr-CA"><strong>Your browser:</strong> Mais Lucy répond: <q lang="en">Give George my love</q></p>
+ </li>
+  <li>
+    <p><code translate="no">&lt;p&gt;Mais Lucy répond: &lt;q&gt;Embrassez George de ma part – seulement une fois.  Dites-lui, &lt;q&gt;Embrouille&lt;/q&gt;&lt;/q&gt;&lt;/p&gt;</code></p>
+    <p><strong>Expected: </strong>Mais Lucy répond: « Embrassez George de ma part et dites-lui, ‹ Embrouille › »</p>
+    <p><strong>HTML5: </strong>Mais Lucy répond: « Embrassez George de ma part et dites-lui, ‹ Embrouille › »</p>
+    <p lang="fr-CA"><strong>Your browser:</strong> Mais Lucy répond: <q>Embrassez George de ma part et dites-lui, <q>Embrouille</q></q></p>
+  </li>
+  <li>
+    <p><code translate="no">&lt;p&gt;Mais Lucy répond: &lt;q lang="en"&gt;Give George my love and tell him, &lt;q&gt;Muddle&lt;/q&gt;&lt;/q&gt;&lt;/p&gt; </code></p>
+    <p><strong>Expected: </strong>Mais Lucy répond: « Give George my love and tell him, ‹ Muddle › »</p>
+    <p><strong>HTML5: </strong>Mais Lucy répond: “Give George my love and tell him, ‘Muddle’”</p>
+     <p lang="fr-CA"><strong>Your browser:</strong> Mais Lucy répond: <q lang="en">Give George my love and tell him, <q>Muddle</q></q></p>
+ </li>
+  <li>
+    <p><code translate="no">&lt;p&gt;Mais Lucy répond: &lt;q&gt;Embrassez George de ma part – seulement une fois.  Dites-lui, &lt;q lang="en"&gt;Muddle&lt;/q&gt;&lt;/q&gt;&lt;/p&gt;</code></p>
+    <p><strong>Expected: </strong>Mais Lucy répond: « Embrassez George de ma partet dites-lui, ‹ Muddle › »</p>
+    <p><strong>HTML5: </strong>Mais Lucy répond: « Embrassez George de ma part et dites-lui, ‘Muddle’ »</p>
+    <p lang="fr-CA"><strong>Your browser:</strong> Mais Lucy répond: <q>Embrassez George de ma part et dites-lui, <q lang="en">Muddle</q></q></p>
+  </li>
+  <li>
+    <p><code translate="no">&lt;p&gt;Mais Lucy répond: &lt;q lang="en"&gt;Give George my love – once only. Tell him, &lt;q lang="fr-CA"&gt;Embrouille&lt;/q&gt;&lt;/q&gt;&lt;/p&gt;</code></p>
+    <p><strong>Expected: </strong>Mais Lucy répond: « Give George my love and tell him, ‹ Embrouille › »</p>
+    <p><strong>HTML5: </strong>Mais Lucy répond: “Give George my love and tell him, ‹ Embrouille ›”</p>
+    <p lang="fr-CA"><strong>Your browser:</strong> Mais Lucy répond: <q lang="en">Give George my love and tell him, <q lang="fr-CA">Embrouille</q></q></p>
+  </li>
+  <li>
+    <p><code translate="no">&lt;p&gt;Mais Lucy répond: &lt;span lang="en"&gt;Give George my love – once only. Tell him, &lt;q lang="fr-CA"&gt;Embrouille&lt;/q&gt;&lt;/span&gt;&lt;/p&gt;</code></p>
+    <p><strong>Expected: </strong>Mais Lucy répond: Give George my love and tell him, « Embrouille »</p>
+    <p><strong>HTML5: </strong>Mais Lucy répond: Give George my love and tell him, « Embrouille »</p>
+    <p lang="fr-CA"><strong>Your browser:</strong> Mais Lucy répond: <span lang="en">Give George my love ant tell him, <q lang="fr-CA">Embrouille</q></span></p>
+  </li>
+ <li>
+    <p><code translate="no">&lt;p&gt;Mais Lucy répond: &lt;span lang="en"&gt;Give George my love – once only. Tell him, &lt;q&gt;Muddle&lt;/q&gt;&lt;/span&gt;&lt;/p&gt;</code></p>
+    <p><strong>Expected: </strong>Mais Lucy répond: Give George my love and tell him, « Muddle »</p>
+    <p><strong>HTML5: </strong>Mais Lucy répond: Give George my love and tell him, “Muddle”</p>
+    <p lang="fr-CA"><strong>Your browser:</strong> Mais Lucy répond: <span lang="en">Give George my love and tell him, <q>Muddle</q></span></p>
+  </li>
+</ol>
+<p>There is a page that shows results of a series of <a href="https://www.w3.org/International/tests/repo/results/the-q-element">tests for default handling of the <code class="kw" translate="no">q</code> element in browsers</a>. That page has links to the tests themselves (left column in the table).</p>
+
+
+<h2>Alternative solutions</h2>
+<p>The current default styling in the HTML5 spec is:</p>
+<p><code translate="no">:root:lang(en),       :not(:lang(en)) &gt; :lang(en)             { quotes: '\201c' '\201d' '\2018' '\2019' } /* “ ” ‘ ’ */</code></p>
+<p><code translate="no">:root:lang(fr-CA),    :not(:lang(fr-CA)) &gt; :lang(fr-CA)       { quotes: '\00ab' '\00bb' '\2039' '\203a' } /* « » ‹ › */</code></p>
+
+<h3>Solution A</h3>
+<p>One solution, proposed by Florian Rivoal, is to replace that with the following</p>
+<p>:lang(en) &gt; *:not(q *) { quotes: &quot;“&quot; &quot;”&quot; &quot;‘&quot; &quot;’&quot; } </p>
+<p>:lang(fr-CA) &gt; *:not(q *) { quotes: &quot;« &quot; &quot; »&quot; &quot;‹ &quot; &quot; ›&quot; } </p>
+<p>That CSS produces the expected effect, but Chrome, Firefox, and Edge don't support the selectors. Only Safari produces a result.</p>
+<p>There is also a difference in item 8 above. If the language change occurs on a element that is not <code class="kw" translate="no">q</code> higher up the hierarchy, the quotes used will be appropriate to that language. This is quite useful for multilingual documents, where the <code class="kw" translate="no">html</code> tag may not reflect the reader's language for a particular part of the document. It does, however, also mean that examples like #8 (which are likely to be rare), or quotations within blockquotes, etc. will by default use the marks appropriate to the newly set language. This may not be a significant issue.</p>
+
+<p>[there also seems to be a problem for #5]</p>
+<p>Here is what it looks like in your browser.</p>
+<ol id="florian" lang="fr-CA">
+  <li>
+    <p><strong>Your browser:</strong> Mais Lucy répond: <q>Embrassez George de ma part</q></p>
+  </li>
+  <li>
+    <p><strong>Your browser:</strong> Mais Lucy répond: <q lang="en">Give George my love</q></p>
+ </li>
+  <li>
+    <p><strong>Your browser:</strong> Mais Lucy répond: <q>Embrassez George de ma part et dites-lui, <q>Embrouille</q></q></p>
+  </li>
+  <li>
+    <p><strong>Your browser:</strong> Mais Lucy répond: <q lang="en">Give George my love and tell him, <q>Muddle</q></q></p>
+ </li>
+  <li>
+    <p><strong>Your browser:</strong> Mais Lucy répond: <q>Embrassez George de ma part et dites-lui, <q lang="en">Muddle</q></q></p>
+  </li>
+  <li>
+    <p><strong>Your browser:</strong> Mais Lucy répond: <q lang="en">Give George my love and tell him, <q lang="fr-CA">Embrouille</q></q></p>
+  </li>
+  <li>
+    <p><strong>Your browser:</strong> Mais Lucy répond: <span lang="en">Give George my love and tell him, <q lang="fr-CA">Embrouille</q></span></p>
+  </li>
+ <li>
+   <p><strong>Your browser:</strong> Mais Lucy répond: <span lang="en">Give George my love and tell him, <q>Muddle</q></span></p>
+  </li>
+
+</ol>
+
+<h3>Solution B</h3>
+<p>An alternative solution would be to simply use</p>
+<p><code translate="no">:root:lang(fr-CA) { quotes: &quot;« &quot; &quot; »&quot; &quot;‹ &quot; &quot; ›&quot; }</code></p>
+<p><code translate="no">:root:lang(en) { quotes: &quot;“&quot; &quot;”&quot; &quot;‘&quot; &quot;’&quot; } </code></p>
+<p>This would require the content author to use a <code class="kw" translate="no">lang</code> attribute on the <code class="kw" translate="no">html</code> tag (which they should anyway), but for a multilingual document they would need to add their own style rule to set the quotes to the alternative language. Multilingual quotes of the type we see above, however, would produce the expected result (ie. only using the quotation marks for the language indicated in the <code translate="no">html</code> tag.</p>
+</body>
+</html>
