@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Default styling for multilingual quotes &amp; quotation marks in HTML</title>
+<link rel="stylesheet" href="local.css"/>
+<style>
+#use_cases li { border: 1px solid #ccc; margin-bottom: 2em; padding: 1em; }
+code { color: brown; }
+#toc { float: right; }
+
+#florian :lang(en) > *:not(q *) { quotes: "“" "”" "‘" "’" } 
+#florian :lang(fr-CA) > *:not(q *) { quotes: "« " " »" "‹ " " ›" } 
+
+.ed { color: red; font-size: 140%; }
+</style>
+
+</head>
+
+<body>
+<h1>Use cases for language information in web annotations</h1>
+
+<p>After discussion in the Web Annotation FTF and on the I18n WG telecon, i was asked by the latter to summarise requirements for indication of language in annotations, by assembling a <em>simple</em> set of use cases that illustrate likely needs.  This is my attempt to do that, based on my (perhaps limited) understanding.</p>
+<h2>Definitions</h2>
+<p><dfn id="langmeta">Language metadata</dfn> typically indicates the intended linguistic audience or user of the resource as a whole, and it's possible to imagine that this could, for a multilingual resource, involve a property value that is a list of languages. A property that is about language metadata may have more than one value, since it aims to describe all potential users of the information</p>
+<p><dfn id="tpl">Text-processing language</dfn> is the language of a particular range of text (which could be a whole resource or just part of it). A property that represents the text-processing language needs to have a single value, because it describes the text content in such a way that tools such as spell-checkers, default font applicators, hyphenation and line breakers, case converters, voice browsers, and other language-sensitive applications know which set of rules or resources to apply to a specific range of text. Such applications generally need an unambiguous statement about the language they are working on.</p>
+<p>An annotation typically contains  a <dfn id="target">target</dfn> (the thing you are annotating), and  a <dfn id="body">body</dfn> (the thing you are saying about the target). Currently body target and body can each have a single language property, and the value of that property can be 0 or many language tags. </p>
+<p>The question is, how will the recorded language information be used - do we need separate properties for language metadata and text-processing or not?</p>
+
+<h2>Language(s) of the target</h2>
+<p>When applied to a target, language information is almost certainly metadata, since it isn't likely that the target will be operated on or changed in a language sensitive fashion. Section 3.2.1 has a use case where Beatrice's target is labelled as 'en', whereas her body is 'fr'.  I'm not sure what the value of recording the language of the target is in this case. I must admit that i'm not entirely sure how the language information about the target will be useful later, unless it has something to do with language negotiation. <span class="ed">AAAAA</span></p>
+<h2>Language(s) of the body</h2>
+<h3>Use case 1</h3>
+<p>Kensuke is reading an old Tibetan manuscript from the Dunhuang collection. The tool he is using to read the manuscript has access to annotations created by scholars working in the various languages of the International Dunhuang Project, who are commenting on the text. The  section of the manuscript he is currently looking at has commentaries by people writing in Chinese, Japanese and Russian. Each of these commentaries is stored in a separate body within the same annotation. Each commentary is mainly written in the language of the scholar, but may contain excerpts from the manuscript and other sources written in Tibetan as well quoted text in Chinese and English.</p>
+<p>Kensuke speaks Japanese, so he wants to be presented with the Japanese commentary.</p>
+<p>The body containing the Japanese commentary has a <code class="kw" translate="no">language</code> property set to <code class="kw" translate="no">ja</code> (Japanese). The tool he is using knows that he wants to read Japanese commentaries, and it uses this information to select and present to him the text contained in that body.  This is language information being used as metadata – it indicates to the application doing the retrieval that the intended consumer of the information  wants Japanese. </p>
+<p>The Japanese commentary for this particular annotation starts with a sentence in Japanese, but later contains some excerpts from Chinese and Tibetan sources. It's possible for the value of the <code class="kw" translate="no">language</code> property, when used as metadata, to contain three language tags, <code class="kw" translate="no">ja,zh,bo</code> (japanese, chinese, and tibetan, respectively), but i'm not sure how useful that is in this particular use case. <span class="ed">BBBBB</span></p>
+<p>Having identified the relevant annotation text to present to Kensuke, his application has to then display it so that he can read it.  It's important to apply the correct font to the text. Ideographic characters such as 雪, 父 and 垔 have slight but important differences in Japanese vs Chinese fonts, and it's important not to apply a Chinese font to the Japanese text that Kensuke is reading, but is also important to use a Chinese font for the Chinese quoted text. There are also language-specific differences in the way text is wrapped at the end of a line. For these reasons we need to identify the actual language of the text to which the font or the wrapping algorithm will be applied. </p>
+<p>If the <code class="kw" translate="no">language</code> property value contains only <code class="kw" translate="no">ja</code>, that's a good indicator that the application should use the Japanese font unless instructed otherwise.  If, however, the <code class="kw" translate="no">language</code> property has the value <code class="kw" translate="no">ja,zh,bo</code>, it's not clear what the default font should be. In that case, we need an alternative way to indicate that the first sentence in the text presented to Kensuke is actually in Japanese.</p>
+<p>We also need a way to indicate the change of language to Chinese and Tibetan later in the commentary for this annotation, so that appropriate fonts and wrapping algorithms can be applied there.</p>
+<p>&nbsp;</p>
+</body>
+</html>
