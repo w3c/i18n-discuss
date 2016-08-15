@@ -31,7 +31,7 @@ footer {
 <h1>Notes on JSON strings and text direction</h1>
 <p style="color:red; font-size: 120%;">This is a draft for to promote discussion and to work through ideas, and may be updated at any time.</p>
 <p>This page gathers observations about handling of text direction and language in JSON data. <b>It doesn't make recommendations, it just aims to draw together useful background information, questions and lines of thought to help determine the best course of action to support text direction and language metadata associated with strings in JSON objects.</b> It was written by r12a, and these are personal thoughts, not endorsed by the i18n WG. </p>
-<p><b>Note: it is difficult to represent bidi examples satisfactorily. For example, "פעילות הבינאום, W3C" doesn't actually show the expected position of 'W3C' when displayed, but also doesn't represent the order of characters in memory, since the first such character is פ. Code examples below show characters from left-to-right in the order in which they are stored in memory, and we'll use Hebrew to avoid the confusing effects of Arabic letters joining backwards.</b> </p>
+<p><b>Note: it is difficult to represent bidi examples satisfactorily. For example, "פעילות הבינאום, W3C" doesn't actually show the expected position of 'W3C' when displayed, but also doesn't represent the order of characters in memory, since the first such character is פ. Where code examples below show characters from left-to-right in the order in which they are stored in memory,  we'll use Hebrew to avoid the confusing effects of Arabic letters joining backwards.</b> </p>
 <p>When talking about markup in JSON strings we will make the assumption for the purposes of this discussion that the markup is HTML5.</p>
 
 
@@ -76,7 +76,7 @@ footer {
   <bdo dir="ltr">&lt;p dir='ltr'&gt;‭#bidi פעילות הבינאום, W3C&lt;/p&gt;</bdo>
 </code></p>
 <p>All of the above heuristics approaches, however, assumed that first-strong detection is established as the default way to assess the base direction for a string. There are, however, other algorithms in use. </p>
-<p>For example, although Facebook relies on first-strong detection to build markup with the right base direction around posts, Twitter instead counts the relative number of LTR vs RTL characters in a tweet to determine the base direction.  It can be argued that Twitter's approach produces less predictable output than first-strong, but that's beside the point. The point is that there needs to be a generally agreed way to detect the base direction to promote interoperability. </p>
+<p>For example, although Facebook relies on first-strong detection to build markup with the right base direction around posts, Twitter instead counts the relative number of LTR vs RTL characters in a tweet to determine the base direction.  Which way is better is beside the point. The point is that there needs to be a generally agreed way to detect the base direction to promote interoperability. </p>
 </section>
 
 <section id="othercases">
