@@ -56,6 +56,13 @@ footer {
 <section id="ascertain">
 <h2>Ascertaining the base direction of  strings outside of JSON</h2>
 <p>Strings that will be stored in JSON need to be stored in some way that indicates what base direction should be used to display them correctly later. In order to be able to store that information, it's necessary to correctly detect the base direction for the string in its original source.</p>
+<p>It is likely that the user would see a string with the correct base direction set as they type the text into a form in a browser. Here are a number of ways that could happen, and all of them rely on detecting information <em>outside</em> the string itself.</p>
+<ul>
+  <li>The direction of the form field could be set to RTL using a <code class="kw" translate="no">dir</code> attribute on the form itself, although it's more likely that the <code class="kw" translate="no">dir</code> attribute is set much higher up in the document, including on the <code class="kw" translate="no">html</code> tag. The form inherits the base direction.</li>
+  <li>The direction of the form may be set to <code class="kw" translate="no">auto</code>, which means that the browser has to look at the first strong directional character in each line, and uses that to determine the base direction for that line. Note that <code class="kw" translate="no">auto</code> has to be set for heuristics to be used, otherwise the default, inherited base direction will apply.</li>
+  <li>The user may use <a href="https://www.w3.org/International/questions/qa-html-dir#userexplicit">context menu selections or keystrokes</a> to set the base direction of the form field. This is particularly useful for a user if the form is producing the wrong base direction, either from inheritance or because of first-strong detection, since it allows them to override the setting of the document itself.</li>
+  </ul>
+<p>The important point is that in none of these cases does the actual input string itself tell you what base direction should be applied to it. A producer of JSON needs to query the computed direction of the field in order to understand what the base direction for the string should be.</p> 
 
 <section id="firststrong">
 <h3>Determining base direction from the string itself</h3>
@@ -68,8 +75,7 @@ footer {
 <p>If the consumer of this string were to assume that the text needs a LTR base direction, based on the first strong character, the result would be incorrect when displayed to a human.</p>
 <p><img alt="Ltr hash he.png" src="json-bidi-data/ltr_hash_he.png" height="64" width="420"> </p>
 <p>A similar problem arises if the JSON string starts with markup. HTML tag names are always in Latin text, so to identify the first strong character in HTML markup you need to skip the markup, including attributes and their values. Here is an example (again the characters are shown left-to-right as stored in memory).</p>
-<p><code>
-  <bdo dir="ltr">&lt;p class='post'>פעילות הבינאום, W3C‬&lt;/p></bdo></code></p>
+<p><code><bdo dir="ltr">&lt;p class='post'>פעילות הבינאום, W3C‬&lt;/p></bdo></code></p>
 <p>In some cases there are additional rules involved. For example, HTML5 skips the content of certain types of markup (such as <code class="kw" translate="no">bdi</code>) before identifying the first strong character. </p>
 <p>If, however, that markup comes with the base direction already specified, it would be important to try to understand that markup. For example:</p>
 <p><code>
