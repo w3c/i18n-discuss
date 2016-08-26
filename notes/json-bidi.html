@@ -50,6 +50,10 @@ footer {
   <p><img alt="Rtl-base-direction.png" src="json-bidi-data/rtl-base-direction.png" height="43" width="666"> </p>
   <p>Here is the same string presented with a LTR base direction. </p>
   <p><img alt="Ltr-base-direction.png" src="json-bidi-data/ltr-base-direction.png" height="42" width="670"> </p>
+  <p>Here is another example, this time a sequence of numbers, such as you may find in a telephone number, presented in a LTR context.</p>
+  <p style="text-align:center;"><img alt="Ltr-base-direction.png" src="json-bidi-data/ltr-numbers.png"> </p>
+  <p>And now, exactly the same sequence, just the surrounding base context has changed to RTL.</p>
+  <p style="text-align:center;"><img alt="Ltr-base-direction.png" src="json-bidi-data/rtl-numbers.png"></p>
 </section>
 
 
@@ -58,7 +62,7 @@ footer {
 <p>Strings that will be stored in JSON need to be stored in some way that indicates what base direction should be used to display them correctly later. In order to be able to store that information, it's necessary to correctly detect the base direction for the string in its original source.</p>
 <p>It is likely that the user would see a string with the correct base direction set as they type the text into a form in a browser. Here are a number of ways that could happen, and all of them rely on detecting information <em>outside</em> the string itself.</p>
 <ul>
-  <li>The direction of the form field could be set to RTL using a <code class="kw" translate="no">dir</code> attribute on the form itself, although it's more likely that the <code class="kw" translate="no">dir</code> attribute is set much higher up in the document, including on the <code class="kw" translate="no">html</code> tag. The form inherits the base direction.</li>
+  <li>The direction of the form field could be set to RTL using a <code class="kw" translate="no">dir</code> attribute on the form itself, although it's more likely that the <code class="kw" translate="no">dir</code> attribute is set much higher up in the document, often on the <code class="kw" translate="no">html</code> tag. The form inherits the base direction.</li>
   <li>The direction of the form may be set to <code class="kw" translate="no">auto</code>, which means that the browser has to look at the first strong directional character in each line, and uses that to determine the base direction for that line. Note that <code class="kw" translate="no">auto</code> has to be set for heuristics to be used, otherwise the default, inherited base direction will apply.</li>
   <li>The user may use <a href="https://www.w3.org/International/questions/qa-html-dir#userexplicit">context menu selections or keystrokes</a> to set the base direction of the form field. This is particularly useful for a user if the form is producing the wrong base direction, either from inheritance or because of first-strong detection, since it allows them to override the setting of the document itself.</li>
   </ul>
@@ -82,8 +86,7 @@ footer {
   <p><code>
     <bdo dir="ltr">&lt;p dir='rtl'&gt;‭#bidi פעילות הבינאום, W3C&lt;/p&gt;</bdo>
   </code></p>
-  <p>All of the above heuristics approaches, however, assumed that first-strong detection is established as the default way to assess the base direction for a string. There are, however, other algorithms in use. </p>
-  <p>For example, although Facebook relies on first-strong detection to build markup with the right base direction around posts, Twitter instead counts the relative number of LTR vs RTL characters in a tweet to determine the base direction.  Which way is better is beside the point. The point is that there needs to be a generally agreed way to detect the base direction to promote interoperability. </p>
+  <p>While talking about heuristics-based approaches above, we mentioned on first-strong detection as a way to assess the base direction for a string. There are, however, other algorithms in use. For example, although Facebook relies, indeed, on first-strong detection to build markup with the right base direction around posts, Twitter instead counts the relative number of LTR vs RTL characters in a tweet to determine the base direction.  Which way is better is beside the point. The point is that there needs to be a generally agreed way to detect the base direction to promote interoperability. </p>
 </section>
 <section id="multipleparagraphs">
   <h3>Multiple paragraphs</h3>
@@ -95,37 +98,39 @@ footer {
 </section>
 
 
-<section id="storing">
-<h2>Storing the base direction in JSON</h2>
-<p>There needs to be a way of storing information about the base direction for a string the first time it is encoded as JSON that can be recognised and used by consumers of the JSON data.</p>
+<section id="producing">
+<h2>Producing JSON strings</h2>
+<p>A producer of JSON strings will typically need to understand whether it is a producer or a consumer of JSON strings in order to take appropriate action. </p>
+<p>If a string has just been created by a user, it is likely that the producer will need to examine the surrounding context of a string in order to determine its base direction. If that exercise has already taken place, for instance where a string is coming from a JSON store that was previously created from user input, the producer shouldn't need to (and may not be able to) examine the base direction of the original context, but will become a consumer.</p>
+<p>Having determined the appropriate base direction to apply to a new string, the producer  needs to associate the string with that information in one way or another. We will look at various ways of doing so, and their pros and cons, later.</p>
+<p>The way in which that association is achieved may require certain assumptions on the part of the consumer of the JSON strings, in order to correctly interpret the base direction. For example, where the approach is to use control codes in the string itself, there may need to be a convention established, such as that strings use first-strong characters to indicate the base direction, in order for consumers to correctly consume the information.</p></section>
 
-<section id="property">
-<h3>Using a  direction property</h3>
-<p>If direction information is stored as a property, there needs to be a property for each string. In the following example, a <code class="kw" translate="no">direction</code> property at the same level as <code class="kw" translate="no">name</code> and <code class="kw" translate="no">content</code> would NOT work, since it can't serve both of those strings.</p>
-<pre>{
-  "@context": {
-    "@value": "http://www.w3.org/ns/activitystreams",
-     },
-  "name": "r12a posted a note",
-  "type": "Note",
-  "content": "פעילות הבינאום, W3C"
-  }</pre>
-<p>What may work better, however, is a string type that allows for direction to be optionally stored with each string. For example,</p>
-<pre>{
-  "@context": {
-    "@value": "http://www.w3.org/ns/activitystreams",
-     },
-  "name": &quot;content&quot; : "r12a posted a note" ,
-  "type": "Note",
-  "content": { &quot;str&quot; : "פעילות הבינאום, W3C", &quot;dir&quot; : &quot;rtl&quot; }
-  }</pre>
-<p>For this to work, all JSON applications would need to recognise the structure of these strings, and be able to extract at least the string itself.</p>
-<p>If the direction information is omitted, the convention must be that the direction is LTR. This is important where LTR strings are injected into a RTL environment.</p>
-<p>There may be some appeal to this approach, if it were possible to adopt it widely, since the base direction really is metadata about the string, viz. it is often expressed separately from the string in the original source and the final destination of the string when visible to humans. It also avoids cluttering strings with additional characters (see below). It also simplifies the process of determining the base direction of the JSON string, since the inspection procedure is straightforward. The crux, of course, is getting it recognised as a standard approach.</p>
-<p>Needs more thought: [One of the problems of using the first-strong approach may be that if you are storing a string in the JSON format, you must know whether the string is coming from a non-JSON context (in which case you need to examine the context and decide whether or not to add RLM at the start of the string, etc.), or coming from a JSON context where those decisions have already been taken. If a string arrives with direction metadata, it's pretty clear that that initial process has been done.]</p>
+
+<section id="consuming">
+  <h2>Consuming JSON strings</h2>
+  <p>A consumer of JSON strings may have to do two things:</p>
+  <ol>
+    <li>
+      <p>
+        inspect the string or information provided with it to determine the base direction that needs to be associated with the string in the destination.</p>
+    </li>
+    <li>
+      <p>build control characters or markup around the string while inserting it into the destination, so that the base direction is applied, and in such a way that the surrounding context doesn't interfere with the inserted string (see below).
+      </p>
+    </li>
+  </ol>
+      <p>Let's suppose that some JSON strings will eventually be displayed to an end user as part of a Web page. If the first-strong method of labelling base direction discussed below is used when the text is inserted into a target document, the application that reads the JSON needs to also use first-strong heuristics to detect the direction, and then build markup around the string to ensure that it is presented appropriately to the user. (This is probably easiest to achieve by using <code>dir=auto</code> on a block element around the string at its destination, or using <code>span dir=auto</code> or <code>bdi</code> around inline presentations.) </p>
+  <p>The point here is that  the model needs to establish a convention so that the consuming application knows where to look for the information about base direction that it will need while rendering the string in the destination. In the case of a first-strong approach, using Unicode control characters, this is important because there are other heuristic approaches that ignore the first-strong character.  (Twitter, for example, does NOT currently use first-strong to determine the direction of text in a tweet.  It looks instead at the overall content of the tweet. Also, currently both Twitter and Facebook appear to actively strip out directional control characters before creating the HTML that supports their display. See <a rel="nofollow" class="external free" href="https://www.w3.org/International/wiki/Bidi_in_social_media">https://www.w3.org/International/wiki/Bidi_in_social_media</a>.) </p>
+      <p>Btw, there are likely to be some special rules applied to the presentation of strings in some contexts. For example, Twitter locates, and treats specially, certain sequences of characters that begin with @ or #, isolating them and giving them an inline direction of LTR if they contain LTR characters.</p>
 </section>
+
+<section id="storing">
+  <h2>Storing base direction with JSON strings</h2>
+<p>There needs to be a way of storing information about the base direction for a string the first time it is encoded as JSON that can be recognised and used by consumers of the JSON data. The fewer the decisions, the conventions, and the efforts required to encode and interpret the base direction, the better.</p>
+
+
 <section id="storingfs">
-<h3>Relying on first-strong characters</h3>
+  <h3>Relying on first-strong characters</h3>
 <p>One way to store the base direction for a string is to follow the convention that the first strong directional character in a string indicates the base direction for the whole string. </p>
 
 <section id="plaintext">
@@ -133,17 +138,19 @@ footer {
 <p>In the case of a string such as the following,</p>
 <p><code>
   <bdo dir="ltr">"summary" : "‭פעילות הבינאום, W3C"</bdo></code></p>
-<p>which starts with a RTL character, this is straightforward as long as the intended base direction is indeed RTL. </p>
-<p>Consumers of the JSON string would still have to scan the string far enough to detect the first strong character.</p>
-<p>In the case where there is no strong character (for example, a telephone number), there would need to be a convention that the default is LTR. (Note that this does not necessarily mean that consumers of the JSON don't need to do anything. If a consumer is inserting the string into a RTL context, it would need to ensure that the LTR base direction was preserved for that string.)</p>
-<p>In the case of this example (where the characters are shown in memory order), </p>
+<p>which starts with a RTL character, this is straightforward (as long as the intended base direction is indeed RTL). </p>
+<p>Consumers of the JSON string would  have to scan the string far enough to detect the first strong character.</p>
+<p>In the case where there is no strong character (for example, a telephone number), there would need to be a convention that the default is LTR. Note that this does not  mean that consumers of the JSON don't need to do anything. If a consumer is inserting the string into a RTL context, it would need to ensure that the LTR base direction was preserved for that string. This will involve building something around the string that announces the change in base direction.</p>
+<p>In the case of this example (where the characters are shown in memory order), which is a RTL phrase that starts with a LTR strong character, </p>
 <p><code>
   <bdo dir="ltr">"content" : "‭#bidi פעילות הבינאום, W3C‬"</bdo>
 </code></p>
-<p>which is a RTL phrase that starts with a LTR strong character, the JSON string could have an invisible strong RTL character, ie. RLM, added to the start of the string to indicate the expected base direction of the string when consumed later.</p>
+<p>the producer of the JSON string could add an invisible strong RTL character, ie. RLM, to the start of the string to indicate the expected base direction of the string when consumed later.</p>
+<p>Note that you cannot expect humans creating the original string to use RLM in this situation, since the string would look perfectly fine to them if the surrounding content was RTL. Furthermore, RLM characters are not commonly available on user keyboards, especially for mobile devices.</p>
 <p>An application that constructs a JSON string should only add RLM if there isn't already a strong RTL character at the start. Indiscriminate addition of RLM to RTL strings can cause a build up of redundant RLMs at the start of a string.</p>
-<p>(Note that you cannot expect humans creating the original string to use RLM in this situation, since the string would look perfectly fine to them if the surrounding content was RTL. Furthermore, RLM characters are not commonly available on user keyboards, especially for mobile devices.)</p>
-<p>This way of indicating the intended base direction only works, however, if all consumers of the JSON strings know that they should look for the first strong character to determine the base direction that should be applied. (Bear in mind that first-strong is only one of the heuristic methods used to try to guess the base direction for text.)</p>
+<p>One of the problems with this approach is that it modifies the string itself. This may not always be desirable. In some cases it may be important to preserve the string exactly as it was created.</p>
+<p>Another potential issue is that the consumer still needs to work at preparing the string for use in it's destination. It has to search the string until it finds the first strong character, and then it needs to build control codes or markup around the string in its final destination, before presentation to a user. The actual RLM character is likely to be redundant at this point, since an RLM character cannot establish an embedded range of text with a changed base direction. In this scenario, it only acts as a flag to the consumer.</p>
+<p>Furthermore, this way of indicating the intended base direction only works, as mentioned above, if all consumers of the JSON strings know that they should look for the first strong character to determine the base direction that should be applied. (Bear in mind that first-strong is only one of the heuristic methods used to try to guess the base direction for text.)</p>
 </section>
 
 
@@ -153,31 +160,101 @@ footer {
 <p><code>
   <bdo dir="ltr">"summary" : "&lt;p class=&quot;summary&quot;&gt;‭פעילות הבינאום, W3C&lt;/p&gt;"</bdo>
 </code></p>
-<p>A consumer application that looks for the first strong character in such a string will always encounter a LTR character first, and the JSON string could either: </p>
+<p>A consumer application that looks for the first strong character in such a string will always encounter a LTR character first, and the producer of the JSON string could either: </p>
 <ol>
-  <li> assume that the consumer will skip the markup to detect the first character, or </li>
-  <li> put a directional control character  at the start of the string in order to represent the base direction. </li>
+  <li> require the consumer to skip the markup when trying to detect the first character, or </li>
+  <li> put a directional control character  at the start of the string as a flag to represent the base direction. </li>
 </ol>
-<p>If the incoming HTML happens to already contain a <code class="kw" translate="no">dir</code> attribute on the surrounding tags, eg. </p>
+<p>It is worth repeating that putting a control character such as RLM before a <code class="kw" translate="no">p</code> tag would have no effect on the rendering of a string where its destination is HTML, since RLM doesn't create a base direction in HTML. For that you would need to use markup. Embedding/isolating control code pairs would not work either, since Unicode controls are only effective within the current paragraph (ie. they are inline constructs), and the <code class="kw" translate="no">p</code> tag immediately initiates a new paragraph. </p>
+<p>However, if the producer is dealing with a string marked up with HTML that happens to <em>already</em> contain a <code class="kw" translate="no">dir</code> attribute on the surrounding tags, eg. </p>
 <p><code>
   <bdo dir="ltr">"summary" : "&lt;p dir=&quot;rtl&quot; class=&quot;summary&quot;&gt;#bidi ‭פעילות הבינאום, W3C&lt;/p&gt;"</bdo>
 </code></p>
-<p>then, the question is whether to continue to put a directional character at the start of the string to indicate the intended base direction, or to assume that the consumer of the JSON string will know enough about the markup to recognise that <code>dir=&quot;rtl&quot;</code> already specifies the direction, and use that.</p>
-<p>It may be worth noting that putting a control character such as RLM before a <code class="kw" translate="no">p</code> tag would have no effect on the rendering of a string where its destination is HTML, since RLM doesn't create a base direction in HTML. For that you would need to use markup. (Embedding/isolating control code pairs would not work either, since Unicode controls are only effective within the current paragraph (ie. they are inline constructs), and the <code class="kw" translate="no">p</code> tag immediately initiates a new paragraph.) </p>
-</section>
+<p>we have a different problem. It would not be necessary, nor appropriate, to scan for the first strong directional character. The directional information is already contained in the markup, and other than constituting a redundant flag, an RLM character has no function in markup of this kind.</p>
+<p>However, it is also a big assumption to make that the consumer of the JSON string will know enough about the markup to recognise that <code>dir=&quot;rtl&quot;</code> already specifies the direction, and use that. The markup may not represent HTML, for example, and an XML application may express direction with an idiosyncratic element or attribute.</p>
 </section>
 </section>
 
 
-<section id="consuming">
-<h2>Consuming JSON strings</h2>
+<section id="storingPaired">
+  <h3>Wrapping the string with Unicode characters</h3>
+  <p>Aside from the strong directional characters, RLM and LRM mentioned above, Unicode also provides paired control characters. Let's look at some of the implications of using those. Again, there are differences between dealing with plain text and markup.</p>
+  
+  <section id="plaintextPaired">
+    <h4>Plain text</h4>
+    <p>If you use an RLM single character to indicate the base direction for a plain text string, the consumer of the string will need to look at the context into which the string will be inserted, and if the surrounding context has a different base direction from the string itself it will need to add characters around the JSON string as it inserts it in order to apply the required base direction to the string itself. For plain text, the consumer will need to wrap the inserted JSON string in paired Unicode control characters.</p>
+    <p>If one wraps the JSON string in paired characters while <em>producing</em> the JSON, it may appear that one can eliminate the need for the consumer to examine the target context or add extra characters while inserting the string into its destination. Nor does the consumer need to scan the JSON string to find the appropriate first-strong character.</p>
+    <p>To completely eliminate the need for the consumer to do this extra work, however, you would need to wrap <em>all</em> plain text strings with these characters, whether the string already starts with the right first-strong directional character, such as,</p>
+    <p><code>
+      <bdo dir="ltr">"summary" : "‭פעילות הבינאום, W3C"</bdo>
+    </code></p>
+    <p>or whether it doesn't, as in,</p>
+    <p><code>
+      <bdo dir="ltr">"content" : "‭#bidi פעילות הבינאום, W3C‬"</bdo>
+    </code></p>
+    <p>You'd also need to wrap strings where there is no strong character (for example, the telephone number).</p>
+    <p>The reason for this is that the string may be inserted into a context which has an opposite base direction, and that cannot be known in advance.</p>
+    <p>Another advantage of this approach, apart from reducing the work of the consumer, is that there would be no need for an agreement or convention to make things work interoperably, as there was for the previous approach, where consumers needed to uniformly agree to look for RLM flags or first-strong characters to correctly interpret the base direction they should apply.</p>
+    <p>This all sounds promising, but of course there are some flies in the ointment.</p>
+    <p>Although it should do no harm to insert  JSON strings wrapped in paired controls into the destination, there is a limit to the number of embeddings supported by the Unicode bidi algorithm.</p>
+    <p>Perhaps more importantly, inserted strings need to be protected from the surrounding context to avoid spillover effects. Until recently, the control characters used for embedding new base direction were LRE/RLE...PDF. For example,  suppose you want to list review numbers for film titles, such as,</p>
+    <p><code>
+      <bdo dir="ltr">The Dressmaker : 4 reviews</bdo>
+    </code></p>
+    <p>Once you add a RTL film title, such as בופור, you will produce unacceptable display results even if you wrap the inserted text in the RLE..PDF control characters. The displayed result will look like,</p>
+    <p><code>
+      <span dir="ltr">בופור : 4 reviews</span>
+    </code></p>
+    <p>You need to <em>isolate</em> the embedded text from the surroundings at the same time as applying the base direction. To do so, there are now some new paired control characters, which the Unicode Consortium recommends in favour of the aforementioned. These are called RLI/LRI...PDI (there's also an FSI for first-strong detection). These would fix the issue, but the problem is that they aren't yet widely supported.</p>
+    <p>Producers of the JSON will also need to determine what to do for any string that already starts with one of these paired characters. If the string has already been wrapped, you don't want to keep wrapping it again. It may, however, be the case that a user input string starts with a paired control character that doesn't wrap the whole string. The producer would need to recognise this and wrap the whole string.</p>
+    <p>Furthermore, the issue that you are changing every string is actually greater with this approach, since all strings are affected.</p>
+    <p>Again, you cannot expect humans creating the original string to use paired controls, not least because these characters are much less likely to be available on user keyboards than the RLM/LRM characters.</p>
+  </section>
+  
+  <section id="markupPaired">
+    <h4>Strings that are enclosed in markup</h4>
+    <p>Here not much changes over the section about using first-strong detection. Here is our previous example, </p>
+    <p><code>
+      <bdo dir="ltr">"summary" : "&lt;p class=&quot;summary&quot;&gt;‭פעילות הבינאום, W3C&lt;/p&gt;"</bdo>
+    </code></p>
+    <p>Paired control characters at the start and end of such a string will perform no function when inserted into a markup destination such as an HTML file. The RLE/LRE/RLI/LRI/FSI...PDF/PDI characters are for inline use only. Their effect is terminated by paragraph boundaries. In the case of HTML, the <code class="kw" translate="no">p</code> element tags constitute those paragraph boundaries, and so paired controls outside those tags will have no effect whatsoever. </p>
+    <p>In other words, such characters can act only as flags and the consumer will still need to apply the base direction by changing the markup.</p>
+    <p>If the paired controls are added to the JSON string by the producer, this now produces a situation where the destination HTML is littered with useless extra characters (particularly where a string contains multiple <code class="kw" translate="no">p</code> tags) unless the consumer removes them while inserting. It's also feasible that in a scenario where a user edits the resulting file without adding block level markup, this could lead to unexpected effects if the new text were added to the wrong side of a control character.</p>
+    <p>In the light of this, it doesn't really seem sensible to use paired control characters for strings containing markup. As before, the producer will need to examine the markup</p>
+    <p>However, as we mentioned before it is also a big assumption to make that the consumer of the JSON string will know enough about the markup to recognise that <code>dir=&quot;rtl&quot;</code> already specifies the direction, and use that. The markup may not represent HTML, for example, and an XML application may express direction with an idiosyncratic element or attribute.  </p>
+  </section>
+</section>
 
-<section id="consumingfs">
-<h3>Consuming JSON strings that use first-strong characters to indicate base direction</h3>
-<p>Let's suppose that some JSON strings will eventually be displayed to an end user as part of a Web page. If the first-strong method of labelling base direction discussed earlier is used when the text is inserted into a target document, the application that reads the JSON needs to also use first-strong heuristics to detect the direction, and then build markup around the string to ensure that it is presented appropriately to the user. (This is probably easiest to achieve by using <code>dir=auto</code> on a block element around the string at its destination, or using <code>span dir=auto</code> or <code>bdi</code> around inline presentations.) </p>
-<p>The point here is that  the model needs to establish a convention that consumers should use the first-strong heuristic approach to represent the base direction, so that the consuming application knows where to look for the information about base direction that it will need while rendering the string in the destination. This is important because there are other heuristic approaches that ignore the first-strong character.  (Twitter, for example, does NOT currently use first-strong to determine the direction of text in a tweet.  It looks instead at the overall content of the tweet. Also, currently both Twitter and Facebook appear to actively strip out directional control characters before creating the HTML that supports their display. See <a rel="nofollow" class="external free" href="https://www.w3.org/International/wiki/Bidi_in_social_media">https://www.w3.org/International/wiki/Bidi_in_social_media</a>.) </p>
-<p>Btw, there are likely to be some special rules applied to the presentation of strings in some contexts. For example, Twitter locates, and treats specially, certain sequences of characters that begin with @ or #, isolating them and giving them an inline direction of LTR if they contain LTR characters.</p>
-<p>Note also that if the consumed JSON string is to be embedded into plain text, it will also be necessary to establish the base direction for the injected text if different from its surrounding context, and isolate it to avoid spillover effects with adjacent text. Note that RLM is not adequate to establish the base direction for a run of text – the consumer will need to use the paired control characters. Ideally that would be RLI/LRI/FSI...PDI, since they isolate, however these are new Unicode characters and not yet widely supported. The alternative is RLE/LRE...PDF, but that is discouraged by the Unicode Standard, because it doesn't eliminate spillover effects.</p>
+
+<section id="property">
+</section>
+<section id="property">
+  <h3>Using a  direction property</h3>
+  <p>If direction information is stored as a property, there needs to be a property for each string. In the following example, a <code class="kw" translate="no">direction</code> property at the same level as <code class="kw" translate="no">name</code> and <code class="kw" translate="no">content</code> would NOT work, since it can't serve both of those strings.</p>
+  <pre>{
+  "@context": {
+    "@value": "http://www.w3.org/ns/activitystreams",
+     },
+  "name": "r12a posted a note!",
+  "type": "Note",
+  "content": "פעילות הבינאום, W3C"
+  }</pre>
+  <p>What may work better, however, is a new string type that allows for direction to be optionally stored with each string. For example,</p>
+  <pre>{
+  "@context": {
+    "@value": "http://www.w3.org/ns/activitystreams",
+     },
+  "name": &quot;content&quot; : "r12a posted a note" ,
+  "type": "Note",
+  "content": { &quot;str&quot; : "פעילות הבינאום, W3C", &quot;dir&quot; : &quot;rtl&quot; }
+  }</pre>
+  <p>This is similar to the concept of LanguageString. For this to work, all JSON applications would need to recognise the structure of these strings, and be able to extract at least the string itself.</p>
+  <p>A scenario where each string is part of an object which has a direction property would also work, as long as consumers are able to understand the logic of the object. That approach is more dependent on conformance to format specifications, which may not be a general solution to the problem of attaching base direction information to strings.</p>
+  <p>If the direction information is omitted, the convention must be that the direction is LTR. This is important where LTR strings are injected into a RTL environment.</p>
+  <p>There may be some logic to this approach, if it were possible to define a string type that is adopted widely, since the base direction really is metadata about the string, viz. it is often expressed separately from the string in the original source and the final destination of the string when visible to humans. </p>
+  <p>Storing the base direction in a property also avoids cluttering strings with additional characters (see below), or altering strings that are passed around. It also simplifies the process of determining the base direction of the JSON string, since the inspection procedure is straightforward. The crux, of course, is getting it recognised as a standard approach.</p>
+  <p>It still requires the consumer to build a context around a string which is inserted into a destination, in order to preserve the appropriate base direction.</p>
+  <p>It also still requires the JSON producer to examine the surrounding context of an incoming string, although one of the problems of using the first-strong approach may be that if you are storing a string in the JSON format, you must know whether the string is coming from a non-JSON context (in which case you need to examine the context and decide whether or not to add RLM at the start of the string, etc.), or coming from a JSON context where those decisions have already been taken. If a string arrives with direction metadata attached, it's pretty clear that that initial process has been done.</p>
 </section>
 </section>
 </body>
