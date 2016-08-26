@@ -197,6 +197,7 @@ footer {
     <p>Another advantage of this approach, apart from reducing the work of the consumer, is that there would be no need for an agreement or convention to make things work interoperably, as there was for the previous approach, where consumers needed to uniformly agree to look for RLM flags or first-strong characters to correctly interpret the base direction they should apply.</p>
     <p>This all sounds promising, but of course there are some flies in the ointment.</p>
     <p>Although it should do no harm to insert  JSON strings wrapped in paired controls into the destination, there is a limit to the number of embeddings supported by the Unicode bidi algorithm.</p>
+    <p>Furthermore, if the string is to be injected into an HTML file, the consumer may still need to build markup around it.</p>
     <p>Perhaps more importantly, inserted strings need to be protected from the surrounding context to avoid spillover effects. Until recently, the control characters used for embedding new base direction were LRE/RLE...PDF. For example,  suppose you want to list review numbers for film titles, such as,</p>
     <p><code>
       <bdo dir="ltr">The Dressmaker : 4 reviews</bdo>
