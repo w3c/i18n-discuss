@@ -80,9 +80,9 @@ footer {
   <p>If the consumer of this string were to assume that the text needs a LTR base direction, based on the first strong character, the result would be incorrect when displayed to a human.</p>
   <p><img alt="Ltr hash he.png" src="json-bidi-data/ltr_hash_he.png" height="64" width="420"> </p>
   <p>A similar problem arises if the JSON string starts with markup. HTML tag names are always in Latin text, so to identify the first strong character in HTML markup you need to skip the markup, including attributes and their values. Here is an example (again the characters are shown left-to-right as stored in memory) which requires a RTL base direction.</p>
-  <p><code><bdo dir="ltr">&lt;p class='post'>פעילות הבינאום, W3C‬&lt;/p></bdo></code></p>
-  <p>In some cases there are additional rules involved. For example, HTML5 skips the content of certain types of markup (such as <code class="kw" translate="no">bdi</code>) before identifying the first strong character. </p>
-  <p>If, however, that markup comes with the base direction already specified, it would be important to try to understand that markup. In the following example the markup tells you that the base direction should be RTL, regardless of the first strong character:</p>
+  <p><code><bdo dir="ltr">&lt;p class='post'&gt;פעילות הבינאום, W3C‬&lt;/p&gt;</bdo></code></p>
+  <p>In some cases there are additional rules involved. For example, HTML5 skips the content of certain types of markup (such as <code class="kw" translate="no">bdi</code>) before identifying the first strong character. Also, in plain text strings, the Unicode bidi algorithm says that a sequence of characters between isolating controls pairs should be ignored when looking for the first strong character.</p>
+  <p>If, however,  markup comes with the base direction already specified, it would be important to try to understand that markup. In the following example the markup tells you that the base direction should be RTL, regardless of the first strong character:</p>
   <p><code>
     <bdo dir="ltr">&lt;p dir='rtl'&gt;‭#bidi פעילות הבינאום, W3C&lt;/p&gt;</bdo>
   </code></p>
