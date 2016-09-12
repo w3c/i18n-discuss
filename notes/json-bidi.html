@@ -30,7 +30,7 @@ footer {
 <body>
 <h1>Notes on JSON strings and text direction</h1>
 <p style="color:red; font-size: 120%;">This is a draft for to promote discussion and to work through ideas, and may be updated at any time.</p>
-<p>This page gathers observations about handling of text direction and language in JSON data. <b>It doesn't make recommendations, it just aims to draw together useful background information, questions and lines of thought to help determine the best course of action to support text direction and language metadata associated with strings in JSON objects.</b> It was written by r12a, and these are personal thoughts, not endorsed by the i18n WG. </p>
+<p>This page gathers observations about handling of text direction and language in JSON data. Many, if not all, of the observations are also relevant to other aspects of string handling. <b>It doesn't make recommendations, it just aims to draw together useful background information, questions and lines of thought to help determine the best course of action to support text direction and language metadata associated with strings in JSON objects.</b> It was written by r12a, and these are personal thoughts, not endorsed by the i18n WG. </p>
 <p><b>Note: it is difficult to represent bidi examples satisfactorily. For example, "פעילות הבינאום, W3C" doesn't actually show the expected position of 'W3C' when displayed, but also doesn't represent the order of characters in memory, since the first such character is פ. Where code examples below show characters from left-to-right in the order in which they are stored in memory,  we'll use Hebrew to avoid the confusing effects of Arabic letters joining backwards.</b> </p>
 <p>When talking about markup in JSON strings we will make the assumption for the purposes of this discussion that the markup is HTML5.</p>
 
@@ -38,55 +38,55 @@ footer {
 
 
 <section id="why">
-  <h2>Why information is needed about the base direction for a string</h2>
+  <h2>Why and what information is needed about the base direction for a string</h2>
+  <p>For a simple introduction to how the Unicode bidirectional algorithm works, and where it needs additional help, see <a href="https://www.w3.org/International/articles/inline-bidi-markup/uba-basics">Unicode Bidirectional Algorithm basics</a>. You will need a grasp of these basics to understand what follows. </p>
   <p>In order to support correct display of text in right-to-left scripts, when they are eventually displayed to a human, it is necessary to be able to: </p>
   <ol>
     <li> establish the overall base direction for a paragraph </li>
-    <li> change the base direction used for a range of inline text where needed </li>
+    <li> change the base direction used for a range of  text within the string where needed.</li>
   </ol>
-  <p><b>These notes are only about the former</b> as it relates to the JSON-based format.  Indications of direction change inline or for subsequent paragraphs would just be carried over from whatever the original author used: those changes need to be signalled by markup or control characters in the input itself.  They can't be applied automatically by an algorithm. In other words, if someone types in a string and wants it to have an embedded change in base direction, they need to make that happen, and whatever they did will become part of the string that is carried through, be it markup or controls. The same applies for paragraphs following the initial paragraph when there are more than one in the input.</p>
-  <p>For a simple introduction into how the Unicode bidirectional algorithm works, and where it needs additional help, see <a href="https://www.w3.org/International/articles/inline-bidi-markup/uba-basics">Unicode Bidirectional Algorithm basics</a>. You will need a grasp of these basics to understand what follows. </p>
-  <p>By default, strings are generally handled as if their base direction (directional context) is LTR.  If the base direction for the string needs to be RTL, this information needs to be associated with the string in some way, since it affects the order in which elements in the string will be rendered to a user.  Without this information, users may be unable to understand a message.  For example, the following shows a string presented with a RTL base direction. </p>
-  <p><img alt="Rtl-base-direction.png" src="json-bidi-data/rtl-base-direction.png" height="43" width="666"> </p>
+  <p>These notes are only about the former, ie. establishing the paragraph direction to be associated with a string. We will refer to this as the paragraph direction, however it may not just apply to strings that will be treated as paragraphs when eventually displayed to a human. The string may be injected into an existing paragraph, such as when a telephone number is added to the end of the line which starts with the equivalent of 'Tel:' in, say, Arabic or Hebrew or Thaana.</p>
+  <p>The Unicode Bidirectional Algorithm specifies that the paragraph direction can be established by seeking out the first strong directional character in the paragraph. While doing so, an application must ignore non-strong characters at the start of the paragraph, as well as any characters inside an isolated range. If the first strong directional character has a Unicode value that equates to RTL, then the paragraph direction is RTL. If there are no strong characters identified, the default is LTR.</p>
+  <p>The importance of establishing the paragraph direction can be illustrated with a couple of examples which show how it affects the order in which elements in the string will be rendered to a user.  Without this information, users may be unable to understand a message.  For example, the following shows a string presented with a RTL base direction.</p>
+  <p style="text-align:center;"><img alt="Rtl-base-direction.png" src="json-bidi-data/rtl-base-direction.png" height="43" width="666"> </p>
   <p>Here is the same string presented with a LTR base direction. </p>
-  <p><img alt="Ltr-base-direction.png" src="json-bidi-data/ltr-base-direction.png" height="42" width="670"> </p>
+  <p style="text-align:center;"><img alt="Ltr-base-direction.png" src="json-bidi-data/ltr-base-direction.png" height="42" width="670"> </p>
   <p>Here is another example, this time a sequence of numbers, such as you may find in a telephone number, presented in a LTR context.</p>
   <p style="text-align:center;"><img alt="Ltr-base-direction.png" src="json-bidi-data/ltr-numbers.png"> </p>
   <p>And now, exactly the same sequence, just the surrounding base context has changed to RTL.</p>
   <p style="text-align:center;"><img alt="Ltr-base-direction.png" src="json-bidi-data/rtl-numbers.png"></p>
+  <p>For passing around strings this is not an issue, since characters are stored in logical order. It is only an issue when the text needs to be eventually displayed to a human. The display algorithm needs to know the paragraph direction before it starts to display the string.</p>
+  <p><strong>This document is mostly about cases where the first strong character does not indicate the paragraph direction that the originator of the string intended.</strong></p>
+  <p>Sometimes finding the first strong character is actually misleading. Take a string typed into an HTML form input field such as the following: </p>
+  <p><img alt="Rtl hash he.png" src="json-bidi-data/rtl_hash_he.png" height="63" width="418"> </p>
+  <p>The form field shown above is in a document where the default direction has been set to RTL. Imagine this as something like a tweet beginning with a hash tag. What the user sees as they type, and what they expect others to see later, is the text displayed in the order shown in the picture of the input field above.</p>
+  <p>As mentioned above, the sequence of characters stored in memory follows the logical order in which the characters were typed and indeed the order in which they would be pronounced, and is shown just below, progressing from left to right. The point to note is that the sequence starts with LTR characters. </p>
+  <p><code><bdo dir="ltr">‭#bidi פעילות הבינאום, W3C‬</bdo></code>  </p>
+  <p>If the consumer of this string were to assume that the text needs a LTR base direction, based on the first strong character, the result would be incorrect when displayed to another human later.</p>
+  <p><img alt="Ltr hash he.png" src="json-bidi-data/ltr_hash_he.png" height="64" width="420"> </p>
+  <p>Typically, the information that indicates that this phrase should be displayed using a RTL paragraph direction is not contained in the string when the form is submitted. It may be contained in the computed direction of the form, which may be set directly on the form itself, via markup or  via <a href="https://www.w3.org/International/questions/qa-html-dir#userexplicit">context menu selections or keystrokes</a>, or it may be inherited from a parent element.  (It can be passed to the receiver using the <code class="kw" translate="no">dirname</code> attribute, but that is carried as separate information.)</p>
+  <p>In cases where the first strong directional character would give the wrong result, the question is how to associate the intended direction with the string for future use.</p>
+  <p>It is possible that  the direction of the form is set to <code class="kw" translate="no">auto</code>. In this case, the browser would look for the first strong character on each line to determine the paragraph direction, and the user would be obliged to provide Unicode control characters at the start of the line to produce the right effect. On the face of it, this doesn't seem such a bad thing – it gets the information we need into the string – but there are practical problems, not least because the user's keyboard is likely to not have the needed control characters. On the desktop browser, users would be more likely to use the context menu or keystrokes to set the direction for the field. Note, also, that things would have just worked as expected where the direction was inherited or set on the input element – <code class="kw" translate="no">auto</code> changes that.</p>
+  <p>As mentioned above, <strong>these notes are only about establishing the paragraph direction</strong>. </p>
+  <p>If a user produces changes in the direction of inline ranges within the paragraph they will need to apply Unicode controls or markup to do so, and those items will remain as part of the string. However, the base direction of the initial (or only) paragraph, however, may not be included in the string</p>
 </section>
 
 
 <section id="ascertain">
 <h2>Ascertaining the base direction of  strings outside of JSON</h2>
-<p>Strings that will be stored in JSON need to be stored in some way that indicates what base direction should be used to display them correctly later. In order to be able to store that information, it's necessary to correctly detect the base direction for the string in its original source.</p>
-<p>It is likely that the user would see a string with the correct base direction set as they type the text into a form in a browser. Here are a number of ways that could happen, and all of them rely on detecting information <em>outside</em> the string itself.</p>
-<ul>
-  <li>The direction of the form field could be set to RTL using a <code class="kw" translate="no">dir</code> attribute on the form itself, although it's more likely that the <code class="kw" translate="no">dir</code> attribute is set much higher up in the document, often on the <code class="kw" translate="no">html</code> tag. The form inherits the base direction.</li>
-  <li>The direction of the form may be set to <code class="kw" translate="no">auto</code>, which means that the browser has to look at the first strong directional character in each line, and uses that to determine the base direction for that line. Note that <code class="kw" translate="no">auto</code> has to be set for heuristics to be used, otherwise the default, inherited base direction will apply.</li>
-  <li>The user may use <a href="https://www.w3.org/International/questions/qa-html-dir#userexplicit">context menu selections or keystrokes</a> to set the base direction of the form field. This is particularly useful for a user if the form is producing the wrong base direction, either from inheritance or because of first-strong detection, since it allows them to override the setting of the document itself.</li>
-  </ul>
-<p>The important point is that in none of these cases does the actual input string itself tell you what base direction should be applied to it. A producer of JSON needs to query the computed direction of the field in order to understand what the base direction for the string should be.</p>
-<p>This information about the base direction of the string needs to be captured and stored in some way by the JSON, so that the string can be displayed correctly by a consumer of the JSON data. </p> 
-
 <section id="firststrong">
   <h3>Determining base direction from the string itself</h3>
-  <p>It is often possible to look at the beginning of a string to determine whether it needs to be given a RTL or LTR base direction. That would work for the Arabic example above. The first strong character is RTL, so applying a RTL base direction to the string for display will produce the desired result. </p>
-  <p>Note, by the way, that such a first-strong detection heuristic must sometimes move past the first character in the text stream. It must pass over punctuation, numbers, and other characters that don't have strong directional properties in Unicode. </p>
-  <p>But sometimes finding the first strong character is actually misleading. Take a string typed into an HTML form input field such as the following: </p>
-  <p><img alt="Rtl hash he.png" src="json-bidi-data/rtl_hash_he.png" height="63" width="418"> </p>
-  <p>The sequence of characters, shown as stored in memory, is as follows. The point to note is that the sequence starts with LTR characters. </p>
-  <p><code><bdo dir="ltr">‭#bidi פעילות הבינאום, W3C‬</bdo></code></p>
-  <p>If the consumer of this string were to assume that the text needs a LTR base direction, based on the first strong character, the result would be incorrect when displayed to a human.</p>
-  <p><img alt="Ltr hash he.png" src="json-bidi-data/ltr_hash_he.png" height="64" width="420"> </p>
-  <p>A similar problem arises if the JSON string starts with markup. HTML tag names are always in Latin text, so to identify the first strong character in HTML markup you need to skip the markup, including attributes and their values. Here is an example (again the characters are shown left-to-right as stored in memory) which requires a RTL base direction.</p>
-  <p><code><bdo dir="ltr">&lt;p class='post'&gt;פעילות הבינאום, W3C‬&lt;/p&gt;</bdo></code></p>
-  <p>In some cases there are additional rules involved. For example, HTML5 skips the content of certain types of markup (such as <code class="kw" translate="no">bdi</code>) before identifying the first strong character. Also, in plain text strings, the Unicode bidi algorithm says that a sequence of characters between isolating controls pairs should be ignored when looking for the first strong character.</p>
-  <p>If, however,  markup comes with the base direction already specified, it would be important to try to understand that markup. In the following example the markup tells you that the base direction should be RTL, regardless of the first strong character:</p>
+  <p>As we saw above, it is often possible to look at the beginning of a string to determine whether the paragraph direction needs to be RTL or LTR. That would work for the first (Arabic) example above. The first strong character is RTL, so applying a RTL base direction to the string for display will produce the desired result.  </p>
+  <p>But, as we also saw, sometimes finding the first strong character is actually misleading.</p>
+  <p>A similar problem arises if the JSON string starts with markup and you want to determine the paragraph direction for the text. HTML tag names are always in Latin text, so to identify the first strong character in HTML markup you need to skip the markup, including attributes and their values. </p>
+  <p>Here is an example (again the characters are shown left-to-right as stored in memory), which requires a RTL base direction so that the displayed text puts the 'W3C' (and the comma) to the left of the Hebrew text.</p>
+  <p><code><bdo dir="ltr">&lt;p class='post'&gt;פעילות הבינאום, W3C‬&lt;/p&gt;</bdo></code>  </p>
+  <p>If the string is inserted into an HTML document's source code, where the display direction for the page is set to RTL, this should produce no problems. If, however, it is injected into a document with a LTR direction, it would.</p>
+  <p>If  markup comes with the base direction already specified, it would be important to try to understand that markup. In the following example the markup tells you that the base direction should be RTL, regardless of the first strong character:</p>
   <p><code>
     <bdo dir="ltr">&lt;p dir='rtl'&gt;‭#bidi פעילות הבינאום, W3C&lt;/p&gt;</bdo>
   </code></p>
-  <p>While talking about heuristics-based approaches above, we mentioned on first-strong detection as a way to assess the base direction for a string. There are, however, other algorithms in use. For example, although Facebook relies, indeed, on first-strong detection to build markup with the right base direction around posts, Twitter instead counts the relative number of LTR vs RTL characters in a tweet to determine the base direction.  Which way is better is beside the point. The point is that there needs to be a generally agreed way to detect the base direction to promote interoperability. </p>
+  <p>While talking about heuristics-based approaches above, we mentioned on first-strong detection as a way to assess the base direction for a string. There are, however, other algorithms in use, which the Unicode Bidirectional Algorithm allows for higher level protocols. For example, although Facebook relies, indeed, on first-strong detection to build markup with the right base direction around posts, Twitter instead counts the relative number of LTR vs RTL characters in a tweet to determine the base direction.  Which way is better is beside the point. The point is that there needs to be a generally agreed way to detect the base direction to promote interoperability. </p>
 </section>
 <section id="multipleparagraphs">
   <h3>Multiple paragraphs</h3>
