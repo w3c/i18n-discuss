@@ -1,0 +1,173 @@
+﻿<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+<meta charset="UTF-8" />
+<title>Language Detection in User-Agent</title>
+</head>
+
+<body>
+
+<h2><span id="Language_Detection_in_User-Agents" class="mw-headline">Language 
+Detection in User-Agents</span></h2>
+<p>
+<a class="external text" href="https://www.w3.org/International/track/actions/555" rel="nofollow">
+ACTION-555</a> </p>
+<p>This page is in response to a request at TPAC 2016 to document different ways 
+in which a user-agent can derive or "figure out" which language tag to apply to 
+content, usually keyboard input from the user. </p>
+<div style="background-color: red; width: 80%; border-radius: 10px; box-shadow: -4px 4px 7px #888; border: 1px solid #ccc; padding: 10px;">
+	<p>These considerations are only for situations where the language cannot be 
+	marked up by the content author. Where possible, including and using the 
+	language metadata in the document format is much safer. None of the methods 
+	of language detection described in this document are fool-proof or safe 
+	indicators of the language. </p>
+</div>
+<h4><span id="Why_language_metadata_is_needed" class="mw-headline">Why language 
+metadata is needed</span></h4>
+<p>Language metadata is important to the Web for a variety of reasons. When 
+supplied by the system, as part of the content itself, or by information entered 
+by end-users, the language of content can be used for a variety of useful things 
+including but not limited to: </p>
+<ul>
+	<li>Selection of fonts and rendering to prevent "ransom noting" (and 
+	especially the selection of the correct Chinese/Japanese/Korean font due to 
+	important presentational variations for the same characters in these 
+	languages) </li>
+	<li>Spell checking and other content checking (such as abuse detection) </li>
+	<li>Indexing, search, and other natural language text operations </li>
+	<li>Filtering according to intended audience and language negotiation </li>
+</ul>
+<p>Static content, such as the body of a Web page or the contents of an e-book, 
+often has language information provided by the document format or as part of the 
+content metadata. Other content, particularly user input, is constrained only by 
+the limits of the user's ingenuity. Even very exotic characters or languages can 
+be entered on most systems via a character picker or by copying from some other 
+source. As a result, none of the techniques presented here are perfect 
+indicators of the user's intentions. </p>
+<h3><span id="Environmental_Hints" class="mw-headline">Environmental Hints</span></h3>
+<p>When processing keyboard input, the runtime environment might provide a 
+number of hints about the user and the user's intentions. In descending order of 
+relevance, here are several that a browser or other user-agent might use in 
+determining the language of a given piece of input: </p>
+<h5><span id="Keyboard" class="mw-headline">Keyboard</span></h5>
+<p>One important source for a user's input language is their keyboard. 
+Particularly on mobile devices, whose input systems often feature input 
+prediction and correction, users often set their keyboard to the language they 
+are inputting--if only to avoid the need to override the auto-correction 
+constantly. Mobile browsers and Webviews sometimes have programmatic access to 
+the current keyboard language (the layout or the auto-correction language), 
+which can serve as a hint of the user's intended language. </p>
+<p>Note that some keyboards are multilingual and the language of the keyboard 
+that is accessible via the API is not always the one that is currently active in 
+the input method. </p>
+<p>Even with this as a hint, there is no guarantee that the user is actually 
+typing the language in question: this wiki was typed using a Japanese keyboard 
+set to "romaji" input mode. </p>
+<p>In most cases, the keyboard language is *not* available inside the browser 
+(for example, to JavaScript). </p>
+<h5><span id="Locale" class="mw-headline">Locale</span></h5>
+<p>A second environmental hint is the runtime locale. This is not the same thing 
+as the localization of the browser. It is the API setting of the locale that 
+produces date and number formatting, list sorting, and other locale-affected 
+behavior. It's usually a strong indicator of the localization of the operating 
+environment and browser as well, but this isn't always the case. </p>
+<p>Unlike keyboard, for those browsers that support it, the recent Intl 
+extension to JavaScript provides access via JS. Note that locale-support in 
+browser implementations of Intl varies unevenly by functional type. In 
+particular, the Collator (sorting) APIs tend to support a narrower range of 
+locales than the various formatters. Also bear in mind that the Unicode locale 
+extensions (<code>-u-</code>) to BCP47, which are used to tailor number, date, 
+and collation settings probably are not appropriate for use in tagging 
+user-entered text for general interchange on the Web. While these subtags don't 
+hurt anything, implementations may wish to strip them off when providing natural 
+language text identification. </p>
+<p>Also, obviously the runtime locale is only a hint: there is no guarantee that 
+the user is typing in the same language. </p>
+<h5><span id="Accept-Language" class="mw-headline">Accept-Language</span></h5>
+<p>If the user is using their own computer, the Accept-Language header often 
+indicates the user's preferred list of languages. Most users never set this 
+value, so by default most browsers send the default locale of the operating 
+environment (at least the one in use at the time the browser was installed). </p>
+<p>This is also accessible in some cases via JavaScript as <code>
+window.navigator.languages</code> (Chrome, Safari) or as <code>
+window.navigator.userLanguage</code> (IE). </p>
+<h5><span id="Page_Language" class="mw-headline">Page Language</span></h5>
+<p>One other hint that exists is the language of the content where the user is 
+entering text. This might be the computed language of the <code>form</code> 
+element or that of the <code>input</code> element where the user is entering 
+their text. This is often a weaker hint, since the page will generally be in a 
+single language, while users can have much broader linguistic needs. For 
+example, many users understand English, but may still need to type their name, 
+address, or some other text in their preferred language. There is no link 
+between the language of the page and what they input in that case. </p>
+<p>Note that the <code>Content-Language</code> HTTP header might also serve as a 
+useful hint about the <i>intended audience</i> of the page where the user is 
+entering their text. If form or input do not have a useful <code>lang</code> 
+attribute, the page's <code>Content-Language</code> might be a useful hint. </p>
+<h2><span id="Direct_Detection" class="mw-headline">Direct Detection</span></h2>
+<p>Other than environmental factors, the other option is for the input language 
+to be detected directly. Heuristic language detection is, at best, imperfect, 
+since most detection methods are based on statistics about character 
+distribution. Many languages are very similar and the more languages that can be 
+detected, the less good the separation between languages. Various libraries 
+provide language detection of this sort. </p>
+<h4><span id="Statistical_Detection" class="mw-headline">Statistical Detection</span></h4>
+<p>For most languages, the statistical distribution of n-grams is used to 
+perform detection. Depending on the language, the length of the n-grams used 
+varies. For languages with relatively small character sets, such as those 
+written in the Latin, Greek, Cyrillic, or Arabic scripts (for example), n-grams 
+of 3 (and sometimes more) characters are highly effective. For languages with 
+large character sets, notably those that use Han ideographs (Chinese and 
+Japanese for example), multi-character n-grams are less effective, since 
+character sequences do not repeat frequently enough to serve as a strong signal.
+</p>
+<p>In some cases, the script of the text provides a strong hint about the 
+language. For example, a text in, say, the Georgian, Armenian, or Cherokee 
+script is probably also in that script's eponymous language. In other cases, the 
+presence of specific characters can serve as a signal. So the appearance of 
+either of the kana scripts hints that the text is in Japanese, while Simplified 
+or Traditional Chinese have specific characters that are suggestive of the 
+specific script variation. </p>
+<h5><span id="Challenges" class="mw-headline">Challenges</span></h5>
+<p>Statistical language detection faces a number of challenges and adding 
+languages to the list of those detected can produce diminishing results for a 
+variety of reasons. </p>
+<ul>
+	<li>Statistical detection improves as the content being 'detected' gets 
+	longer. Longer texts are more likely to "revert to the mean" character 
+	distribution for the language that they contain. But user input may not 
+	always be long enough or may be idiosyncratic in some way to produce 
+	accurate detection. </li>
+	<li>Many languages are very similar. The closer two languages are 
+	statistically, the more one or another language may interfere with accurate 
+	detection. This is especially true of closely related dialects or minority 
+	languages, where content is highly unlikely to be in one or another of the 
+	languages (the so-called
+	<a class="external text" href="https://en.wikipedia.org/wiki/False_positive_paradox#Discussion" rel="nofollow">
+	false positive paradox</a>). But even unrelated languages can be incorrectly 
+	detected, particularly for short runs of text. </li>
+	<li>Content can contain multiple languages, loan words, or other anomalous 
+	input. For example, forgetting to strip HTML tags from input can cause 
+	English to be falsely detected. Conversely, many texts contain short runs of 
+	another language or may quote material in a secondary language. For example, 
+	if the name "Marc Rzepczynski" appears in an American newspaper headline 
+	about baseball, it might cause the text to be incorrectly detected as being 
+	in Polish or another Central European language. </li>
+</ul>
+<h5><span id="Foreknowledge_and_Hinting" class="mw-headline">Foreknowledge and 
+Hinting</span></h5>
+<p>If the range of languages to be detected can be limited, the accuracy can be 
+greatly improved. As mentioned above, the script of the input may be one way to 
+initially limit the range of languages needing detection. </p>
+<h4><span id="More_Sophisticated_Schemes" class="mw-headline">More Sophisticated 
+Schemes</span></h4>
+Beyond statistical approaches, larger systems can make use of natural language 
+processing, dictionaries, word frequency lists, and other means to resolve the 
+weaknesses of statistical detection or to more thoroughly identify the language 
+of content. Because these methods usually require significantly sized data sets, 
+they are usually host-based rather than something done at the user-agent.
+
+</body>
+
+</html>
