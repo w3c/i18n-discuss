@@ -38,18 +38,18 @@ footer {
 
 <section id="litmus">
   <h2>Litmus tests</h2>
-  <p>If your specification or application provides a way of correctly displaying the following strings when they reach the point of display to the user, you will have solved the problem. For that to happen, there must be a way to communicate  the required base direction for this string.</p>
+  <p>If your specification or application provides a way of correctly displaying the following strings when they reach the point of display to the user, you will have solved the majority of the problems. For that to happen, there must be a way to communicate  the required base direction for each string.</p>
   <p>All examples show characters from left to right in the order they are stored in memory. We use Hebrew text so as to avoid issues related to the display of cursive characters in Arabic. Tests 1-4 need to be displayed with a RTL base direction.</p>
   
 <section id="test1">
   <h3>Test #1</h3>
   <p dir="rtl" style="text-align:center;"><code><bdo dir="ltr">&quot;בינלאומי!&quot;</bdo></code></p>
-  <p>The order of the Hebrew letters should be produced automatically by the Unicode Bidi Algorithm (UBA), but the exclamation mark must appear to the left of the text when displayed in a LTR context.</p>
+  <p>Compared to what you see above, the order of the Hebrew letters should be reversed automatically by the Unicode Bidi Algorithm (UBA), but the exclamation mark will only appear to the left of the text, as it should, if the paragraph base direction is RTL.</p>
 </section>
 <section id="test2">
   <h3>Test #2</h3>
   <p style="text-align:center;"><code>
-    <bdo dir="ltr">&quot;#bidi בינלאומי&quot;</bdo>
+    <bdo dir="ltr">&quot;bidi בינלאומי&quot;</bdo>
   </code></p>
   <p>The text &quot;bidi&quot; must appear to the right of the Hebrew letters.<code></code></p>
 </section>
@@ -57,10 +57,10 @@ footer {
 <section id="test3">
   <h3>Test #3</h3>
   <p style="text-align:center;"><code><bdo dir="ltr">&quot;&lt;span&gt;בינלאומי!&lt;/span&gt;&quot;</bdo></code></p>
-  <p>The exclamation mark must appear to the left of the Arabic letters if the consuming application treats the markup as actual markup., ie. the markup should be ignored.</p>
+  <p>This test is intended for consuming applications that treat the markup in the string as actual markup. As for test #1, the exclamation mark must appear to the left of the Hebrew letters, regardless of the LTR directionality of the markup surrounding it.</p>
 </section>
 
-<section id="test4">
+<section id="test4"> 
   <h3>Test #4</h3>
   <p style="text-align:center;"><code>
     <bdo dir="ltr">&quot;&lt;span dir='rtl'&gt;one שתיים three&lt;/span&gt;&quot;</bdo></code></p>
