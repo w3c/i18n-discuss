@@ -133,8 +133,9 @@ footer {
   <h2>Augmenting first-strong by inserting RLM markers</h2>
   <p>It is possible for a producer of a string to attach an RLM/LRM character to the beginning of  those strings where the wrong base direction would otherwise be assumed when using a simple first-strong heuristic. </p>
   <p>If the producer is a human, they could theoretically apply one of these characters when creating a string in order to signal the directionality, although they are very likely to not have a way of inputting RLM/LRM characters, especially on mobile devices.</p>
-  <p>However, humans often create text that will later become strings in environments where such action is unnecessary.  For example, if a person types information into an HTML form and relies on the form's base direction or use of shortcut keys to make the string look correct in the form field, they would not need to add RLM/LRM  to make the string 'look correct' for themselves, but outside of that context the string would look incorrect unless an appropriate strong character was added to it. Similarly, strings scraped from a web page that has <code class="kw" translate="no">dir=rtl</code> set in the <code class="kw" translate="no">html</code> element would not normally have or need an RLM/LRM character at the start.</p>
-  <p>This approach is therefore only appropriate for general use if it is acceptable to change the value of the string.  </p>
+  <p>However, humans often create text that will later become strings in environments where such action is unnecessary.  For example, if a person types information into an HTML form and relies on the form's base direction or use of shortcut keys to make the string look correct in the form field, they would not need to add RLM/LRM  to make the string 'look correct' for themselves, but outside of that context the string would look incorrect unless an appropriate strong character was added to it. Similarly, strings scraped from a web page that has <code class="kw" translate="no">dir=rtl</code> set in the <code class="kw" translate="no">html</code> element would not normally have or need an RLM/LRM character at the start of the string in HTML.</p>
+  <p>This approach is therefore only appropriate for general use if it is acceptable to change the value of the string. </p>
+  <p>Apart from changing the identity of the string, adding characters to it may have an effect on things such as string length or pointer positions, which may become problematic.</p>
   <p>As a variant of the first-strong heuristic approach, the consumer would still need to also use first-strong heuristics to apply the correct directionality to the string.</p>
   <p>If directional information is contained in markup that will be parsed as such by the consumer (eg. <code class="kw" translate="no">dir=rtl</code> in HTML),  the producer  of the string should understand that markup in order to set or not set an RLM/LRM character as appropriate. If the producer always adds RLM/LRM to the start of such strings, the consumer should know that. If it relies instead on the markup being understood, the consumer needs to understand the markup.</p>
   <p>The producer of a string should not automatically apply RLM or LRM to the start of the string, but  should test whether it is needed. For example, if there's already an RLM there, no need to add another. If the context is correctly conveyed by first-strong heuristics, no need to add additional characters either. Note, however, that testing whether supplementary directional information of this kind is needed is only possible if the producer has access, and knows that it has access, to the original context of the string.</p>
@@ -145,13 +146,13 @@ footer {
 
 <section id="paired">
   <h2>Paired formatting characters</h2>
-  <p>This approach inserts paired Unicode formatting characters at the start and end of a string to indicate the base direction. It is problematic and is NOT recommended. </p>
+  <p>This approach inserts paired Unicode formatting characters at the start and end of a string to indicate the base direction. </p>
   <p>If paired formatting characters are used, they should be isolating, ie. starting with RLI, LRI, FSI, and not with RLE or LRE.</p>
   <p>However, It would not be enough to simply apply the UBA first-strong heuristics to such a string, because the Unicode bidi algorithm is unable to ascertain the base direction for a string that starts with RLI/LRI/FSI and ends with PDI. This is because the algorithm skips over isolated sequences and treats them  as a neutral character.  A consumer of the string would have to take special steps, in this case, to uncover the first-strong character. </p>
-  <p>This approach is also only appropriate if it is acceptable to change the value of the string.</p>
+  <p>This approach is also only appropriate if it is acceptable to change the value of the string. In addition to possible issues  such as changed string length or pointer positions, this approach runs the risk of  one of the paired characters getting lost, either through handling errors, or through text truncation, etc.</p>
+  <p>A  producer and a consumer of a string would need to recognise and handle a situation where a string begins with a paired formatting character but doesn't end with it  because the formatting characters only describe a part of the string. </p>
   <p>Unicode specifies a limit to the number of embeddings that are effective, and embeddings could build up over time to exceed that limit.</p>
   <p>Consuming applications would need to recognise and appropriately handle the isolating formatting characters. At the moment such support for RLI/LRI/FSI is not pervasive.</p>
-  <p>A  producer and a consumer of a string would need to recognise and handle a situation where a string begins with a paired formatting character but doesn't end with it – either through truncation or omission, or simply because the formatting characters only describe a part of the string. </p>
 </section>
 
 
@@ -159,8 +160,8 @@ footer {
 <section id="metadata">
   <h2>Metadata</h2>
   <p>If it is possible to pass metadata with the string and the consumer knows how to retrieve the meaning of that metadata, this can provide a simple, effective and efficient method of communicating the intended base direction without affecting the actual content of the string.</p>
+  <p>Metadata not only removes the problem of whether or not, and how, to parse markup in a string to determine the direction, but even in the simplest strings, without markup, it avoids the need to inspect and run heuristics on the string to determine its base direction.</p>
   <p>There needs to be metadata available for each individual string. Alternatively, metadata can be inherited, but some mechanism must be available to override the inherited direction for a particular string which differs in direction from the inherited value.  </p>
-  <p>Metadata also removes the problem of whether or not, and how to parse the markup in a string to determine the direction.</p>
   <p>Metadata is probably most effective, however (especially for the original creator of the strings), if it is only passed with a string in those cases where first-strong detection is otherwise going to produce a wrong result. This would mean that consumers of strings should not only recognise the metadata, but should also expect to  rely on first-strong heuristics for strings without metadata. It also means that producers of strings need to recognise situations where directional information is needed and set the metadata.</p>
 </section>
 </body>
