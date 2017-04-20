@@ -48,6 +48,7 @@ footer {
   <h3>Test #1</h3>
   <p dir="rtl" style="text-align:center;"><code><bdo dir="ltr">&quot;בינלאומי!&quot;</bdo></code>  </p>
   <p>For presentation to a user, the  characters above should be presented in the reverse order to what you see on this page. The Hebrew characters will be reversed by applying the Unicode Bidirectional Algorithm (UBA). However, the UBA cannot make the exclamation mark appear to the left of the Hebrew text, where it belongs, unless the base direction is set to RTL.</p>
+  <p>This is what the text of the string should look like if displayed correctly:&nbsp; <img src="string-base-direction-data/test1.png" alt="Test 1"/></p>
 </section>
 <section id="test2">
   <h3>Test #2</h3>
@@ -55,12 +56,14 @@ footer {
     <bdo dir="ltr">&quot;bidi בינלאומי&quot;</bdo>
   </code></p>
   <p>For presentation to a user, the text &quot;bidi&quot; must appear to the right of the Hebrew letters.<code></code> The UBA cannot do this unless it knows that the overall base direction is RTL.</p>
+  <p>This is what the text of the string should look like if displayed correctly:&nbsp; <img src="string-base-direction-data/test2.png" alt="Test 2"/></p>
 </section>
 
 <section id="test3">
   <h3>Test #3</h3>
   <p style="text-align:center;"><code><bdo dir="ltr">&quot;&lt;span&gt;בינלאומי!&lt;/span&gt;&quot;</bdo></code></p>
   <p>This test is intended for consuming applications that treat the markup in the string as actual markup. As for test #1, the exclamation mark must appear to the left of the Hebrew letters, regardless of the LTR directionality of the markup surrounding it.</p>
+  <p>This is what the text of the string should look like if displayed correctly:&nbsp; <img src="string-base-direction-data/test1.png" alt="Test 3"/></p>
 </section>
 
 <section id="test4"> 
@@ -68,12 +71,14 @@ footer {
   <p style="text-align:center;"><code>
     <bdo dir="ltr">&quot;&lt;span dir='rtl'&gt;one שתיים three&lt;/span&gt;&quot;</bdo></code></p>
   <p>If the consuming application is expected to parse the markup as actual markup, the list in the element content above should be displayed to the user in the order &quot;three שתיים one&quot;.<code></code> This requires the UBA to know that the intended base direction of the string is RTL. The key point of this test is that the base direction information is carried in the markup.</p>
+  <p>This is what the text of the string should look like if displayed correctly:&nbsp; <img src="string-base-direction-data/test4.png" alt="Test 4"/></p>
 </section>
 
 <section id="test5">
   <h3>Test #5</h3>
   <p style="text-align:center;"><code><bdo dir="ltr">&quot;123 456 789&quot;</bdo></code></p>
   <p>When presented to a user, the order of the numbers must remain the same even when the directional context of the surrounding text is RTL. There are no strong directional characters in this string.<code></code></p>
+  <p>This is what the text of the string should look like if displayed correctly:&nbsp; <img src="string-base-direction-data/test5.png" alt="Test 5"/></p>
 </section>
 </section>
 
