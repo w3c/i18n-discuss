@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Ruby content model</title>
+<link rel="stylesheet" href="../local.css"/>
+<style>
+#use_cases li {
+	border: 1px solid #ccc;
+	margin-bottom: 2em;
+	padding: 1em;
+}
+code {
+	color: brown;
+}
+#toc {
+	float: right;
+}
+footer {
+	margin-top: 5em;
+	font-size: 80%;
+}
+.ed {
+	color: red;
+	font-size: 140%;
+}
+</style>
+</head>
+
+<body>
+<h1>Ruby content model</h1>
+<p style="color:red; font-size: 120%;">This is a draft for to promote discussion and to work through ideas, and may be updated at any time.</p>
+<p style="color:red; font-size: 120%;">You can leave a comment using <a target="_blank" href="https://github.com/w3c/i18n-discuss/issues/new?title=[notes/ruby-content-model]%20%20ISSUE_TITLE_HERE&body=%5Bsource%5D%20(http%3A%2F%2Fw3c.github.io%2Fi18n-discuss%2Fnotes%2Fstring-base-direction.html)%0A%0A">this link</a>.</p>
+<section id="problem">
+  <h2>Problem statement</h2>
+  <p>The Ruby Annotation spec and HTML5 contain different content models for ruby markup. Other specs, such as TTML and WebVTT are also developing content models. CSS Ruby, as it develops, will place some additional requirements on ruby content models.</p>
+  <p>These notes will hopefully lead us to document a basic content model for ruby that can be used for future ruby-related developments, and will provide a core base that promotes a level of consistency between existing models.</p>
+  <p>Note carefully that what follows talks about the <strong>content model</strong>, not the markup model. For example, where you see <code class="kw" translate="no">rb</code>, it doesn't necessarily mean that there are <code class="kw" translate="no">rb</code> markup tags. It represents the concept of base text. The content model shows the relationships between the various items that make up ruby. Specifications using this content model may (though it's not necessarily recommended) use very different markup tag names for the elements, they may also extend the model in some way, and they may introduce rules about whether closing or opening tags are needed.</p>
+</section>
+
+
+<section id="litmus">
+  <h2>Existing models</h2>
+  <p><span class="ed">All of these need further work, this is just a first stab at describing them.</span></p>
+  
+<section id="test1">
+  <h3>HTML5</h3>
+  <p>A simplified view of the  HTML5 model  (ignoring <code class="kw" translate="no">rp</code> and ignoring nesting) is:</p>
+  <pre>ruby
+:	(rb rt)+
+|	rb+ rt+
+|	rb+ rtc rtc?
+
+rtc
+:	rt+
+
+rb
+:	(text|span)+</pre>
+  <p>An <code class="kw" translate="no">rb</code> may or may not have markup, and may contain <code class="kw" translate="no">span</code>s as well as text. There are certain additional points that need to be made, such as how to map <code class="kw" translate="no">rb</code>s and <code class="kw" translate="no">rt</code>s.</p>
+</section>
+<section id="test2">
+  <h3>XHTML (Ruby Annotation)</h3>
+  <p>The XHTML model is</p>
+  <pre>ruby
+:	rb rt
+|	rbc rtc rtc?
+
+rbc
+:	rb+
+
+rtc
+:	rt+</pre>
+</section>
+
+<section id="test3">
+  <h3>TTML</h3>
+  <p>The TTML model is the same as the XHTML model.</p>
+</section>
+
+<section id="test4"> 
+  <h3>WebVTT  </h3>
+  <pre>ruby
+:	(rb rt)+
+
+rb
+:	WebVTT_cue_internal_text
+
+rt
+:	WebVTT_cue_internal_text</pre>
+  <p>The <code class="kw" translate="no">WebVTT_cue_internal_text</code> can include just text, or text with certain marked up inline items.</p>
+</section>
+</section>
+<section id="ancilliary">
+  <h2>More stuff to consider</h2>
+  <section id="producers">
+    <h3>Use cases</h3>
+    <ul>
+      <li>Styling rb text </li>
+      <li>Jukugo ruby distribution </li>
+      <li>Jukugo ruby inline after </li>
+      <li>Double-sided ruby </li>
+      <li>Overlapping double-sided ruby</li>
+    </ul>
+  </section>
+
+<section id="consumers">
+  <h3>Observations</h3>
+  <p>On the whole, it’s better to use elements to identify base text, since it’s accessible for manipulation or styling.</p>
+</section>
+
+<section id="agreements">
+  <h3>Other things to discuss</h3>
+  <p>separate out rp - do we need it? it makes everything more complicated if we do, need to allow it’s use in more places than RA allows</p>
+  <p>on the other hand, BaBaBa should become either same or BBBaaa when inline</p>
+  <p>RA should be extended to allow BaBaBa arrangements (?)</p>
+  <p>HTML nested arrangements should probably not be in this model</p>
+  <p>rbc may not be needed</p>
+  <p>must be rules about how to deal with mismatched numbers of rb vs rt</p>
+</section>
+</section>
+<p>&nbsp;</p>
+<section id="firststrong">
+  <h2>The model</h2>
+  <p>This is not even close to being useful. It's just preliminary sketches. Don't use or refer to it.</p>
+  <pre>ruby
+:	(rb rt)+
+|	rb+ rt+
+|	rb+ rtc rtc?
+
+rtc
+:	rt+
+
+rb
+:	(text|span)+</pre>
+  <p>Each <code class="kw" translate="no">rtc</code> or <code class="kw" translate="no">rtc+rtc</code> must correspond to one <code class="kw" translate="no">rb</code>.</p>
+</section>
+</body>
+</html>
