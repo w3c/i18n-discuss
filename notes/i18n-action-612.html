@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<title>Recommendations for language and direction attributes in data formats</title>
+<link rel="stylesheet" href="../local.css"/>
+<style>
+#use_cases li { border: 1px solid #ccc; margin-bottom: 2em; padding: 1em; }
+code { color: brown; }
+#toc { float: right; }
+
+:lang(fr) { color: green; }
+</style>
+
+</head>
+
+<body>
+<h5>[I18N-ACTION-612]</h5>
+<h1>Recommendations for language and direction attributes in data formats</h1>
+<hr>
+
+<h2>The problem</h2>
+
+<p>Many Specifications (as well as non-W3C standards documents) are 
+defining non-markup data formats (such as JSON and related vocabularies 
+such as Web IDL) that can include natural language text in string data 
+types but that do not provide either built-in or readily accessible means of 
+indicating the language or base direction of text.</p>
+
+<p>The best practice in internationalization is to allow for the 
+language and base direction of text to be declared for the document as 
+a whole, with the ability to set or override the value on an 
+item-by-item basis. (Additional interior markup or tagging is also 
+desirable in certain contexts, but this is beyond the scope of this 
+document.)</p>
+
+<p>While most markup languages such as XML or HTML provide a ready 
+means of identifying language (such as in HTML using the <code>lang</code> attribute) 
+or base direction (such as in HTML using the <code>dir</code> 
+attribute), data formats also require this information if data 
+consumers are to be able to present, process, or display the data 
+correctly.</p>
+
+<p>The I18N WG has created documents outlining the specific problems of 
+identifying (or with not identifying) language<a href="http://w3c.github.io/i18n-discuss/notes/language-detection.html">[1]</a> 
+<a href="http://w3c.github.io/i18n-discuss/notes/annotation-language-use-cases.html">[2]</a>
+and base direction<a href="http://w3c.github.io/i18n-discuss/notes/string-base-direction.html">[3]</a>. 
+See these for specific illustrations of the need for language/direction metadata, as 
+well as an examination of some of the possible work-arounds or solutions.</p>
+
+<h2>Proposal</h2>
+
+<p>The I18N WG would like to propose the following long term solutions 
+to this problem:</p>
+
+<h4>Solution 1: New Data Type</h4>
+
+<p>Create a new data type whose serialization optionally includes 
+language and direction. Examples:</p>
+
+<pre>
+	myLocalizedString: "Hello World!"@en^ltr
+	myLocalizedString_fr: "Bonjour monde !"@fr
+	myLocalizedString_ar: "مرحبا بالعالم!"@ar-EG^rtl
+	myLocalizedString_und: "שלום עולם!"^rtl
+</pre>
+
+<h5>Pros</h5>
+<p>Effective</p>
+<h5>Cons</h5>
+<p>Difficult to implement, as it requires new parsers</p>
+
+<h4>Solution 2: Common Dictionary Pattern</h4>
+<p>Specify a common dictionary pattern for specifications. Define 
+guidelines for document-level and item-level language/direction 
+identification. Require new document formats and revisions of existing 
+document formats to adopt these guidelines.</p>
+
+<h5>Pros</h5>
+<p>Effective</p>
+<h5>Cons</h5>
+<p>Seen as "cluttering up" document formats with additional fields and 
+values.</p>
+<p>Difficult to enforce.</p>
+<p>Requires implementers to create the association for the metadata to 
+the data values affected.</p>
+
+<h4>Place fingers in ears.</h4>
+<p></p>
+<h5>Pros</h5>
+<p>What? I can't hear you.</p>
+<h5>Cons</h5>
+<p>Recreates or preserves the problems we've spent the last past dozen 
+years fixing in markup languages.</p>
+</body>
+</html>
