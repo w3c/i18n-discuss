@@ -53,6 +53,7 @@ well as an examination of some of the possible work-arounds or solutions.</p>
 <p>The I18N WG would like to propose the following long term solutions 
 to this problem:</p>
 
+<div name="solution1">
 <h4>Solution 1: New Data Type</h4>
 
 <p>Create a new data type whose serialization optionally includes 
@@ -69,12 +70,26 @@ language and direction. Examples:</p>
 <p>Effective</p>
 <h5>Cons</h5>
 <p>Difficult to implement, as it requires new parsers</p>
+</div>
 
+<div name="solution2">
 <h4>Solution 2: Common Dictionary Pattern</h4>
 <p>Specify a common dictionary pattern for specifications. Define 
 guidelines for document-level and item-level language/direction 
 identification. Require new document formats and revisions of existing 
-document formats to adopt these guidelines.</p>
+document formats to adopt these guidelines. This would take a form
+similar to that proposed for Payments API <a href="https://s3.amazonaws.com/pr-preview/w3c/browser-payment-api/f68ca73...00714be.html#localizable-dictionary">[4]</a>
+which would address both needs. Here's how a document fragment might look:</p>
+
+<pre>
+[
+  displayItems: [{
+    label: "البند الخاص (للبيع!)",
+    dir: "rtl",
+    lang: "ar-AE",
+    amount: { },
+  }]
+]</pre>
 
 <h5>Pros</h5>
 <p>Effective</p>
@@ -84,13 +99,127 @@ values.</p>
 <p>Difficult to enforce.</p>
 <p>Requires implementers to create the association for the metadata to 
 the data values affected.</p>
-
-<h4>Place fingers in ears.</h4>
+</div>
+<div name="no_solution">
+<h4>Solution X: Do Nothing</h4>
 <p></p>
 <h5>Pros</h5>
-<p>What? I can't hear you.</p>
+<p>No effort.</p>
 <h5>Cons</h5>
 <p>Recreates or preserves the problems we've spent the last past dozen 
 years fixing in markup languages.</p>
+</div>
+
+<h2>Appendices</h2>
+<h4>Appendix A. Text of dictionary example from Payments API</h4>
+<section data-dfn-for="Localizable" data-link-for="Localizable" id="localizable-dictionary" typeof="bibo:Chapter" resource="#localizable-dictionary" property="bibo:hasPart">
+<h2 id="h-localizable-dictionary" resource="#h-localizable-dictionary">
+<span property="xhv:role" resource="xhv:heading">
+<dfn data-dfn-for="" data-dfn-type="dfn" id="dom-localizable" data-idl="" data-title="Localizable"><code>
+Localizable
+</code></dfn>
+dictionary
+</span></h2><pre class="def idl"><span class="idlDictionary" id="idl-def-localizable" data-idl="" data-title="Localizable">dictionary <span class="idlDictionaryID"><a data-lt="Localizable" href="#dom-localizable" class="internalDFN" data-link-type="dfn" data-for=""><code>Localizable</code></a></span> {<span class="idlMember" id="idl-def-localizable-lang" data-idl="" data-title="lang" data-dfn-for="localizable">    <span class="idlMemberType"><a href="https://www.w3.org/TR/WebIDL-1/#idl-DOMString">DOMString</a></span>     <span class="idlMemberName"><a data-lt="lang" href="#dom-localizable-lang" class="internalDFN" data-link-type="dfn" data-for="Localizable"><code>lang</code></a></span>;</span><span class="idlMember" id="idl-def-localizable-dir" data-idl="" data-title="dir" data-dfn-for="localizable">    <span class="idlMemberType"><a href="#dom-textdirection" class="internalDFN" data-link-type="dfn"><code>TextDirection</code></a></span> <span class="idlMemberName"><a data-lt="dir" href="#dom-localizable-dir" class="internalDFN" data-link-type="dfn" data-for="Localizable"><code>dir</code></a></span> = <span class="idlMemberValue">"auto"</span>;</span>
+};</span>
+</pre><dl><dt><dfn data-dfn-for="localizable" data-dfn-type="dfn" id="dom-localizable-lang" data-idl="" data-title="lang"><code>
+lang
+</code></dfn>
+member
+</dt><dd>
+A
+[
+<cite><a class="bibref" href="#bib-BCP47">
+BCP47
+</a></cite>
+]
+language
+tag
+that
+specifies
+the
+primary
+language
+for
+the
+values
+of
+the
+human-readable
+members
+of
+the
+inheriting
+dictionary.
+</dd><dt><dfn data-dfn-for="localizable" data-dfn-type="dfn" id="dom-localizable-dir" data-idl="" data-title="dir"><code>
+dir
+</code></dfn>
+member
+</dt><dd>
+Specifies
+the
+base
+direction
+for
+the
+human-readable
+members
+of
+an
+inheriting
+dictionary.
+</dd></dl></section><section data-dfn-for="TextDirection" data-link-for="TextDirection" id="textdirection-enum" typeof="bibo:Chapter" resource="#textdirection-enum" property="bibo:hasPart"><h2 id="h-textdirection-enum" resource="#h-textdirection-enum"><span property="xhv:role" resource="xhv:heading"><span class="secno">
+18.
+</span><dfn data-dfn-for="" data-dfn-type="dfn" id="dom-textdirection" data-idl="" data-title="TextDirection"><code>
+TextDirection
+</code></dfn>
+enum
+</span></h2><pre class="def idl"><span class="idlEnum" id="idl-def-textdirection" data-idl="" data-title="TextDirection">enum <span class="idlEnumID"><a data-lt="TextDirection" href="#dom-textdirection" class="internalDFN" data-link-type="dfn" data-for=""><code>TextDirection</code></a></span> {    <a href="#dom-textdirection-auto" class="idlEnumItem">"auto"</a>,    <a href="#dom-textdirection-ltr" class="idlEnumItem">"ltr"</a>,    <a href="#dom-textdirection-rtl" class="idlEnumItem">"rtl"</a>
+};</span>
+</pre><p>
+The
+text-direction
+values
+are
+the
+following,
+implying
+that
+the
+value
+of
+the
+human-readable
+members
+is
+by
+default:
+</p><dl><dt><dfn data-dfn-for="textdirection" data-dfn-type="dfn" id="dom-textdirection-auto" data-idl="" data-title="auto"><code>
+auto
+</code></dfn></dt><dd>
+Directionality
+is
+determined
+by
+the
+[
+<cite><a class="bibref" href="#bib-BIDI">
+BIDI
+</a></cite>
+]
+algorithm.
+</dd><dt><dfn data-dfn-for="textdirection" data-dfn-type="dfn" id="dom-textdirection-ltr" data-idl="" data-title="ltr"><code>
+ltr
+</code></dfn></dt><dd>
+Left-to-right
+text.
+</dd><dt><dfn data-dfn-for="textdirection" data-dfn-type="dfn" id="dom-textdirection-rtl" data-idl="" data-title="rtl"><code>
+rtl
+</code></dfn></dt><dd>
+Right-to-left
+text.
+</dd></dl></section>
+<section class="informative" id="paymentrequest-and-iframe-elements" typeof="bibo:Chapter" resource="#paymentrequest-and-iframe-elements" property="bibo:hasPart">
+<h2 id="h-paymentrequest-and-iframe-elements" resource="#h-paymentrequest-and-iframe-elements">
+<span property="xhv:role" resource="xhv:heading">
 </body>
 </html>
