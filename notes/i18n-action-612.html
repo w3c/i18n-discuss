@@ -8,8 +8,13 @@
 #use_cases li { border: 1px solid #ccc; margin-bottom: 2em; padding: 1em; }
 code { color: brown; }
 #toc { float: right; }
-
-:lang(fr) { color: green; }
+div.solution {
+	width: 90%;
+	border: 2px solid #ccc;
+	margin-bottom: 2em;
+	padding: 1em;
+	background-color: #eee;
+}
 </style>
 
 </head>
@@ -19,30 +24,35 @@ code { color: brown; }
 <h1>Recommendations for language and direction attributes in data formats</h1>
 <hr>
 
-<h2>The problem</h2>
+<h2>The Problem</h2>
 
-<p>Many Specifications (as well as non-W3C standards documents) are 
-defining non-markup data formats (such as JSON and related vocabularies 
-such as Web IDL) that can include natural language text in string data 
-types but that do not provide either built-in or readily accessible means of 
-indicating the language or base direction of text.</p>
+<p><em>There is no standard way to indicate language and base direction 
+in JSON and related vocabularies.</em> JSON, and related vocabularies such as Web IDL, 
+are increasingly used in the Web platform to provide formats for data interchange. 
+Document formats based on JavaScript use the <code>String</code> data type 
+for textual data, including natural language text. </p>
 
-<p>The best practice in internationalization is to allow for the 
-language and base direction of text to be declared for the document as 
-a whole, with the ability to set or override the value on an 
-item-by-item basis. (Additional interior markup or tagging is also 
+<p>The Internationalization Working Group's recommendation for best 
+practice is to allow for the 
+<a href="https://w3c.github.io/bp-i18n-specdev/#lang_basics_1">language</a>
+and <a href="https://w3c.github.io/bp-i18n-specdev/#dir_paragraphs">base direction</a>
+of text to be declared for each string. In addition, we usually 
+recommend that document formats allow for default values to be declared 
+at the document level. (Additional interior markup or tagging is also 
 desirable in certain contexts, but this is beyond the scope of this 
-document.)</p>
+document or not applicable to plain-text exchange of string data.)</p>
 
 <p>While most markup languages such as XML or HTML provide a ready 
-means of identifying language (such as in HTML using the <code>lang</code> attribute) 
-or base direction (such as in HTML using the <code>dir</code> 
-attribute), data formats also require this information if data 
+means of identifying language (such as in HTML using the <code><a 
+href="https://www.w3.org/TR/html5/dom.html#the-lang-and-xml:lang-attributes">lang</a></code> attribute) 
+or base direction (such as in HTML using the <code><a 
+href="https://www.w3.org/TR/html5/dom.html#the-dir-attribute">dir</a></code> 
+attribute), data interchange formats also require this information if data 
 consumers are to be able to present, process, or display the data 
 correctly.</p>
 
-<p>The I18N WG has created documents outlining the specific problems of 
-identifying (or with not identifying) language<a href="http://w3c.github.io/i18n-discuss/notes/language-detection.html">[1]</a> 
+<p>We have created documents outlining the specific problems associated 
+with the failure to identify language<a href="http://w3c.github.io/i18n-discuss/notes/language-detection.html">[1]</a> 
 <a href="http://w3c.github.io/i18n-discuss/notes/annotation-language-use-cases.html">[2]</a>
 and base direction<a href="http://w3c.github.io/i18n-discuss/notes/string-base-direction.html">[3]</a>. 
 See these for specific illustrations of the need for language/direction metadata, as 
@@ -53,7 +63,7 @@ well as an examination of some of the possible work-arounds or solutions.</p>
 <p>The I18N WG would like to propose the following long term solutions 
 to this problem:</p>
 
-<div name="solution1">
+<div name="solution1" class="solution">
 <h4>Solution 1: New Data Type</h4>
 
 <p>Create a new data type whose serialization optionally includes 
@@ -61,18 +71,26 @@ language and direction. Examples:</p>
 
 <pre>
 	myLocalizedString: "Hello World!"@en^ltr
-	myLocalizedString_fr: "Bonjour monde !"@fr
+	myLocalizedString_fr: "Bonjour monde&nbsp;!"@fr
 	myLocalizedString_ar: "مرحبا بالعالم!"@ar-EG^rtl
 	myLocalizedString_und: "שלום עולם!"^rtl
+	myLanguageNeutralString: "978-0-123-4567-X" // no language or direction for this non-natural-language string
 </pre>
 
 <h5>Pros</h5>
-<p>Effective</p>
+<ul>
+<li>Effective. Meets the requirement for fields that require natural 
+language metadata to provide it.</li>
+<li>Doesn't require additional fields to be added to data structures 
+"cluttering up" the schema.</li>
+</ul>
 <h5>Cons</h5>
-<p>Difficult to implement, as it requires new parsers</p>
+<ul>
+<li>Difficult to implement, as it requires new parsers.</li>
+</ul>
 </div>
 
-<div name="solution2">
+<div name="solution2" class="solution">
 <h4>Solution 2: Common Dictionary Pattern</h4>
 <p>Specify a common dictionary pattern for specifications. Define 
 guidelines for document-level and item-level language/direction 
@@ -92,27 +110,40 @@ which would address both needs. Here's how a document fragment might look:</p>
 ]</pre>
 
 <h5>Pros</h5>
-<p>Effective</p>
+<ul>
+<li>Effective</li>
+<li>Could be made easy to adopt.</li>
+<li>Does not require changes or additions to the syntax of JSON.</li>
+</ul>
 <h5>Cons</h5>
-<p>Seen as "cluttering up" document formats with additional fields and 
-values.</p>
-<p>Difficult to enforce.</p>
-<p>Requires implementers to create the association for the metadata to 
-the data values affected.</p>
+<ul>
+<li>Seen as "cluttering up" document formats with additional fields and 
+values.</li>
+<li>Difficult to enforce.</li>
+<li>Requires implementers to create the association for the metadata to 
+the data values affected.</li>
+</ul>
 </div>
-<div name="no_solution">
-<h4>Solution X: Do Nothing</h4>
-<p></p>
+<div name="no_solution" class="solution">
+<h4>What if we did nothing?</h4>
+<p>Document formats based on JSON have existed for some years now. Much 
+of the Web utilizes document formats based on JSON, using mechanisms 
+such as XHR to populate Web pages dynamically or using formats such as 
+XXX to exchange data between processes. Why aren't the issues outlined 
+above more prevalent?</p>
 <h5>Pros</h5>
 <p>No effort.</p>
 <h5>Cons</h5>
-<p>Recreates or preserves the problems we've spent the last past dozen 
-years fixing in markup languages.</p>
+<p>Recreates or preserves the problems we've identified. Requires 
+specifications to consider natural language text requirements on a 
+case-by-case basis.</p>
 </div>
 
 <h2>Appendices</h2>
 <h4>Appendix A. Text of dictionary example from Payments API</h4>
+	<div class="solution">
 <section data-dfn-for="Localizable" data-link-for="Localizable" id="localizable-dictionary" typeof="bibo:Chapter" resource="#localizable-dictionary" property="bibo:hasPart">
+
 <h2 id="h-localizable-dictionary" resource="#h-localizable-dictionary">
 <span property="xhv:role" resource="xhv:heading">
 <dfn data-dfn-for="" data-dfn-type="dfn" id="dom-localizable" data-idl="" data-title="Localizable"><code>
@@ -132,94 +163,43 @@ A
 BCP47
 </a></cite>
 ]
-language
-tag
-that
-specifies
-the
-primary
-language
-for
-the
-values
-of
-the
-human-readable
-members
-of
-the
-inheriting
-dictionary.
+language tag that specifies the primary language for the values of the human-readable
+members of the inheriting dictionary.
 </dd><dt><dfn data-dfn-for="localizable" data-dfn-type="dfn" id="dom-localizable-dir" data-idl="" data-title="dir"><code>
 dir
 </code></dfn>
 member
 </dt><dd>
-Specifies
-the
-base
-direction
-for
-the
-human-readable
-members
-of
-an
-inheriting
-dictionary.
-</dd></dl></section><section data-dfn-for="TextDirection" data-link-for="TextDirection" id="textdirection-enum" typeof="bibo:Chapter" resource="#textdirection-enum" property="bibo:hasPart"><h2 id="h-textdirection-enum" resource="#h-textdirection-enum"><span property="xhv:role" resource="xhv:heading"><span class="secno">
-18.
-</span><dfn data-dfn-for="" data-dfn-type="dfn" id="dom-textdirection" data-idl="" data-title="TextDirection"><code>
+Specifies the base direction for the human-readable members of an 
+inheriting dictionary.
+</dd></dl></section><section data-dfn-for="TextDirection" data-link-for="TextDirection" id="textdirection-enum" typeof="bibo:Chapter" resource="#textdirection-enum" property="bibo:hasPart"><h2 id="h-textdirection-enum" resource="#h-textdirection-enum"><dfn data-dfn-for="" data-dfn-type="dfn" id="dom-textdirection" data-idl="" data-title="TextDirection"><code>
 TextDirection
 </code></dfn>
 enum
 </span></h2><pre class="def idl"><span class="idlEnum" id="idl-def-textdirection" data-idl="" data-title="TextDirection">enum <span class="idlEnumID"><a data-lt="TextDirection" href="#dom-textdirection" class="internalDFN" data-link-type="dfn" data-for=""><code>TextDirection</code></a></span> {    <a href="#dom-textdirection-auto" class="idlEnumItem">"auto"</a>,    <a href="#dom-textdirection-ltr" class="idlEnumItem">"ltr"</a>,    <a href="#dom-textdirection-rtl" class="idlEnumItem">"rtl"</a>
 };</span>
 </pre><p>
-The
-text-direction
-values
-are
-the
-following,
-implying
-that
-the
-value
-of
-the
-human-readable
-members
-is
-by
-default:
+The text-direction values are the following, implying that the value
+of the human-readable members is by default:
 </p><dl><dt><dfn data-dfn-for="textdirection" data-dfn-type="dfn" id="dom-textdirection-auto" data-idl="" data-title="auto"><code>
 auto
 </code></dfn></dt><dd>
-Directionality
-is
-determined
-by
-the
-[
+Directionality is determined by the [
 <cite><a class="bibref" href="#bib-BIDI">
 BIDI
 </a></cite>
-]
-algorithm.
+] algorithm.
 </dd><dt><dfn data-dfn-for="textdirection" data-dfn-type="dfn" id="dom-textdirection-ltr" data-idl="" data-title="ltr"><code>
 ltr
 </code></dfn></dt><dd>
-Left-to-right
-text.
+Left-to-right text.
 </dd><dt><dfn data-dfn-for="textdirection" data-dfn-type="dfn" id="dom-textdirection-rtl" data-idl="" data-title="rtl"><code>
 rtl
 </code></dfn></dt><dd>
-Right-to-left
-text.
-</dd></dl></section>
-<section class="informative" id="paymentrequest-and-iframe-elements" typeof="bibo:Chapter" resource="#paymentrequest-and-iframe-elements" property="bibo:hasPart">
-<h2 id="h-paymentrequest-and-iframe-elements" resource="#h-paymentrequest-and-iframe-elements">
-<span property="xhv:role" resource="xhv:heading">
+Right-to-left text.
+</dd></dl>
+</section>
+</div>
+
 </body>
 </html>
