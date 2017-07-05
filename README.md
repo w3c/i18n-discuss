@@ -11,3 +11,5 @@ Documents:
 [Notes on JSON strings and text direction](https://w3c.github.io/i18n-discuss/notes/json-bidi)
 
 [Default styling for multilingual quotes & quotation marks in HTML](http://w3c.github.io/i18n-discuss/default-quote-styling)
+
+[Ruby content model](https://w3c.github.io/i18n-discuss/notes/ruby-content-model)
