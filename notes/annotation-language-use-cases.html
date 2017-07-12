@@ -56,6 +56,6 @@ footer { margin-top: 5em; font-size: 80%; }
 <p>Where the language property has a list of languages as its value, the issue is to know which of those languages should be taken to be the default text-processing language (eg. to know that it's <code class="kw" translate="no">ja</code> in our example <code class="kw" translate="no">bo,ja,zh</code> above). </p>
 <p>I'm still not clear how the language property values are derived for a target or body, but if it's possible to know what the default text-processing language is, it would be simple to move that to the beginning of the list (eg. instead of <code class="kw" translate="no">bo,ja,zh</code> use <code class="kw" translate="no">ja,bo,zh</code>).</p>
 <p>The only solution so far proposed for handling in-body language changes is to require the use of HTML or XML for the body and use the <code class="kw" translate="no">lang</code> or <code class="kw" translate="no">xml:lang</code> attributes on elements to mark the boundaries. (If we cannot expect a tool to analyse the markup, we cannot expect that to work, of course.)</p>
-<p>&nbsp;</p>
+<address>Author: Richard Ishida</address>
 </body>
 </html>
