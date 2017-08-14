@@ -4,116 +4,181 @@
 <meta charset="UTF-8">
 <title>Language matrix</title>
 <style>
-body { 
-	font-family:Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif;
+body {
+	font-family: Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif;
 	font-size: 14px;
-	}
+}
+#flexwrapper {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: no-wrap;
+	margin: 2em;
+}
+#flexwrapper div {
+	margin: 2em;
+}
 th {
-	text-align:end;
-	}
+	text-align: end;
+}
 td {
-	text-align:center;
-	}
+	text-align: center;
+}
 .na {
-	background-color: #7CFF7C;
+	background-color: green;
 	color: #7CFF7C;
-	}
+}
 .l3 {
 	background-color: green;
 	color: green;
-	}
+}
 .l2 {
 	background-color: #F4CB77;
 	background-color: yellow;
+	background-color: #00ff00;
 	color: yellow;
-	}
+	color: #00ff00;
+}
 .l1 {
 	background-color: #FF9A00;
 	color: #FF9A00;
-	}
+	color: orange;
+}
 .l0 {
 	background-color: #ff0000;
 	color: #ff0000;
-	}
-p { margin:0; }
+}
+p {
+	margin: 0;
+}
+thead td {
+	text-align: start;
+	font-weight: bold;
+}
 </style>
 </head>
 
 <body>
-<p>Key: <br/><span class="na">	■</span> Not applicable, <br/><span class="l3">	■</span> OK, <br/><span class="l2">	■</span> Work needed for advanced publishing, <br/><span class="l1">	■</span> Work needed for basic features, <br/><span class="l0">	■</span> Broken &amp; needing urgent attention, </p>
-
+<div id="flexwrapper">
+  <div id="key">
+    <h2>Key:</h2>
+    <p><span class="na"> ■</span> Not applicable, <br/>
+      <span class="l3"> ■</span> Advanced publishing needs covered (3)<br/>
+      <span class="l2"> ■</span> Basic needs covered (2)<br/>
+      <span class="l1"> ■</span> Work needed for basic features (1)<br/>
+      <span class="l0"> ■</span> Broken &amp; needing attention (0)</p>
+  </div>
+  <div id="results">
+    <h2>Results:</h2>
+    <p>Out of a possible score of <span id="totalScore"></span></p>
+    <p><span class="l3"> ■</span> <span id="level3"></span> Ok</p>
+    <p><span class="l2"> ■</span> <span id="level2"></span> need work for advanced publishing</p>
+    <p><span class="l1"> ■</span> <span id="level1"></span> need work for basic features</p>
+    <p><span class="l0"> ■</span> <span id="level0"></span> broken &amp; needing urgent attention</p>
+    <p><span style="color:white;background-color:white"> ■</span> <span id="unknown"></span> Unknown</p>
+  </div>
+</div>
 <table border="0">
-  <tbody>
+  <thead>
     <tr>
       <th scope="row">&nbsp;</th>
-      <td colspan="6">Latn</td>
-      <td>Japn</td>
-      <td>Hans</td>
-      <td>Hant</td>
+      <td colspan="9">Latn</td>
+      <td colspan="2">Hani</td>
       <td colspan="4">Arab</td>
       <td colspan="2">Deva</td>
-      <td colspan="2">Tibt</td>
-      <td>Thai</td>
+      <td colspan="2">Cyrl</td>
+      <td>Beng</td>
+      <td>Japn</td>
+      <td>Guru</td>
+      <td>Java</td>
+      <td>Hang</td>
+      <td>Taml</td>
       <td colspan="2">Mymr</td>
+      <td>Thai</td>
       <td colspan="3">Ethi</td>
+      <td>Hebr</td>
+      <td>Tibt</td>
+      <td colspan="2">Mong</td>
       <td>Cher</td>
-      <td>Mong</td>
     </tr>
+  </thead>
+  <tbody>
     <tr>
       <th scope="row">Has support for:</th>
-      <td>en</td>
-      <td>fr</td>
       <td>es</td>
+      <td>pt</td>
+      <td>en</td>
       <td>de</td>
-      <td>it</td>
+      <td>ms</td>
       <td>vi</td>
-      <td>ja</td>
+      <td>fr</td>
+      <td>tr</td>
+      <td>it</td>
       <td>zh</td>
-      <td>zh</td>
+      <td>wuu</td>
       <td>ar</td>
+      <td>ur</td>
       <td>fa</td>
       <td>ug</td>
-      <td>ur</td>
       <td>hi</td>
-      <td>mt</td>
-      <td>bo</td>
-      <td>dz</td>
-      <td>th</td>
+      <td>mr</td>
+      <td>ru</td>
+      <td>bg</td>
+      <td>bn</td>
+      <td>ja</td>
+      <td>pa</td>
+      <td>jv</td>
+      <td>ko</td>
+      <td>ta</td>
       <td>my</td>
       <td>shn</td>
+      <td>th</td>
       <td>am</td>
       <td>ti</td>
       <td>sgw</td>
-      <td>chr</td>
+      <td>he</td>
+      <td>bo</td>
       <td>mn</td>
+      <td>dz</td>
+      <td>chr</td>
     </tr>
     <tr>
       <th scope="row">interoperable plain text</th>
-      <td>3</td>
-      <td>3</td>
-      <td>3</td>
-      <td>3</td>
-      <td>3</td>
-      <td>3</td>
-      <td>3</td>
-      <td>3</td>
-      <td>3</td>
-      <td>3</td>
-      <td>3</td>
-      <td>3</td>
-      <td>3</td>
-      <td>3</td>
-      <td>3</td>
-      <td>3</td>
-      <td>3</td>
-      <td>3</td>
+      <td>2</td>
+      <td>2</td>
+      <td>2</td>
+      <td>2</td>
+      <td>2</td>
+      <td>2</td>
+      <td>2</td>
+      <td>2</td>
+      <td>2</td>
+      <td>2</td>
+      <td>2</td>
+      <td>2</td>
+      <td>2</td>
+      <td>2</td>
+      <td>2</td>
+      <td>2</td>
+      <td>2</td>
+      <td>2</td>
+      <td>2</td>
+      <td>2</td>
+      <td>2</td>
+      <td>2</td>
+      <td>2</td>
+      <td>2</td>
+      <td>2</td>
       <td>1</td>
-      <td>3</td>
-      <td>3</td>
-      <td>3</td>
-      <td>3</td>
-      <td>3</td>
+      <td>2</td>
+      <td>2</td>
+      <td>2</td>
+      <td>2</td>
+      <td>2</td>
+      <td>2</td>
+      <td>2</td>
       <td>0</td>
+      <td>2</td>
+      <td>2</td>
     </tr>
     <tr>
       <th scope="row">non-European numbers</th>
@@ -126,78 +191,111 @@ p { margin:0; }
       <td>na</td>
       <td>na</td>
       <td>na</td>
+      <td>na</td>
+      <td>na</td>
       <td>?</td>
       <td>?</td>
       <td>?</td>
       <td>?</td>
-      <td>3</td>
-      <td>3</td>
-      <td>3</td>
-      <td>3</td>
-      <td>3</td>
-      <td>3</td>
-      <td>3</td>
+      <td>2</td>
+      <td>2</td>
+      <td>na</td>
+      <td>na</td>
+      <td>2</td>
+      <td>na</td>
+      <td>2</td>
+      <td>?</td>
+      <td>na</td>
+      <td>2</td>
+      <td>2</td>
+      <td>2</td>
+      <td>2</td>
       <td>2</td>
       <td>2</td>
       <td>2</td>
       <td>na</td>
-      <td>3</td>
+      <td>2</td>
+      <td>2</td>
+      <td>2</td>
+      <td>na</td>
     </tr>
     <tr>
       <th scope="row">boundary selection</th>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
+      <td>3</td>
+      <td>3</td>
+      <td>3</td>
+      <td>3</td>
+      <td>3</td>
+      <td>3</td>
+      <td>3</td>
+      <td>3</td>
+      <td>3</td>
+      <td>?</td>
+      <td>?</td>
+      <td>3</td>
+      <td>3</td>
+      <td>3</td>
+      <td>3</td>
+      <td>3</td>
+      <td>3</td>
+      <td>3</td>
+      <td>3</td>
+      <td>3</td>
+      <td>?</td>
+      <td>3</td>
+      <td>?</td>
+      <td>3</td>
+      <td>3</td>
+      <td>3</td>
+      <td>3</td>
+      <td>3</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>3</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>3</td>
     </tr>
     <tr>
       <th scope="row">glyph controls</th>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
+      <td>3</td>
+      <td>3</td>
+      <td>3</td>
+      <td>3</td>
+      <td>3</td>
+      <td>3</td>
+      <td>3</td>
+      <td>3</td>
+      <td>3</td>
+      <td>3</td>
+      <td>3</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>3</td>
+      <td>3</td>
+      <td>3</td>
+      <td>3</td>
+      <td>3</td>
+      <td>?</td>
+      <td>3</td>
+      <td>3</td>
+      <td>3</td>
+      <td>3</td>
+      <td>3</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>3</td>
+      <td>3</td>
+      <td>3</td>
+      <td>3</td>
+      <td>3</td>
     </tr>
     <tr>
       <th scope="row">cursive joining</th>
@@ -207,595 +305,819 @@ p { margin:0; }
       <td>na</td>
       <td>na</td>
       <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>?</td>
+      <td>?</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>&nbsp;</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
     </tr>
     <tr>
       <th scope="row">transforms</th>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
+      <td>?</td>
+      <td>&nbsp;</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>?</td>
+      <td>?</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>&nbsp;</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
     </tr>
     <tr>
       <th scope="row">inline spacing</th>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
+      <td>?</td>
+      <td>&nbsp;</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>?</td>
+      <td>?</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>&nbsp;</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
     </tr>
     <tr>
       <th scope="row">ruby annotation</th>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>2</td>
-      <td>2</td>
+      <td>?</td>
+      <td>&nbsp;</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
       <td>0</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
+      <td>0</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
       <td>2</td>
+      <td>2</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>&nbsp;</td>
+      <td>?</td>
+      <td>2</td>
+      <td>?</td>
+      <td>?</td>
     </tr>
     <tr>
       <th scope="row">text decoration</th>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
+      <td>?</td>
+      <td>&nbsp;</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>?</td>
+      <td>?</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>&nbsp;</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
     </tr>
     <tr>
       <th scope="row">emphasis</th>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
+      <td>?</td>
+      <td>&nbsp;</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>?</td>
+      <td>?</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>&nbsp;</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
     </tr>
     <tr>
       <th scope="row">font styling</th>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
+      <td>?</td>
+      <td>&nbsp;</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>?</td>
+      <td>?</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>&nbsp;</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
     </tr>
     <tr>
       <th scope="row">initial letter styling</th>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
+      <td>?</td>
+      <td>&nbsp;</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>?</td>
+      <td>?</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>&nbsp;</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
     </tr>
     <tr>
       <th scope="row">&nbsp;</th>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
+      <td>?</td>
+      <td>&nbsp;</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>?</td>
+      <td>?</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>&nbsp;</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
     </tr>
     <tr>
       <th scope="row">line breaking</th>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
+      <td>?</td>
+      <td>&nbsp;</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>?</td>
+      <td>?</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>&nbsp;</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
     </tr>
     <tr>
-      <th scope="row">hyphenation</th>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
+      <th scope="row">hyphe?tion</th>
+      <td>?</td>
+      <td>&nbsp;</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>?</td>
+      <td>?</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>&nbsp;</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
     </tr>
     <tr>
       <th scope="row">justification</th>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
+      <td>?</td>
+      <td>&nbsp;</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>?</td>
+      <td>?</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>&nbsp;</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
     </tr>
     <tr>
       <th scope="row">lists, counters, etc</th>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
+      <td>?</td>
+      <td>&nbsp;</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>?</td>
+      <td>?</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>&nbsp;</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
     </tr>
     <tr>
       <th scope="row">bidi</th>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
+      <td>?</td>
+      <td>&nbsp;</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>?</td>
+      <td>?</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>&nbsp;</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
     </tr>
     <tr>
       <th scope="row">baselines</th>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
+      <td>?</td>
+      <td>&nbsp;</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>?</td>
+      <td>?</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>&nbsp;</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
     </tr>
     <tr>
-      <th scope="row">native paragraph features</th>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
+      <th scope="row">?tive paragraph features</th>
+      <td>?</td>
+      <td>&nbsp;</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>?</td>
+      <td>?</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>&nbsp;</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
     </tr>
     <tr>
       <th scope="row">&nbsp;</th>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
+      <td>?</td>
+      <td>&nbsp;</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>?</td>
+      <td>?</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>&nbsp;</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
     </tr>
     <tr>
       <th scope="row">vertical text</th>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
+      <td>?</td>
+      <td>&nbsp;</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>?</td>
+      <td>?</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>&nbsp;</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
     </tr>
     <tr>
       <th scope="row">notes, footnotes, etc</th>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
+      <td>?</td>
+      <td>&nbsp;</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>?</td>
+      <td>?</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>&nbsp;</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
     </tr>
     <tr>
       <th scope="row">page numbering &amp; running headers, etc</th>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
+      <td>?</td>
+      <td>&nbsp;</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>?</td>
+      <td>?</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>&nbsp;</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
     </tr>
     <tr>
       <th scope="row">other page layout</th>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
+      <td>?</td>
+      <td>&nbsp;</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>?</td>
+      <td>?</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>&nbsp;</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
     </tr>
   </tbody>
 </table>
-
-<p>Out of a possible score of  <span id="totalScore"></span></p>
-<p><span class="l3">	■</span> <span id="level3"></span> Ok</p>
-<p><span class="l2">	■</span> <span id="level2"></span> need work for advanced publishing</p>
-<p><span class="l1">	■</span> <span id="level1"></span> need work for basic features</p>
-<p><span class="l0">	■</span> <span id="level0"></span> broken &amp; needing urgent attention</p>
-<p><span style="color:white;background-color:white">	■</span> <span id="unknown"></span> Unknown</p>
 </body>
 <script>
 var tds = document.querySelectorAll('td')
