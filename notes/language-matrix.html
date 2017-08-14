@@ -25,17 +25,18 @@ td {
 }
 .na {
 	background-color: #7CFF7C;
-	color: green;
+	background-color: green;
+	color: #7CFF7C;
 }
 .l3 {
-	background-color: #00ff00;
-	color: #00ff00;
+	background-color: green;
+	color: green;
 }
 .l2 {
 	background-color: #F4CB77;
 	background-color: yellow;
-	background-color: green;
-	color: green;
+	background-color: #00ff00;
+	color: #00ff00;
 }
 .l1 {
 	background-color: #FF9A00;
@@ -52,6 +53,13 @@ p {
 thead td {
 	text-align: start;
 	font-weight: bold;
+	-webkit-writing-mode: vertical-rl;
+	writing-mode: vertical-rl;
+	line-height: 1.5;
+	width: 20px;
+	text-align: end;
+	text-align: right;
+	vertical-align: bottom;
 }
 </style>
 </head>
@@ -61,10 +69,11 @@ thead td {
   <div id="key">
     <h2>Key:</h2>
     <p><span class="na"> ■</span> Not applicable, <br/>
-      <span class="l3"> ■</span> Advanced publishing needs covered (3)<br/>
-      <span class="l2"> ■</span> Basic needs covered (2)<br/>
+      <span class="l3"> ■</span> All needs covered (3)<br/>
+      <span class="l2"> ■</span> Work needed for advance publishing needs (2)<br/>
       <span class="l1"> ■</span> Work needed for basic features (1)<br/>
       <span class="l0"> ■</span> Broken &amp; needing attention (0)</p>
+      <p>* next to a language name indicates a tentative score, pending validation by experts</p>
   </div>
   <div id="results">
     <h2>Results:</h2>
@@ -76,1062 +85,1092 @@ thead td {
     <p><span style="color:white;background-color:white"> ■</span> <span id="unknown"></span> Unknown</p>
   </div>
 </div>
-<table border="0">
+<p>&nbsp;</p>
+<table>
   <thead>
     <tr>
-      <th scope="row">&nbsp;</th>
-      <td colspan="9">Latn</td>
-      <td colspan="2">Hani</td>
-      <td colspan="4">Arab</td>
-      <td colspan="2">Deva</td>
-      <td colspan="2">Cyrl</td>
-      <td>Beng</td>
-      <td>Japn</td>
-      <td>Guru</td>
-      <td>Java</td>
-      <td>Hang</td>
-      <td>Taml</td>
-      <td colspan="2">Mymr</td>
-      <td>Thai</td>
-      <td colspan="3">Ethi</td>
-      <td>Hebr</td>
-      <td>Tibt</td>
-      <td colspan="2">Mong</td>
-      <td>Cher</td>
+      <th scope="row">script</th>
+      <td>language</td>
+      <td><abbr title="interoperable plain text">IPT</abbr></td>
+      <td><a href="http://w3c.github.io/typography/#numbers"><abbr title="native numbers">ND</abbr></a></td>
+      <td><a href="http://w3c.github.io/typography/#graphemes"><abbr title="boundary selection">BI</abbr></a></td>
+      <td><a href="http://w3c.github.io/typography/#glyphs_diacritics"><abbr title="glyph controls">GC</abbr></a></td>
+      <td><a href="http://w3c.github.io/typography/#cursive"><abbr title="cursive text">CT</abbr></a></td>
+      <td><a href="http://w3c.github.io/typography/#transforming_characters"><abbr title="transforming characters">TC</abbr></a></td>
+      <td><a href="http://w3c.github.io/typography/#letter_spacing"><abbr title="inline spacing">IS</abbr></a></td>
+      <td><a href="http://w3c.github.io/typography/#ruby_annotation"><abbr title="ruby annotation">RA</abbr></a></td>
+      <td><a href="http://w3c.github.io/typography/#text_decoration"><abbr title="text decoration">TD</abbr></a></td>
+      <td><a href="http://w3c.github.io/typography/#emphasis"><abbr title="emphasis">EM</abbr></a></td>
+      <td><a href="http://w3c.github.io/typography/#font-style"><abbr title="font styling">FS</abbr></a></td>
+      <td><a href="http://w3c.github.io/typography/#initial_letter"><abbr title="initial letter styling">ILS</abbr></a></td>
+      <td><a href="http://w3c.github.io/typography/#line_breaking"><abbr title="line breaking">LB</abbr></a></td>
+      <td><a href="http://w3c.github.io/typography/#hyphenation"><abbr title="hyphenation">HY</abbr></a></td>
+      <td><a href="http://w3c.github.io/typography/#justification"><abbr title="justification and alignment">JA</abbr></a></td>
+      <td><a href="http://w3c.github.io/typography/#counters"><abbr title="lists, counters, etc">LC</abbr></a></td>
+      <td><a href="http://w3c.github.io/typography/#bidirectional_text_direction"><abbr title="bidirectional text">BD</abbr></a></td>
+      <td><a href="http://w3c.github.io/typography/#baselines_inline_alignment"><abbr title="baselines &amp; inline alignment">BL</abbr></a></td>
+      <td><a href="http://w3c.github.io/typography/#other_para_features"><abbr title="other paragraph features">OPF</abbr></a></td>
+      <td><a href="http://w3c.github.io/typography/#vertical_text"><abbr title="vertical text">VT</abbr></a></td>
+      <td><a href="http://w3c.github.io/typography/#notes_footnotes"><abbr title="notes, footnotes, etc">NF</abbr></a></td>
+      <td><a href="http://w3c.github.io/typography/#page_numbering_running_headers"><abbr title="page numbering & running headers, etc">PH</abbr></a></td>
+      <td><a href="http://w3c.github.io/typography/#more_page_layout_and_pagination"><abbr title="other page layout">OPL</abbr></a></td>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <th scope="row">Has support for:</th>
-      <td>es</td>
-      <td>pt</td>
-      <td>en</td>
-      <td>de</td>
-      <td>ms</td>
-      <td>vi</td>
-      <td>fr</td>
-      <td>tr</td>
-      <td>it</td>
-      <td>zh</td>
-      <td>wuu</td>
-      <td>ar</td>
-      <td>ur</td>
-      <td>fa</td>
-      <td>ug</td>
-      <td>hi</td>
-      <td>mr</td>
-      <td>ru</td>
-      <td>bg</td>
-      <td>bn</td>
-      <td>ja</td>
-      <td>pa</td>
-      <td>jv</td>
-      <td>ko</td>
-      <td>ta</td>
-      <td>my</td>
-      <td>shn</td>
-      <td>th</td>
-      <td>am</td>
-      <td>ti</td>
-      <td>sgw</td>
-      <td>he</td>
-      <td>bo</td>
-      <td>mn</td>
-      <td>dz</td>
-      <td>chr</td>
+      <th scope="row">Latn</th>
+      <td class="language tentative">es</td>
+      <td>3</td>
+      <td>-</td>
+      <td>3</td>
+      <td>3</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>3</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>2</td>
+      <td>&nbsp;</td>
     </tr>
     <tr>
-      <th scope="row">interoperable plain text</th>
+      <th scope="row">&nbsp;</th>
+      <td class="language tentative">pt</td>
+      <td>3</td>
+      <td>-</td>
+      <td>3</td>
+      <td>3</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>-</td>
+      <td>&nbsp;</td>
       <td>2</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <th scope="row">&nbsp;</th>
+      <td class="language tentative">en</td>
+      <td>3</td>
+      <td>-</td>
+      <td>3</td>
+      <td>3</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>-</td>
+      <td>&nbsp;</td>
       <td>2</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <th scope="row">&nbsp;</th>
+      <td class="language tentative">de</td>
+      <td>3</td>
+      <td>-</td>
+      <td>3</td>
+      <td>3</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>-</td>
+      <td>&nbsp;</td>
       <td>2</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <th scope="row">&nbsp;</th>
+      <td class="language tentative">ms</td>
+      <td>3</td>
+      <td>-</td>
+      <td>3</td>
+      <td>3</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>-</td>
+      <td>&nbsp;</td>
       <td>2</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <th scope="row">&nbsp;</th>
+      <td class="language tentative">vi</td>
+      <td>3</td>
+      <td>-</td>
+      <td>3</td>
+      <td>3</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>-</td>
+      <td>&nbsp;</td>
       <td>2</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <th scope="row">&nbsp;</th>
+      <td class="language tentative">fr</td>
+      <td>3</td>
+      <td>-</td>
+      <td>3</td>
+      <td>3</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>-</td>
+      <td>&nbsp;</td>
       <td>2</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <th scope="row">&nbsp;</th>
+      <td class="language tentative">tr</td>
+      <td>3</td>
+      <td>-</td>
+      <td>3</td>
+      <td>3</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>-</td>
+      <td>&nbsp;</td>
       <td>2</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <th scope="row">&nbsp;</th>
+      <td class="language tentative">it</td>
+      <td>3</td>
+      <td>-</td>
+      <td>3</td>
+      <td>3</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>-</td>
+      <td>&nbsp;</td>
       <td>2</td>
-      <td>2</td>
-      <td>2</td>
-      <td>2</td>
-      <td>2</td>
-      <td>2</td>
-      <td>2</td>
-      <td>2</td>
-      <td>2</td>
-      <td>2</td>
-      <td>2</td>
-      <td>2</td>
-      <td>2</td>
-      <td>2</td>
-      <td>2</td>
-      <td>2</td>
-      <td>2</td>
-      <td>2</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <th scope="row">Hani</th>
+      <td class="language tentative">hans</td>
+      <td>3</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>-</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
       <td>1</td>
-      <td>2</td>
-      <td>2</td>
-      <td>2</td>
-      <td>2</td>
-      <td>2</td>
-      <td>2</td>
-      <td>2</td>
-      <td>0</td>
-      <td>2</td>
-      <td>2</td>
-    </tr>
-    <tr>
-      <th scope="row">non-European numbers</th>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>2</td>
-      <td>2</td>
-      <td>na</td>
-      <td>na</td>
-      <td>2</td>
-      <td>na</td>
-      <td>2</td>
-      <td>?</td>
-      <td>na</td>
-      <td>2</td>
-      <td>2</td>
-      <td>2</td>
-      <td>2</td>
-      <td>2</td>
-      <td>2</td>
-      <td>2</td>
-      <td>na</td>
-      <td>2</td>
-      <td>2</td>
-      <td>2</td>
-      <td>na</td>
-    </tr>
-    <tr>
-      <th scope="row">boundary selection</th>
-      <td>3</td>
-      <td>3</td>
-      <td>3</td>
-      <td>3</td>
-      <td>3</td>
-      <td>3</td>
-      <td>3</td>
-      <td>3</td>
-      <td>3</td>
-      <td>?</td>
-      <td>?</td>
-      <td>3</td>
-      <td>3</td>
-      <td>3</td>
-      <td>3</td>
-      <td>3</td>
-      <td>3</td>
-      <td>3</td>
-      <td>3</td>
-      <td>3</td>
-      <td>?</td>
-      <td>3</td>
-      <td>?</td>
-      <td>3</td>
-      <td>3</td>
-      <td>3</td>
-      <td>3</td>
-      <td>3</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>3</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>3</td>
-    </tr>
-    <tr>
-      <th scope="row">glyph controls</th>
-      <td>3</td>
-      <td>3</td>
-      <td>3</td>
-      <td>3</td>
-      <td>3</td>
-      <td>3</td>
-      <td>3</td>
-      <td>3</td>
-      <td>3</td>
-      <td>3</td>
-      <td>3</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>3</td>
-      <td>3</td>
-      <td>3</td>
-      <td>3</td>
-      <td>3</td>
-      <td>?</td>
-      <td>3</td>
-      <td>3</td>
-      <td>3</td>
-      <td>3</td>
-      <td>3</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>3</td>
-      <td>3</td>
-      <td>3</td>
-      <td>3</td>
-      <td>3</td>
-    </tr>
-    <tr>
-      <th scope="row">cursive joining</th>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>na</td>
-      <td>?</td>
-      <td>?</td>
-      <td>na</td>
-    </tr>
-    <tr>
-      <th scope="row">transforms</th>
-      <td>?</td>
-      <td>&nbsp;</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
       <td>&nbsp;</td>
       <td>&nbsp;</td>
       <td>&nbsp;</td>
-      <td>?</td>
-      <td>?</td>
       <td>&nbsp;</td>
       <td>&nbsp;</td>
       <td>&nbsp;</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>&nbsp;</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-    </tr>
-    <tr>
-      <th scope="row">inline spacing</th>
-      <td>?</td>
-      <td>&nbsp;</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
       <td>&nbsp;</td>
       <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>?</td>
-      <td>?</td>
+      <td>-</td>
       <td>&nbsp;</td>
       <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>&nbsp;</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-    </tr>
-    <tr>
-      <th scope="row">ruby annotation</th>
-      <td>?</td>
-      <td>&nbsp;</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>0</td>
-      <td>0</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
+      <td>1</td>
       <td>&nbsp;</td>
       <td>2</td>
-      <td>2</td>
       <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>&nbsp;</td>
-      <td>?</td>
-      <td>2</td>
-      <td>?</td>
-      <td>?</td>
-    </tr>
-    <tr>
-      <th scope="row">text decoration</th>
-      <td>?</td>
-      <td>&nbsp;</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>?</td>
-      <td>?</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>&nbsp;</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-    </tr>
-    <tr>
-      <th scope="row">emphasis</th>
-      <td>?</td>
-      <td>&nbsp;</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>?</td>
-      <td>?</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>&nbsp;</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-    </tr>
-    <tr>
-      <th scope="row">font styling</th>
-      <td>?</td>
-      <td>&nbsp;</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>?</td>
-      <td>?</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>&nbsp;</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-    </tr>
-    <tr>
-      <th scope="row">initial letter styling</th>
-      <td>?</td>
-      <td>&nbsp;</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>?</td>
-      <td>?</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>&nbsp;</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
     </tr>
     <tr>
       <th scope="row">&nbsp;</th>
-      <td>?</td>
+      <td class="language tentative">hant</td>
+      <td>3</td>
+      <td>-</td>
       <td>&nbsp;</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
+      <td>-</td>
+      <td>-</td>
       <td>&nbsp;</td>
       <td>&nbsp;</td>
+      <td>0</td>
       <td>&nbsp;</td>
-      <td>?</td>
-      <td>?</td>
       <td>&nbsp;</td>
       <td>&nbsp;</td>
       <td>&nbsp;</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
       <td>&nbsp;</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-    </tr>
-    <tr>
-      <th scope="row">line breaking</th>
-      <td>?</td>
       <td>&nbsp;</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
       <td>&nbsp;</td>
       <td>&nbsp;</td>
+      <td>-</td>
       <td>&nbsp;</td>
-      <td>?</td>
-      <td>?</td>
       <td>&nbsp;</td>
+      <td>1</td>
       <td>&nbsp;</td>
+      <td>2</td>
       <td>&nbsp;</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>&nbsp;</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-    </tr>
-    <tr>
-      <th scope="row">hyphe?tion</th>
-      <td>?</td>
-      <td>&nbsp;</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>?</td>
-      <td>?</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>&nbsp;</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-    </tr>
-    <tr>
-      <th scope="row">justification</th>
-      <td>?</td>
-      <td>&nbsp;</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>?</td>
-      <td>?</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>&nbsp;</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-    </tr>
-    <tr>
-      <th scope="row">lists, counters, etc</th>
-      <td>?</td>
-      <td>&nbsp;</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>?</td>
-      <td>?</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>&nbsp;</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-    </tr>
-    <tr>
-      <th scope="row">bidi</th>
-      <td>?</td>
-      <td>&nbsp;</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>?</td>
-      <td>?</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>&nbsp;</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-    </tr>
-    <tr>
-      <th scope="row">baselines</th>
-      <td>?</td>
-      <td>&nbsp;</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>?</td>
-      <td>?</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>&nbsp;</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-    </tr>
-    <tr>
-      <th scope="row">?tive paragraph features</th>
-      <td>?</td>
-      <td>&nbsp;</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>?</td>
-      <td>?</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>&nbsp;</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
     </tr>
     <tr>
       <th scope="row">&nbsp;</th>
-      <td>?</td>
+      <td class="language tentative">wuu</td>
+      <td>3</td>
+      <td>-</td>
       <td>&nbsp;</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
+      <td>-</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>1</td>
       <td>&nbsp;</td>
       <td>&nbsp;</td>
       <td>&nbsp;</td>
-      <td>?</td>
-      <td>?</td>
       <td>&nbsp;</td>
       <td>&nbsp;</td>
       <td>&nbsp;</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
       <td>&nbsp;</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
+      <td>&nbsp;</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>1</td>
+      <td>&nbsp;</td>
+      <td>2</td>
+      <td>&nbsp;</td>
     </tr>
     <tr>
-      <th scope="row">vertical text</th>
-      <td>?</td>
+      <th scope="row">Arab</th>
+      <td class="language tentative">ar</td>
+      <td>3</td>
       <td>&nbsp;</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
+      <td>3</td>
       <td>&nbsp;</td>
       <td>&nbsp;</td>
       <td>&nbsp;</td>
-      <td>?</td>
-      <td>?</td>
+      <td>&nbsp;</td>
+      <td>-</td>
       <td>&nbsp;</td>
       <td>&nbsp;</td>
       <td>&nbsp;</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
       <td>&nbsp;</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><p>&nbsp;</p></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>2</td>
+      <td>&nbsp;</td>
     </tr>
     <tr>
-      <th scope="row">notes, footnotes, etc</th>
-      <td>?</td>
+      <th scope="row">&nbsp;</th>
+      <td class="language tentative">ur</td>
+      <td>3</td>
       <td>&nbsp;</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
+      <td>3</td>
       <td>&nbsp;</td>
       <td>&nbsp;</td>
       <td>&nbsp;</td>
-      <td>?</td>
-      <td>?</td>
+      <td>&nbsp;</td>
+      <td>-</td>
       <td>&nbsp;</td>
       <td>&nbsp;</td>
       <td>&nbsp;</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
       <td>&nbsp;</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>2</td>
+      <td>&nbsp;</td>
     </tr>
     <tr>
-      <th scope="row">page numbering &amp; running headers, etc</th>
-      <td>?</td>
+      <th scope="row">&nbsp;</th>
+      <td class="language tentative">fa</td>
+      <td>3</td>
       <td>&nbsp;</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
+      <td>3</td>
       <td>&nbsp;</td>
       <td>&nbsp;</td>
       <td>&nbsp;</td>
-      <td>?</td>
-      <td>?</td>
+      <td>&nbsp;</td>
+      <td>-</td>
       <td>&nbsp;</td>
       <td>&nbsp;</td>
       <td>&nbsp;</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
       <td>&nbsp;</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>2</td>
+      <td>&nbsp;</td>
     </tr>
     <tr>
-      <th scope="row">other page layout</th>
-      <td>?</td>
+      <th scope="row">&nbsp;</th>
+      <td class="language tentative">ug</td>
+      <td>3</td>
       <td>&nbsp;</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
+      <td>3</td>
       <td>&nbsp;</td>
       <td>&nbsp;</td>
       <td>&nbsp;</td>
-      <td>?</td>
-      <td>?</td>
+      <td>&nbsp;</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>2</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <th scope="row">Deva</th>
+      <td class="language tentative">hi</td>
+      <td>3</td>
+      <td>3</td>
+      <td>3</td>
+      <td>&nbsp;</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>1</td>
+      <td>&nbsp;</td>
+      <td>2</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <th scope="row">&nbsp;</th>
+      <td class="language tentative">mr</td>
+      <td>3</td>
+      <td>3</td>
+      <td>3</td>
+      <td>&nbsp;</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>1</td>
+      <td>&nbsp;</td>
+      <td>2</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <th scope="row">Cyrl</th>
+      <td class="language tentative">ru</td>
+      <td>3</td>
+      <td>-</td>
+      <td>3</td>
+      <td>3</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>2</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <th scope="row">&nbsp;</th>
+      <td class="language tentative">bg</td>
+      <td>3</td>
+      <td>-</td>
+      <td>3</td>
+      <td>3</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>2</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <th scope="row">Beng</th>
+      <td class="language tentative">bn</td>
+      <td>3</td>
+      <td>3</td>
+      <td>3</td>
+      <td>3</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>1</td>
+      <td>&nbsp;</td>
+      <td>2</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <th scope="row">Japn</th>
+      <td class="language tentative">ja</td>
+      <td>3</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>-</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>1</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>1</td>
+      <td>&nbsp;</td>
+      <td>2</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <th scope="row">Guru</th>
+      <td class="language tentative">pa</td>
+      <td>3</td>
+      <td>3</td>
+      <td>3</td>
+      <td>3</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>2</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <th scope="row">Java</th>
+      <td class="language tentative">jv</td>
+      <td>3</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>2</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <th scope="row">Hang</th>
+      <td class="language tentative">ko</td>
+      <td>3</td>
+      <td>-</td>
+      <td>3</td>
+      <td>-</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>1</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>2</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <th scope="row">Taml</th>
+      <td class="language tentative">ta</td>
+      <td>3</td>
+      <td>3</td>
+      <td>3</td>
+      <td>3</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>2</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <th scope="row">Mymr</th>
+      <td class="language tentative">my</td>
+      <td>1</td>
+      <td>3</td>
+      <td>&nbsp;</td>
+      <td>3</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>2</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <th scope="row">&nbsp;</th>
+      <td class="language tentative">shn</td>
+      <td>3</td>
+      <td>3</td>
+      <td>&nbsp;</td>
+      <td>3</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>2</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <th scope="row">Thai</th>
+      <td class="language tentative">th</td>
+      <td>3</td>
+      <td>3</td>
+      <td>&nbsp;</td>
+      <td>3</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>2</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <th scope="row">Ethi</th>
+      <td class="language tentative">am</td>
+      <td>3</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>3</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>2</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <th scope="row">&nbsp;</th>
+      <td class="language tentative">ti</td>
+      <td>3</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>3</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>2</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <th scope="row">&nbsp;</th>
+      <td class="language tentative">sgw</td>
+      <td>3</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>3</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>2</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <th scope="row">Hebr</th>
+      <td class="language tentative">he</td>
+      <td>3</td>
+      <td>-</td>
+      <td>3</td>
+      <td>&nbsp;</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>2</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <th scope="row">Tibt</th>
+      <td class="language tentative">bo</td>
+      <td>3</td>
+      <td>3</td>
+      <td>&nbsp;</td>
+      <td>3</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>2</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <th scope="row">&nbsp;</th>
+      <td class="language tentative">dz</td>
+      <td>3</td>
+      <td>3</td>
+      <td>&nbsp;</td>
+      <td>3</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>2</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <th scope="row">Mong</th>
+      <td class="language tentative">mn</td>
+      <td>0</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>3</td>
       <td>&nbsp;</td>
       <td>&nbsp;</td>
       <td>&nbsp;</td>
       <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
       <td>&nbsp;</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
-      <td>?</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>1</td>
+      <td>&nbsp;</td>
+      <td>2</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <th scope="row">Cher</th>
+      <td class="language tentative">chr</td>
+      <td>1</td>
+      <td>-</td>
+      <td>3</td>
+      <td>-</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>-</td>
+      <td>&nbsp;</td>
+      <td>2</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <th scope="row">&nbsp;</th>
+      <td class="language tentative">&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>2</td>
+      <td>&nbsp;</td>
     </tr>
   </tbody>
 </table>
+<p>&nbsp;</p>
+<p>The chart is arranged with the most widely used scripts nearest the top. For each script, a list of languages appears in order the most frequently used. </p>
+<p>&nbsp;</p>
+<p>The colours indicate what needs work, and whether the work is needed to bring the language to a basic or advanced level. If no work is needed for a language, either because it is fully supported, or because that feature is not applicable, the dark green colour is used to indicate that no work is needed.</p>
+<p>&nbsp;</p>
+<p>The asterisk next to the language name indicates that these are tentative scores, ie. our best guess pending analysis and validation by experts representing the language user community.</p>
+<p>&nbsp;</p>
+<p>Click on the acronyms (representing features) to get an idea of what kind of features are included in that group. You are taken to the typography index document. From there you can follow links to current requirements, requests for information, and issues, related to that feature.</p>
+<p>&nbsp;</p>
 </body>
 <script>
 var tds = document.querySelectorAll('td')
 for (let i=0;i<tds.length;i++) {
-	if (tds[i].textContent === 'na') tds[i].classList.add('na')
+	if (tds[i].textContent === '-') tds[i].classList.add('na')
 	if (tds[i].textContent === '3') tds[i].classList.add('l3')
 	if (tds[i].textContent === '2') tds[i].classList.add('l2')
 	if (tds[i].textContent === '1') tds[i].classList.add('l1')
 	if (tds[i].textContent === '0') tds[i].classList.add('l0')
+	if (tds[i].textContent == '\u00A0') tds[i].textContent = '?'
+	if (tds[i].classList.contains('tentative')) tds[i].textContent += '*'
 	}
 document.getElementById('totalScore').textContent = tds.length
 var unknown = level0 = level1 = level2 = level3 = 0
 for (let i=0;i<tds.length;i++) {
 	switch (tds[i].textContent) {
-		case 'na': ++level3; break;
+		case '-': ++level3; break;
 		case '3': ++level3; break;
 		case '2': ++level2; break;
 		case '1': ++level1; break;
@@ -1144,5 +1183,8 @@ document.getElementById('level2').textContent = level2
 document.getElementById('level1').textContent = level1
 document.getElementById('level0').textContent = level0
 document.getElementById('unknown').textContent = unknown
+   
 </script>
+
+
 </html>
