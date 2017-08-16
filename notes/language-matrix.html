@@ -63,15 +63,22 @@ thead td {
 	text-align: right;
 	vertical-align: bottom;
 }
+.sum {
+	border-right: 5px solid #0623ED;
+	width: 3em;
+}
 </style>
 </head>
 
 <body>
+<h1>Internationalization support on the Web</h1>
+
 <div id="flexwrapper">
   <div id="key">
     <h2>Key:</h2>
-    <p><span class="na"> ■</span> Not applicable, <br/>
+    <p>
       <span class="l3"> ■</span> All needs covered (3)<br/>
+      <span class="na">-</span> Not applicable, <br/>
       <span class="l2"> ■</span> Work needed for advance publishing needs (2)<br/>
       <span class="l1"> ■</span> Work needed for basic features (1)<br/>
       <span class="l0"> ■</span> Broken &amp; needing attention (0)</p>
@@ -79,20 +86,21 @@ thead td {
   </div>
   <div id="results">
     <h2>Results:</h2>
-    <p>Out of a possible score of <span id="totalScore"></span></p>
-    <p><span class="l3"> ■</span> <span id="level3"></span> Ok</p>
-    <p><span class="l2"> ■</span> <span id="level2"></span> need work for advanced publishing</p>
-    <p><span class="l1"> ■</span> <span id="level1"></span> need work for basic features</p>
-    <p><span class="l0"> ■</span> <span id="level0"></span> broken &amp; needing urgent attention</p>
-    <p><span style="color:white;background-color:white"> ■</span> <span id="unknown"></span> Unknown</p>
+    <p>Out of a possible score of <strong><span id="totalScore"></span></strong></p>
+    <p><span class="l3"> ■</span> <strong><span id="level3"></span></strong> Ok</p>
+    <p><span class="l2"> ■</span> <strong><span id="level2"></span></strong> need work for advanced publishing</p>
+    <p><span class="l1"> ■</span> <strong><span id="level1"></span></strong> need work for basic features</p>
+    <p><span class="l0"> ■</span> <strong><span id="level0"></span></strong> broken &amp; needing urgent attention</p>
+    <p><strong><span style="background-color:white; border:1px solid gray;">?</span></strong> <span id="unknown"></span> Unknown</p>
   </div>
 </div>
 <p>&nbsp;</p>
-<table>
+<table id="results">
   <thead>
     <tr>
       <th scope="row">script</th>
       <td>language</td>
+      <td>Level</td>
       <td><abbr title="interoperable plain text">IPT</abbr></td>
       <td><a href="http://w3c.github.io/typography/#numbers"><abbr title="native numbers">ND</abbr></a></td>
       <td><a href="http://w3c.github.io/typography/#graphemes"><abbr title="boundary selection">BI</abbr></a></td>
@@ -122,6 +130,7 @@ thead td {
     <tr>
       <th scope="row">Latn</th>
       <td class="language tentative">es</td>
+      <td class="sum">&nbsp;</td>
       <td>3</td>
       <td>-</td>
       <td>3</td>
@@ -149,6 +158,7 @@ thead td {
     <tr>
       <th scope="row">&nbsp;</th>
       <td class="language tentative">pt</td>
+      <td class="sum">&nbsp;</td>
       <td>3</td>
       <td>-</td>
       <td>3</td>
@@ -176,6 +186,7 @@ thead td {
     <tr>
       <th scope="row">&nbsp;</th>
       <td class="language tentative">en</td>
+      <td class="sum">&nbsp;</td>
       <td>3</td>
       <td>-</td>
       <td>3</td>
@@ -203,6 +214,7 @@ thead td {
     <tr>
       <th scope="row">&nbsp;</th>
       <td class="language tentative">de</td>
+      <td class="sum">&nbsp;</td>
       <td>3</td>
       <td>-</td>
       <td>3</td>
@@ -230,6 +242,7 @@ thead td {
     <tr>
       <th scope="row">&nbsp;</th>
       <td class="language tentative">ms</td>
+      <td class="sum">&nbsp;</td>
       <td>3</td>
       <td>-</td>
       <td>3</td>
@@ -257,6 +270,7 @@ thead td {
     <tr>
       <th scope="row">&nbsp;</th>
       <td class="language tentative">vi</td>
+      <td class="sum">&nbsp;</td>
       <td>3</td>
       <td>-</td>
       <td>3</td>
@@ -284,6 +298,7 @@ thead td {
     <tr>
       <th scope="row">&nbsp;</th>
       <td class="language tentative">fr</td>
+      <td class="sum">&nbsp;</td>
       <td>3</td>
       <td>-</td>
       <td>3</td>
@@ -311,6 +326,7 @@ thead td {
     <tr>
       <th scope="row">&nbsp;</th>
       <td class="language tentative">tr</td>
+      <td class="sum">&nbsp;</td>
       <td>3</td>
       <td>-</td>
       <td>3</td>
@@ -338,6 +354,7 @@ thead td {
     <tr>
       <th scope="row">&nbsp;</th>
       <td class="language tentative">it</td>
+      <td class="sum">&nbsp;</td>
       <td>3</td>
       <td>-</td>
       <td>3</td>
@@ -365,6 +382,7 @@ thead td {
     <tr>
       <th scope="row">Hani</th>
       <td class="language tentative">hans</td>
+      <td class="sum">&nbsp;</td>
       <td>3</td>
       <td>-</td>
       <td>&nbsp;</td>
@@ -392,6 +410,7 @@ thead td {
     <tr>
       <th scope="row">&nbsp;</th>
       <td class="language tentative">hant</td>
+      <td class="sum">&nbsp;</td>
       <td>3</td>
       <td>-</td>
       <td>&nbsp;</td>
@@ -419,6 +438,7 @@ thead td {
     <tr>
       <th scope="row">&nbsp;</th>
       <td class="language tentative">wuu</td>
+      <td class="sum">&nbsp;</td>
       <td>3</td>
       <td>-</td>
       <td>&nbsp;</td>
@@ -446,6 +466,7 @@ thead td {
     <tr>
       <th scope="row">Arab</th>
       <td class="language tentative">ar</td>
+      <td class="sum">&nbsp;</td>
       <td>3</td>
       <td>&nbsp;</td>
       <td>3</td>
@@ -473,6 +494,7 @@ thead td {
     <tr>
       <th scope="row">&nbsp;</th>
       <td class="language tentative">ur</td>
+      <td class="sum">&nbsp;</td>
       <td>3</td>
       <td>&nbsp;</td>
       <td>3</td>
@@ -500,6 +522,7 @@ thead td {
     <tr>
       <th scope="row">&nbsp;</th>
       <td class="language tentative">fa</td>
+      <td class="sum">&nbsp;</td>
       <td>3</td>
       <td>&nbsp;</td>
       <td>3</td>
@@ -527,6 +550,7 @@ thead td {
     <tr>
       <th scope="row">&nbsp;</th>
       <td class="language tentative">ug</td>
+      <td class="sum">&nbsp;</td>
       <td>3</td>
       <td>&nbsp;</td>
       <td>3</td>
@@ -554,6 +578,7 @@ thead td {
     <tr>
       <th scope="row">Deva</th>
       <td class="language tentative">hi</td>
+      <td class="sum">&nbsp;</td>
       <td>3</td>
       <td>3</td>
       <td>3</td>
@@ -581,6 +606,7 @@ thead td {
     <tr>
       <th scope="row">&nbsp;</th>
       <td class="language tentative">mr</td>
+      <td class="sum">&nbsp;</td>
       <td>3</td>
       <td>3</td>
       <td>3</td>
@@ -608,6 +634,7 @@ thead td {
     <tr>
       <th scope="row">Cyrl</th>
       <td class="language tentative">ru</td>
+      <td class="sum">&nbsp;</td>
       <td>3</td>
       <td>-</td>
       <td>3</td>
@@ -635,6 +662,7 @@ thead td {
     <tr>
       <th scope="row">&nbsp;</th>
       <td class="language tentative">bg</td>
+      <td class="sum">&nbsp;</td>
       <td>3</td>
       <td>-</td>
       <td>3</td>
@@ -662,6 +690,7 @@ thead td {
     <tr>
       <th scope="row">Beng</th>
       <td class="language tentative">bn</td>
+      <td class="sum">&nbsp;</td>
       <td>3</td>
       <td>3</td>
       <td>3</td>
@@ -689,6 +718,7 @@ thead td {
     <tr>
       <th scope="row">Japn</th>
       <td class="language tentative">ja</td>
+      <td class="sum">&nbsp;</td>
       <td>3</td>
       <td>-</td>
       <td>&nbsp;</td>
@@ -716,6 +746,7 @@ thead td {
     <tr>
       <th scope="row">Guru</th>
       <td class="language tentative">pa</td>
+      <td class="sum">&nbsp;</td>
       <td>3</td>
       <td>3</td>
       <td>3</td>
@@ -743,6 +774,7 @@ thead td {
     <tr>
       <th scope="row">Java</th>
       <td class="language tentative">jv</td>
+      <td class="sum">&nbsp;</td>
       <td>3</td>
       <td>&nbsp;</td>
       <td>&nbsp;</td>
@@ -770,6 +802,7 @@ thead td {
     <tr>
       <th scope="row">Hang</th>
       <td class="language tentative">ko</td>
+      <td class="sum">&nbsp;</td>
       <td>3</td>
       <td>-</td>
       <td>3</td>
@@ -797,6 +830,7 @@ thead td {
     <tr>
       <th scope="row">Taml</th>
       <td class="language tentative">ta</td>
+      <td class="sum">&nbsp;</td>
       <td>3</td>
       <td>3</td>
       <td>3</td>
@@ -824,6 +858,7 @@ thead td {
     <tr>
       <th scope="row">Mymr</th>
       <td class="language tentative">my</td>
+      <td class="sum">&nbsp;</td>
       <td>1</td>
       <td>3</td>
       <td>&nbsp;</td>
@@ -851,6 +886,7 @@ thead td {
     <tr>
       <th scope="row">&nbsp;</th>
       <td class="language tentative">shn</td>
+      <td class="sum">&nbsp;</td>
       <td>3</td>
       <td>3</td>
       <td>&nbsp;</td>
@@ -878,6 +914,7 @@ thead td {
     <tr>
       <th scope="row">Thai</th>
       <td class="language tentative">th</td>
+      <td class="sum">&nbsp;</td>
       <td>3</td>
       <td>3</td>
       <td>&nbsp;</td>
@@ -905,6 +942,7 @@ thead td {
     <tr>
       <th scope="row">Ethi</th>
       <td class="language tentative">am</td>
+      <td class="sum">&nbsp;</td>
       <td>3</td>
       <td>&nbsp;</td>
       <td>&nbsp;</td>
@@ -932,6 +970,7 @@ thead td {
     <tr>
       <th scope="row">&nbsp;</th>
       <td class="language tentative">ti</td>
+      <td class="sum">&nbsp;</td>
       <td>3</td>
       <td>&nbsp;</td>
       <td>&nbsp;</td>
@@ -959,6 +998,7 @@ thead td {
     <tr>
       <th scope="row">&nbsp;</th>
       <td class="language tentative">sgw</td>
+      <td class="sum">&nbsp;</td>
       <td>3</td>
       <td>&nbsp;</td>
       <td>&nbsp;</td>
@@ -986,6 +1026,7 @@ thead td {
     <tr>
       <th scope="row">Hebr</th>
       <td class="language tentative">he</td>
+      <td class="sum">&nbsp;</td>
       <td>3</td>
       <td>-</td>
       <td>3</td>
@@ -1013,6 +1054,7 @@ thead td {
     <tr>
       <th scope="row">Tibt</th>
       <td class="language tentative">bo</td>
+      <td class="sum">&nbsp;</td>
       <td>3</td>
       <td>3</td>
       <td>&nbsp;</td>
@@ -1040,6 +1082,7 @@ thead td {
     <tr>
       <th scope="row">&nbsp;</th>
       <td class="language tentative">dz</td>
+      <td class="sum">&nbsp;</td>
       <td>3</td>
       <td>3</td>
       <td>&nbsp;</td>
@@ -1067,6 +1110,7 @@ thead td {
     <tr>
       <th scope="row">Mong</th>
       <td class="language tentative">mn</td>
+      <td class="sum">&nbsp;</td>
       <td>0</td>
       <td>&nbsp;</td>
       <td>&nbsp;</td>
@@ -1094,6 +1138,7 @@ thead td {
     <tr>
       <th scope="row">Cher</th>
       <td class="language tentative">chr</td>
+      <td class="sum">&nbsp;</td>
       <td>1</td>
       <td>-</td>
       <td>3</td>
@@ -1121,6 +1166,7 @@ thead td {
     <tr>
       <th scope="row">&nbsp;</th>
       <td class="language tentative">&nbsp;</td>
+      <td class="sum">&nbsp;</td>
       <td>&nbsp;</td>
       <td>&nbsp;</td>
       <td>&nbsp;</td>
@@ -1185,7 +1231,26 @@ document.getElementById('level2').textContent = level2
 document.getElementById('level1').textContent = level1
 document.getElementById('level0').textContent = level0
 document.getElementById('unknown').textContent = unknown
-   
+
+// calculate the level for each language
+var lowest, lowestClass
+var rows = document.querySelectorAll('.sum')
+for (let i=0;i<rows.length;i++) {
+	tds = rows[i].parentNode.querySelectorAll('td')
+	lowest = '?'
+	for (let c=0;c<tds.length;c++) {
+		if (tds[c].textContent === '3' && lowest !== '2' && lowest !== '1' && lowest !== '0') {
+			lowest = '3'; lowestClass = 'l3' }
+		if (tds[c].textContent === '2' && lowest !== '1' && lowest !== '0') {
+			lowest = '2'; lowestClass = 'l2' }
+		if (tds[c].textContent === '1' && lowest !== '0') {
+			lowest = '1'; lowestClass = 'l1' }
+		if (tds[c].textContent === '0') {
+			lowest = '0'; lowestClass = 'l0' }
+		}
+	rows[i].textContent = lowest
+	rows[i].classList.add(lowestClass)
+	}
 </script>
 
 
