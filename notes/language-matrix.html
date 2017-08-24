@@ -2296,25 +2296,27 @@ for (let i=0;i<rows.length;i++) {
 document.getElementById('langCount').textContent = document.querySelectorAll('.language').length
 
 // calculate the level for each language
-/*var lowest, lowestClass
+var lowest, lowestClass
 var rows = document.querySelectorAll('.sum')
 for (let i=0;i<rows.length;i++) {
 	tds = rows[i].parentNode.querySelectorAll('td')
-	lowest = '?'
+	lowestClass = 'unknown'
 	for (let c=0;c<tds.length;c++) {
+		lowest = '?'
 		if (tds[c].textContent === '3' && lowest !== '2' && lowest !== '1' && lowest !== '0') {
 			lowest = '3'; lowestClass = 'l3' }
-		if (tds[c].textContent === '2' && lowest !== '1' && lowest !== '0') {
+		else if (tds[c].textContent === '2' && lowest !== '1' && lowest !== '0') {
 			lowest = '2'; lowestClass = 'l2' }
-		if (tds[c].textContent === '1' && lowest !== '0') {
+		else if (tds[c].textContent === '1' && lowest !== '0') {
 			lowest = '1'; lowestClass = 'l1' }
-		if (tds[c].textContent === '0') {
+		else if (tds[c].textContent === '0') {
 			lowest = '0'; lowestClass = 'l0' }
 		}
-	rows[i].textContent = lowest
+	//rows[i].textContent = lowest
 	rows[i].classList.add(lowestClass)
+	rows[i].style.color = 'black'
 	}
-*/
+
 </script>
 
 
