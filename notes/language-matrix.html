@@ -109,7 +109,7 @@ thead td div {
       <th scope="row">script</th>
       <td>language</td>
       <td>Level</td>
-      <td><abbr title="interoperable plain text">Encoding</abbr></td>
+      <td><div><abbr title="interoperable plain text">Encoding</abbr></div></td>
 		<td><div><a href="http://w3c.github.io/typography/#font-style"><abbr title="font styling">Font styles</abbr></a></div></td>
       <td><div><a href="http://w3c.github.io/typography/#glyphs_diacritics"><abbr title="glyph controls">Glyph control</abbr></a></div></td>
       <td><div><a href="http://w3c.github.io/typography/#cursive"><abbr title="cursive text">Cursive text</abbr></a></div></td>
@@ -2287,6 +2287,7 @@ thead td div {
 <p>&nbsp;</p>
 </body>
 <script>
+// add colours to cells & identify tentative scores
 var tds = document.querySelectorAll('td')
 for (let i=0;i<tds.length;i++) {
 	if (tds[i].textContent === '-') tds[i].classList.add('na')
@@ -2297,7 +2298,10 @@ for (let i=0;i<tds.length;i++) {
 	if (tds[i].textContent == '\u00A0') tds[i].textContent = '?'
 	if (tds[i].classList.contains('tentative')) tds[i].innerHTML += '*'
 	}
+
+// get overall scores
 document.getElementById('totalScore').textContent = tds.length
+
 var unknown = level0 = level1 = level2 = level3 = 0
 for (let i=0;i<tds.length;i++) {
 	switch (tds[i].textContent) {
@@ -2315,7 +2319,7 @@ document.getElementById('level1').textContent = level1
 document.getElementById('level0').textContent = level0
 document.getElementById('unknown').textContent = unknown
 
-// calculate the level for each language
+// calculate a score for each language
 var lowest, lowestClass
 var rows = document.querySelectorAll('.sum')
 for (let i=0;i<rows.length;i++) {
@@ -2335,6 +2339,7 @@ for (let i=0;i<rows.length;i++) {
 	//rows[i].classList.add(lowestClass)
 	}
 
+// add number of languages below table
 document.getElementById('langCount').textContent = document.querySelectorAll('.language').length
 
 // calculate the level for each language
@@ -2343,17 +2348,14 @@ var rows = document.querySelectorAll('.sum')
 for (let i=0;i<rows.length;i++) {
 	tds = rows[i].parentNode.querySelectorAll('td')
 	lowestClass = 'unknown'
+	lowest = 3
 	for (let c=0;c<tds.length;c++) {
-		lowest = '?'
-		if (tds[c].textContent === '3' && lowest !== '2' && lowest !== '1' && lowest !== '0') {
-			lowest = '3'; lowestClass = 'l3' }
-		else if (tds[c].textContent === '2' && lowest !== '1' && lowest !== '0') {
-			lowest = '2'; lowestClass = 'l2' }
-		else if (tds[c].textContent === '1' && lowest !== '0') {
-			lowest = '1'; lowestClass = 'l1' }
-		else if (tds[c].textContent === '0') {
-			lowest = '0'; lowestClass = 'l0' }
+		let ccell = parseInt(tds[c].textContent)
+		if (ccell < lowest && tds[c].className !== 'sum') lowest = ccell
+		//console.log(i,tds[c].textContent,ccell,lowest)
 		}
+	lowestClass = 'l'+lowest
+	
 	//rows[i].textContent = lowest
 	rows[i].classList.add(lowestClass)
 	rows[i].style.color = 'black'
