@@ -105,12 +105,12 @@ thead td div {
 <p>&nbsp;</p>
 <table id="results">
   <thead>
-    <tr>
+    <tr id="table_headers">
       <th scope="row">script</th>
       <td>language</td>
       <td>Level</td>
       <td><div><abbr title="interoperable plain text">Encoding</abbr></div></td>
-		<td><div><a href="http://w3c.github.io/typography/#font-style"><abbr title="font styling">Font styles</abbr></a></div></td>
+	  <td><div><a href="http://w3c.github.io/typography/#font-style"><abbr title="font styling">Font styles</abbr></a></div></td>
       <td><div><a href="http://w3c.github.io/typography/#glyphs_diacritics"><abbr title="glyph controls">Glyph control</abbr></a></div></td>
       <td><div><a href="http://w3c.github.io/typography/#cursive"><abbr title="cursive text">Cursive text</abbr></a></div></td>
       <td><div><a href="http://w3c.github.io/typography/#graphemes"><abbr title="boundary selection">Boundaries &amp; selection</abbr></a></div></td>
@@ -1763,33 +1763,33 @@ thead td div {
     </tr>
 <tr>
       <th scope="row">&nbsp;</th>
-      <td class="language tentative">Dutch</td>
+      <td class="language tentative"><a href="../../typography/gap-analysis/latn-nl">Dutch</a></td>
       <td class="sum">&nbsp;</td>
       <td>3</td>
-      <td>&nbsp;</td>
+      <td>3</td>
       <td>3</td>
       <td>-</td>
       <td>3</td>
+      <td>1</td>
       <td>-</td>
+      <td>1</td>
+      <td>1</td>
       <td>-</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
+      <td>3</td>
+      <td>3</td>
+      <td>3</td>
       <td>-</td>
+      <td>3</td>
+      <td>1</td>
+      <td>2</td>
+      <td>3</td>
+      <td>1</td>
+      <td>3</td>
+      <td>3</td>
       <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>-</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>-</td>
       <td>&nbsp;</td>
       <td>?</td>
-      <td>&nbsp;</td>
+      <td>3</td>
     </tr>
 <tr>
       <th scope="row">&nbsp;</th>
@@ -2361,7 +2361,17 @@ for (let i=0;i<rows.length;i++) {
 	rows[i].style.color = 'black'
 	}
 
-</script>
+	
+// add titles for each colored cell
+rows = document.querySelectorAll('.sum')
+var headers = document.getElementById('table_headers').querySelectorAll('td')
+for (let i=0;i<rows.length;i++) {
+	tds = rows[i].parentNode.querySelectorAll('td')
+	for (let c=0;c<tds.length;c++) tds[c].title = headers[c].textContent	
+	}
+
+	
+	</script>
 
 
 </html>
