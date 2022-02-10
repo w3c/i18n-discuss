@@ -10,6 +10,12 @@ The display or processing of text often depends on metadata not encoded into str
 
 We would like to review our approach to this problem and discuss what the right long term approach should be in the Web platform. We believe that this is an important gap for natural language support on the Web; but we are concerned that our current approach and comments generates churn or is distracting to Working Groups attempting to complete work on specifications.
 
+Our immediate request has to do with whatwg/webidl#1025 wherein we requested that WebIDL add a `Localizable` type to IDL. This would allow specifications to reference this string type and save them creating a local dictionary representation. The WebIDL folks do not want to do this because it is at odds with their normal practice of providing only JavaScript primitives and types. They also don't want to become a registry of random dictionary entries.
+
+One way to solve this would be if W3C and ECMA-402 proposed a natural language string type with these attributes to TC39. If that proposal were ultimately successful (and it will take at least one complete JavaScript release cycle to be accepted and reach the specification), then WebIDL would encode the type in their specification. This would be the most durable and platform-wide solution. On the down side, this would require probably 1-3 years before specifications would have a ready reference and it is unclear if such a type would be accepted or implemented.
+
+Another alternative, possibly acting as a shim for eventual standardization by TC39, would be for I18N to define a dictionary and ask specifications to adopt it generally for natural language string values.
+
 ### Why is this important?
 
 Strings containing natural language text are a common type of data on the Web. When strings are passed through data formats such as JSON and then inserted into a customer’s display, metadata associated with the strings is lost unless the sender has some way to provide it. Introspection of strings to restore or detect language and base direction is difficult to accomplish.
@@ -45,6 +51,12 @@ Many data values, of course, are not natural language text. These values do not 
 
 For the subset of data values that are natural language text, however, the lack of a consistent means to encode and exchange natural language metadata in the APIs or data formats between systems means that there is effectively an “air gap” that prevents otherwise well-formed consistently-presented data from being exchanged without resorting to private use or other workarounds. In the appendix of this document we’ll present one or two examples, but for a thorough understanding, please see our above linked docs.
 
+### Why `Localizable`?
+
+The name `Localizable` was suggested by Marcos Caceres as part of an attempt to address our comments on Web Payments. The idea is that it represents a natural language string. Some proprietary implementations contain names like `LString` for this type of purpose. The name is not necessarily the best for this type, since "localizable" implies that the value is available in multiple languages or has other features of a localization solutions. 
+
+Alternatives generally lean on "i18n" rather than localization. For example, see the `i18n` namespace in JSON-LD.
+
 
 ### What else are we doing? 
 
@@ -55,10 +67,10 @@ We worked with JSON-LD to define a serialization [3], but it doesn’t solve our
 
 ### References 
 
-[1] https://w3c.github.io/string-meta/
-[2] https://github.com/whatwg/webidl/issues/1025
-[3] https://www.w3.org/TR/json-ld/#the-i18n-namespace
-[4] https://www.w3.org/International/articles/strings-and-bidi/index.en
+* [1] https://w3c.github.io/string-meta/
+* [2] https://github.com/whatwg/webidl/issues/1025
+* [3] https://www.w3.org/TR/json-ld/#the-i18n-namespace
+* [4] https://www.w3.org/International/articles/strings-and-bidi/index.en
 
 ### Appendix A. Examples
 
