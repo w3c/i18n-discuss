@@ -22,18 +22,32 @@ Strings containing natural language text are a common type of data on the Web. W
 
 ### Why is language information needed? What can go wrong?
 
+Language metadata is used by user-agents to select fonts and do other text rendering tasks that are important to end users. When language metadata is missing or incorrect, the results can be damaaged in appearance or functionality.
+
+... examples...
 
 ### Why is base direction needed? What can go wrong?
 
-When data is sent to a user-agent and then inserted into the display, the base text direction of the data is needed to help the Unicode Bidirectional Algorithm (UBA) lay out the text correctly. When the base direction is not set and the wrong direction is used, the results can be difficult to read. Introspecting the string value itself can be difficult.
+When data is sent to a user-agent and then inserted into the display, the base text direction of the data is needed to help the Unicode Bidirectional Algorithm (UBA) lay out the text correctly. When the base direction is not set and the wrong direction is used, the results can be difficult (and sometimes impossible) to read. 
 
-For example, this string starts with a Latin-script brand name, but should be interpreted to be a right-to-left Arabic string:
+A super-simple example to illustrate how word order can change:
+
+> Bahrain مصر Kuwait!
+> &#x200f;Bahrain مصر Kuwait!
+
+#### Why can't we just introspect the data?
+
+Introspecting the string value itself can be difficult or unrealistic to get right. For detailed examples and breakdown, see [lang-bidi-use-cases](https://www.w3.org/International/articles/lang-bidi-use-cases/) and [qa-direction-from-language](https://www.w3.org/International/questions/qa-direction-from-language)
+
+For example, the following string starts with a Latin-script brand name, but should be interpreted to be a right-to-left Arabic string (it means roughly "Apple iPhone back and tempered glass screen protector"):
 
 > Apple iPhone واقي شاشة زجاجي مقوى وخلفي 
 
 #### What are "spillover effects"?
 
-A related problem are "spillover effects". When a text fragment is inserted into a larger string, the resulting text can interact in unexpected ways. For example, consider the pattern string:
+A related problem are "spillover effects". When a text fragment is inserted into a larger string, the resulting text can interact in unexpected ways. Overcoming spillover effects requires that data values inserted into the page be "bidi isolated" from the surrounding text, which, in turn, requires a base direction for the inserted value.
+
+For example, consider the pattern string:
 
 > السعر  # + # الشحن
 
@@ -49,7 +63,6 @@ If the restaurant's name is "פיצה סגולה" (roughly "Purple Pizza" in Heb
 
 > &#x200e;פיצה סגולה - 4 reviews
 
-Overcoming spillover effects requires that data values inserted into the page be "bidi isolated" from the surrounding text, which, in turn, works best when the base direction is set correctly.
 
 ### Why did "base direction" get added to I18N’s ask? Why didn’t you ask for it historically?
 
@@ -102,7 +115,8 @@ We worked with JSON-LD to define a serialization [3], but it doesn’t solve our
 * [2] https://github.com/whatwg/webidl/issues/1025
 * [3] https://www.w3.org/TR/json-ld/#the-i18n-namespace
 * [4] https://www.w3.org/International/articles/strings-and-bidi/index.en
-* [5] https://www.w3.org/International/questions/qa-direction-from-language
+* [5] https://www.w3.org/International/articles/lang-bidi-use-cases/
+* [6] https://www.w3.org/International/questions/qa-direction-from-language
 
 ### Appendix A. Examples
 
