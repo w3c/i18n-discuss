@@ -18,7 +18,9 @@ Another alternative, possibly acting as a shim for eventual standardization by T
 
 ### Why is this important?
 
-Strings containing natural language text are a common type of data on the Web. When strings are passed through data formats such as JSON and then inserted into a customer’s display, metadata associated with the strings is lost unless the sender has some way to provide it. Introspection of strings to restore or detect language and base direction is difficult to accomplish.
+Strings containing natural language text are a common type of data on the Web. Display APIs and document formats such as HTML provide the means to set the language and base direction of text. When strings are passed through data formats such as JSON and then inserted into a customer’s display, unless the language and direction metadata remain associated with the string values, there is nothing to use to set these "hooks" into the display layer. Introspection of strings to restore or detect language and base direction is difficult to accomplish and heuristics for doing this are estimates at best.
+
+This document cannot present all of the details of why language and direction metadata are important. The below examples are just a taste of the issues. **For detailed examples and breakdown of all of the issues, see [lang-bidi-use-cases](https://www.w3.org/International/articles/lang-bidi-use-cases/).**
 
 ### Why is language information needed? What can go wrong?
 
@@ -38,7 +40,7 @@ A super-simple example to illustrate how word order can change:
 
 #### Why can't we just introspect the data?
 
-Introspecting the string value itself can be difficult or unrealistic to get right. For detailed examples and breakdown, see [lang-bidi-use-cases](https://www.w3.org/International/articles/lang-bidi-use-cases/) and [qa-direction-from-language](https://www.w3.org/International/questions/qa-direction-from-language)
+Introspecting the string value itself can be difficult or unrealistic to get right. For more details and examples, see:[qa-direction-from-language](https://www.w3.org/International/questions/qa-direction-from-language)
 
 For example, the following string starts with a Latin-script brand name, but should be interpreted to be a right-to-left Arabic string (it means roughly "Apple iPhone back and tempered glass screen protector"):
 
