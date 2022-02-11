@@ -33,6 +33,7 @@ When data is sent to a user-agent and then inserted into the display, the base t
 A super-simple example to illustrate how word order can change:
 
 > Bahrain مصر Kuwait!
+
 > &#x200f;Bahrain مصر Kuwait!
 
 #### Why can't we just introspect the data?
