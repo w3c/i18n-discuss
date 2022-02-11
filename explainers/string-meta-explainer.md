@@ -25,7 +25,13 @@ Strings containing natural language text are a common type of data on the Web. W
 
 ### Why is base direction needed? What can go wrong?
 
-When data is sent to a user-agent and then inserted into the display, the base text direction of the data is needed to help the Unicode Bidirectional Algorithm (UBA) lay out the text correctly. When the base direction is not set and the wrong direction is used, the results can be difficult to read.
+When data is sent to a user-agent and then inserted into the display, the base text direction of the data is needed to help the Unicode Bidirectional Algorithm (UBA) lay out the text correctly. When the base direction is not set and the wrong direction is used, the results can be difficult to read. Introspecting the string value itself can be difficult.
+
+For example, this string starts with a Latin-script brand name, but should be interpreted to be a right-to-left Arabic string:
+
+> Apple iPhone واقي شاشة زجاجي مقوى وخلفي 
+
+#### What are "spillover effects"?
 
 A related problem are "spillover effects". When a text fragment is inserted into a larger string, the resulting text can interact in unexpected ways. For example, consider the pattern string:
 
