@@ -8,11 +8,11 @@ The display or processing of text often depends on metadata not encoded into str
 
 ### What do we want TAG to do?
 
-We would like to review our approach to this problem and discuss what the right long term approach should be in the Web platform. We believe that this is an important gap for natural language support on the Web; but we are concerned that our current approach and comments generates churn or is distracting to Working Groups attempting to complete work on specifications.
+We would like TAG to review our approach to this problem and discuss what the right long term approach should be in the Web platform. We believe that this is an important gap for natural language support on the Web; but we are concerned that our current approach and comments generates churn or is distracting to Working Groups attempting to complete work on specifications.
 
-Our immediate request has to do with whatwg/webidl#1025 wherein we requested that WebIDL add a `Localizable` type to IDL. This would allow specifications to reference this string type and save them creating a local dictionary representation. The WebIDL folks do not want to do this because it is at odds with their normal practice of providing only JavaScript primitives and types. They also don't want to become a registry of random dictionary entries.
+Our immediate request has to do with [webidl#1025](whatwg/webidl#1025) wherein we requested that WebIDL add a `Localizable` type to IDL. This would allow specifications to reference this string type and save them creating a local dictionary representation. The WebIDL folks do not want to do this because it is at odds with their normal practice of providing only JavaScript primitives and types. They also don't want to become a registry of random dictionary entries.
 
-One way to solve this would be if W3C and ECMA-402 proposed a natural language string type with these attributes to TC39. If that proposal were ultimately successful (and it will take at least one complete JavaScript release cycle to be accepted and reach the specification), then WebIDL would encode the type in their specification. This would be the most durable and platform-wide solution. On the down side, this would require probably 1-3 years before specifications would have a ready reference and it is unclear if such a type would be accepted or implemented.
+One way to solve this would be if W3C and ECMA-402 proposed a natural language string type with these attributes to TC39. If that proposal were ultimately successful (and it will take at least one complete JavaScript release cycle to be accepted and reach the specification), then WebIDL could encode the type in their specification. This would be the most durable and platform-wide solution. On the down side, this would require probably 1-3 years before specifications would have a ready reference and it is unclear if such a type would be accepted or implemented by TC39.
 
 Another alternative, possibly acting as a shim for eventual standardization by TC39, would be for I18N to define a dictionary and ask specifications to adopt it generally for natural language string values.
 
@@ -20,11 +20,36 @@ Another alternative, possibly acting as a shim for eventual standardization by T
 
 Strings containing natural language text are a common type of data on the Web. When strings are passed through data formats such as JSON and then inserted into a customer’s display, metadata associated with the strings is lost unless the sender has some way to provide it. Introspection of strings to restore or detect language and base direction is difficult to accomplish.
 
-### Why did ‘base direction’ get added to I18N’s ask? Why didn’t you ask for it historically?
+### Why is language information needed? What can go wrong?
+
+
+### Why is base direction needed? What can go wrong?
+
+When data is sent to a user-agent and then inserted into the display, the base text direction of the data is needed to help the Unicode Bidirectional Algorithm (UBA) lay out the text correctly. When the base direction is not set and the wrong direction is used, the results can be difficult to read.
+
+A related problem are "spillover effects". When a text fragment is inserted into a larger string, the resulting text can interact in unexpected ways. For example, consider the pattern string:
+
+> السعر  # + # الشحن
+
+This means roughly "Price x + y in shipping". When we insert the item price and shipping charge, though, we get a spillover effect:
+
+> السعر 1,234.56 AED + 12.99 AED الشحن
+
+An example in English would be a string like:
+
+> {restaurantName} - {numReviews} reviews
+
+If the restaurant's name is "פיצה סגולה" (roughly "Purple Pizza" in Hebrew) and it has 4 reviews, the rendered string can look like this:
+
+> פיצה סגולה - 4 reviews
+
+Overcoming spillover effects requires that data values inserted into the page be "bidi isolated" from the surrounding text, which, in turn, works best when the base direction is set correctly.
+
+### Why did "base direction" get added to I18N’s ask? Why didn’t you ask for it historically?
 
 Language metadata is more widespread in part because I18N has been more consistent in asking for language metadata (going back decades). However, the ability to associate a language tag with a specific string is not generally present in most data formats.
 
-Base direction metadata has gained in importance in part due to the work to define “bidi isolation” in Unicode and HTML. A common use for string data is to insert the values received into the textual content of a user interface or Web page. With bidi isolation, "spillover effects" can be avoided—but these depend in general on setting the base direction of a span of content (where previously setting the base direction did little to correct the display). The I18N WG should have been asking for base direction metadata just as much as we asked for language metadata historically, but it was the introduction of isolation that made this more critical to us.
+Base direction metadata has gained in importance in part due to the work to define "bidi isolation" in Unicode and HTML. A common use for string data is to insert the values received into the textual content of a user interface or Web page. With bidi isolation, "spillover effects" can be avoided—but these depend in general on setting the base direction of a span of content (where previously setting the base direction did little to correct the display). The I18N WG should have been asking for base direction metadata just as much as we asked for language metadata historically, but it was the introduction of isolation that made this more critical to us.
 
 ### What is I18N asking Spec writers for? 
 
@@ -55,12 +80,12 @@ For the subset of data values that are natural language text, however, the lack 
 
 The name `Localizable` was suggested by Marcos Caceres as part of an attempt to address our comments on Web Payments. The idea is that it represents a natural language string. Some proprietary implementations contain names like `LString` for this type of purpose. The name is not necessarily the best for this type, since "localizable" implies that the value is available in multiple languages or has other features of a localization solutions. 
 
-Alternatives generally lean on "i18n" rather than localization. For example, see the `i18n` namespace in JSON-LD.
+Alternatives generally lean on "i18n" rather than localization. For example, see the `i18n` namespace in JSON-LD [\[3\]](https://www.w3.org/TR/json-ld/#the-i18n-namespace).
 
 
 ### What else are we doing? 
 
-We approached ECMA-402 (the internationalization working group of ECMA TC39, i.e. JavaScript) about our concerns and in response to comments on webidl#1025. They are interested in potentially working to define a “localizable string” or “natural language string” data type. 
+We approached ECMA-402 (the internationalization working group of ECMA TC39, i.e. JavaScript) about our concerns and in response to comments on webidl#1025. They are interested in potentially working to define a "localizable string" or "natural language string" data type. 
 
 We worked with JSON-LD to define a serialization [3], but it doesn’t solve our problem in APIs.
 
@@ -71,6 +96,7 @@ We worked with JSON-LD to define a serialization [3], but it doesn’t solve our
 * [2] https://github.com/whatwg/webidl/issues/1025
 * [3] https://www.w3.org/TR/json-ld/#the-i18n-namespace
 * [4] https://www.w3.org/International/articles/strings-and-bidi/index.en
+* [5] https://www.w3.org/International/questions/qa-direction-from-language
 
 ### Appendix A. Examples
 
