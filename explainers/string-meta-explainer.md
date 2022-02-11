@@ -41,7 +41,7 @@ An example in English would be a string like:
 
 If the restaurant's name is "פיצה סגולה" (roughly "Purple Pizza" in Hebrew) and it has 4 reviews, the rendered string can look like this:
 
-> פיצה סגולה - 4 reviews
+> &#x200e;פיצה סגולה - 4 reviews
 
 Overcoming spillover effects requires that data values inserted into the page be "bidi isolated" from the surrounding text, which, in turn, works best when the base direction is set correctly.
 
