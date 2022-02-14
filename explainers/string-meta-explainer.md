@@ -30,6 +30,8 @@ For example, the following strings are identical. Changing the language causes t
 * <span lang="ja">雪, 刃, 直, 令, 垔</span>
 * <span lang="zh-Hans">雪, 刃, 直, 令, 垔</span>
 
+Other language-related operations are also affected by not having language metadata. For example, language-affected operations include the rendering of quotes when using HTML's `q` element, the application of spell checking by the user-agent, the sorting of lists, or the formatting of values. Accessibility features, such as voice selection in a screen reader, depend on language information. 
+
 ### Why is base direction needed? What can go wrong?
 
 When data is sent to a user-agent and then inserted into the display, the base text direction of the data is needed to help the Unicode Bidirectional Algorithm (UBA) lay out the text correctly. When the base direction is not set and the wrong direction is used, the results can be difficult (and sometimes impossible) to read. 
