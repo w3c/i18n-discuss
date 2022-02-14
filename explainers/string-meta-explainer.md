@@ -24,9 +24,11 @@ This document cannot present all of the details of why language and direction me
 
 ### Why is language information needed? What can go wrong?
 
-Language metadata is used by user-agents to select fonts and do other text rendering tasks that are important to end users. When language metadata is missing or incorrect, the results can be damaaged in appearance or functionality.
+Language metadata is used by user-agents to select fonts and do other text rendering tasks that are important to end users. When language metadata is missing or incorrect, the results can be damaaged in appearance or functionality. 
 
-... examples...
+For example, the following strings are identical. Changing the language causes the characters to render differently:
+* <span lang="ja">雪, 刃, 直, 令, 垔</span>
+* <span lang="zh-Hans">雪, 刃, 直, 令, 垔</span>
 
 ### Why is base direction needed? What can go wrong?
 
@@ -121,6 +123,3 @@ We worked with JSON-LD to define a serialization [3], but it doesn’t solve our
 * [5] https://www.w3.org/International/articles/lang-bidi-use-cases/
 * [6] https://www.w3.org/International/questions/qa-direction-from-language
 
-### Appendix A. Examples
-
-Moo
