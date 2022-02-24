@@ -24,7 +24,7 @@ This document cannot present all of the details of why language and direction me
 
 ### Why is language information needed? What can go wrong?
 
-Language metadata is used by user-agents to select fonts and do other text rendering tasks that are important to end users. When language metadata is missing or incorrect, the results can be damaaged in appearance or functionality. 
+Language metadata is used by user-agents to select fonts and do other text rendering tasks that are important to end users. When language metadata is missing or incorrect, the results can be damaged in appearance or functionality. 
 
 For example, the following strings are identical. Changing the language causes the characters to render differently:
 * <span lang="ja">雪, 刃, 直, 令, 垔</span>
