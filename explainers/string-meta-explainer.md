@@ -1,5 +1,19 @@
 # Explainer: String-Meta
 
+## What is the problem?
+## What do we want TAG to do?
+## What solutions have been considered?
+### Status of the request to WebIDL
+#### Why Localizable?
+## Background
+### Why is this important?
+### Why is language information needed? What can go wrong?
+### Why is base direction needed? What can go wrong?
+#### Why can't we just inspect the data?
+### Why did 'base direction' get added to i18n's as? Why didn't we ask for it historically?
+### Why doesn't HTML have this problem?
+
+---
 The [W3C Internationalization (I18N) Working Group](https://www.w3.org/International/core/Overview) has been working on getting Web specifications to provide language and base direction metadata in document formats and protocols. We have a doc (String-Meta [1], see also [4]) that describes use cases and potential approaches in depth.
 
 ### What is the problem?
