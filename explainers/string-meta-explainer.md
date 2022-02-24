@@ -30,7 +30,7 @@ For example, the following strings are identical. Changing the language causes t
 * <span lang="ja">雪, 刃, 直, 令, 垔</span>
 * <span lang="zh-Hans">雪, 刃, 直, 令, 垔</span>
 
-Other language-related operations are also affected by not having language metadata. For example, language-affected operations include the rendering of quotes when using HTML's `q` element, the application of spell checking by the user-agent, the sorting of lists, or the formatting of values. Accessibility features, such as voice selection in a screen reader, depend on language information. 
+Other language-related operations are also affected by not having language metadata. For example, language-affected operations include <ins>among others hyphenation, voice browser rendering, line breaking behaviour,</ins> the rendering of quotes when using HTML's `q` element, the application of spell checking by the user-agent, the sorting of lists, or the formatting of values. Accessibility features, such as voice selection in a screen reader, depend on language information. 
 
 ### Why is base direction needed? What can go wrong?
 
@@ -87,7 +87,7 @@ Different threads have suggested different ways of providing this:
 
 * Provide a `Localizable` dictionary definition that each Specification can define locally
 * Provide a `Localizable` type in WebIDL [2] that Specifications can just reference
-* Use a JSON-LD serialization from the `i18n` namespace
+* Use a JSON-LD serialization form the `i18n` namespace
 * Use an application-specific means of encoding the values into a string’s character sequence [cite]
 
 ### What is the state of the request to WebIDL?
