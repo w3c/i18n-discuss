@@ -87,7 +87,7 @@ Different threads have suggested different ways of providing this:
 
 * Provide a `Localizable` dictionary definition that each Specification can define locally
 * Provide a `Localizable` type in WebIDL [2] that Specifications can just reference
-* Use a JSON-LD serialization form the `i18n` namespace
+* Use a JSON-LD serialization from the `i18n` namespace
 * Use an application-specific means of encoding the values into a string’s character sequence [cite]
 
 ### What is the state of the request to WebIDL?
