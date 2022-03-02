@@ -21,9 +21,9 @@ Another alternative, possibly acting as a shim for eventual standardization by E
 Different threads have suggested different ways of providing this:
 
 * Provide a `Localizable` dictionary definition that each Specification can define locally
-* Provide a `Localizable` type in WebIDL [2] that Specifications can just reference
-* Use a JSON-LD serialization form the `i18n` namespace
-* Use an application-specific means of encoding the values into a string’s character sequence [cite]
+* Provide a `Localizable` type in [WebIDL](https://github.com/whatwg/webidl/issues/1025) that Specifications can just reference
+* Use [JSON-LD serialization forms](https://www.w3.org/TR/json-ld/#base-direction) based on the `i18n` namespace
+* Use an application-specific means of encoding the values into a string’s character sequence (such as used by [WebAuthn](https://www.w3.org/TR/webauthn-2/#sctn-strings-langdir); note I18N's [comments](https://github.com/w3c/webauthn/issues?q=is%3Aissue+is%3Aopen+label%3Ai18n-needs-resolution) about this)
 
 ### What is the state of the request to WebIDL?
 
@@ -123,7 +123,11 @@ In a series of spec reviews dating back approximately four years, I18N has asked
 * [1] https://w3c.github.io/string-meta/
 * [2] https://github.com/whatwg/webidl/issues/1025
 * [3] https://www.w3.org/TR/json-ld/#the-i18n-namespace
+*    [3a] https://www.w3.org/TR/json-ld/#base-direction
 * [4] https://www.w3.org/International/articles/strings-and-bidi/index.en
 * [5] https://www.w3.org/International/articles/lang-bidi-use-cases/
 * [6] https://www.w3.org/International/questions/qa-direction-from-language
+* [7] https://www.w3.org/TR/webauthn-2/#sctn-strings-langdir
+*    [7a] https://github.com/w3c/webauthn/issues/1644
+*    [7b] https://github.com/w3c/webauthn/issues?q=is%3Aissue+is%3Aopen+label%3Ai18n-needs-resolution
 
