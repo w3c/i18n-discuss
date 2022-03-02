@@ -12,9 +12,9 @@ We would like TAG to review our approach to this problem and discuss what the ri
 
 Our immediate request has to do with [webidl#1025](whatwg/webidl#1025) wherein we requested that WebIDL add a `Localizable` type to IDL. This would allow specifications to reference this string type and save them creating a local dictionary representation. The WebIDL folks do not want to do this because it is at odds with their normal practice of providing only JavaScript primitives and types. They also don't want to become a registry of random dictionary entries.
 
-One way to solve this would be if W3C and ECMA-402 proposed a natural language string type with these attributes to TC39. If that proposal were ultimately successful (and it will take at least one complete JavaScript release cycle to be accepted and reach the specification), then WebIDL could encode the type in their specification. This would be the most durable and platform-wide solution. On the down side, this would require probably 1-3 years before specifications would have a ready reference and it is unclear if such a type would be accepted or implemented by TC39.
+One way to solve this would be if W3C and ECMA-402 proposed a natural language string type with these attributes to ECMA TC39. If that proposal were ultimately successful (and it will take at least one complete JavaScript release cycle to be accepted and reach the specification), then WebIDL could encode the type in their specification. This would be the most durable and platform-wide solution. On the down side, this would require probably 1-3 years before specifications would have a ready reference and it is unclear if such a type would be accepted or implemented by TC39.
 
-Another alternative, possibly acting as a shim for eventual standardization by TC39, would be for I18N to define a dictionary and ask specifications to adopt it generally for natural language string values.
+Another alternative, possibly acting as a shim for eventual standardization by ECMA TC39, would be for I18N to define a dictionary and ask specifications to adopt it generally for natural language string values.
 
 ## What solutions have been considered?
 
