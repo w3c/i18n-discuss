@@ -1,6 +1,6 @@
 # Explainer: String-Meta TAG Request
 
-The [W3C Internationalization (I18N) Working Group](https://www.w3.org/International/core/Overview) has been working on getting Web specifications to provide language and base direction metadata in document formats and protocols. We have a doc (String-Meta [1], see also [4]) that describes use cases and potential approaches in depth.
+The [W3C Internationalization (I18N) Working Group](https://www.w3.org/International/core/Overview) has been working on getting Web specifications to provide language and base direction metadata in document formats and protocols. We have developed [String-Meta](https://w3c.github.io/string-meta) and a [use cases](https://www.w3.org/International/articles/lang-bidi-use-cases/) document that describe requirements and potential approaches in depth.
 
 # What is the problem?
 
