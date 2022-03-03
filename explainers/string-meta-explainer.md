@@ -93,7 +93,7 @@ For the subset of data values that are natural language text, however, the lack 
 
 #### What are "spillover effects"?
 
-A related problem are "spillover effects". When a text fragment is inserted into a larger string, the resulting text can interact in unexpected ways. Overcoming spillover effects requires that data values inserted into the page be "bidi isolated" from the surrounding text, which, in turn, requires a base direction for the inserted value.
+One of the reasons for string data values in an API to have independant direction metadata are what we call "spillover effects". When text (such as a value returned by an API) is inserted into a larger string, the resulting string may appear scrambled due to the application of bidi. Overcoming spillover effects requires that data values inserted into the page be "bidi isolated" from the surrounding text, which, in turn, requires a base direction for the inserted value.
 
 For example, consider the pattern string:
 
@@ -111,6 +111,22 @@ If the restaurant's name is "פיצה סגולה" (roughly "Purple Pizza" in Heb
 
 > &#x200e;פיצה סגולה - 4 reviews
 
+Note that the inclusion of markup doesn't necessarily cause this to be "fixed". This text:
+
+```
+&#x5e4;&#x5d9;&#x5e6;&#x5d4; &#x5e1;&#x5d2;&#x5d5;&#x5dc;&#x5d4; - <span style="color:purple">4 reviews</span>
+```
+
+Displays as:
+
+![image](https://user-images.githubusercontent.com/69082/156616019-f2de56e6-5c55-4944-b603-97d054f0e1bd.png)
+
+When an API returns base direction, the consumer can use that to assign base direction for inserted data, fixing the problem.
+
+```
+<span dir="rtl">&#x5e4;&#x5d9;&#x5e6;&#x5d4; &#x5e1;&#x5d2;&#x5d5;&#x5dc;&#x5d4;</span> - <span style="color:purple">4 reviews</span>
+```
+![image](https://user-images.githubusercontent.com/69082/156616506-825d3d70-9e50-4d61-ab86-f4d43d25a8c7.png)
 
 
 ### What is I18N asking Spec writers for? 
