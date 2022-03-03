@@ -27,19 +27,19 @@ Different threads have suggested different ways of providing this:
 
 ### What is the state of the request to WebIDL?
 
-The sense of the thread with WebIDL is that WebIDL generally tries to encode JavaScript primitives and types, which can then be used to form complex types, rather than encoding “canned” formats for general use. They would prefer that TC39 (i.e. JavaScript) provide a native type, which could then be encoded by WebIDL, or, if we seek to define a standardized structure, that we do so using WebIDL in some referenceable way, but not as part of WebIDL itself. This is a reasonable and logical position.
+The sense of the thread with WebIDL is that WebIDL generally tries to encode JavaScript primitives and types, which can then be used to form complex types, rather than encoding "canned" formats for general use. They would prefer that TC39 (i.e. JavaScript) provide a native type, which could then be encoded by WebIDL, or, if we seek to define a standardized structure, that we do so using WebIDL in some referenceable way, but not as part of WebIDL itself. This is a reasonable and logical position.
 
 ### Why is it called `Localizable`?
 
 The name `Localizable` was suggested by Marcos Caceres as part of an attempt to address our comments on Web Payments. The idea is that it represents a natural language string. Some proprietary implementations contain names like `LString` for this type of purpose. The name is not necessarily the best for this type, since "localizable" implies that the value is available in multiple languages or has other features of a localization solutions. 
 
-Alternatives generally lean on "i18n" rather than localization. For example, see the `i18n` namespace in JSON-LD [\[3\]](https://www.w3.org/TR/json-ld/#the-i18n-namespace).
+Alternatives generally lean on "i18n" rather than localization. For example, see the `i18n` namespace in [JSON-LD](https://www.w3.org/TR/json-ld/#the-i18n-namespace).
 
 ### What else are we doing? 
 
 We approached ECMA-402 (the internationalization working group of ECMA TC39, i.e. JavaScript) about our concerns and in response to comments on webidl#1025. They are interested in potentially working to define a "localizable string" or "natural language string" data type. 
 
-We worked with JSON-LD to define a serialization [3], but it doesn’t solve our problem in APIs.
+We worked with JSON-LD to define a [serialization](https://www.w3.org/TR/json-ld/#the-i18n-namespace), but it doesn’t solve our problem in APIs.
 
 ## Background
 
@@ -57,7 +57,7 @@ For example, the following strings are identical. Changing the language causes t
 * <span lang="ja">雪, 刃, 直, 令, 垔</span>
 * <span lang="zh-Hans">雪, 刃, 直, 令, 垔</span>
 
-Other language-related operations are also affected by not having language metadata. For example, language-affected operations include <ins>among others hyphenation, voice browser rendering, line breaking behaviour,</ins> the rendering of quotes when using HTML's `q` element, the application of spell checking by the user-agent, the sorting of lists, or the formatting of values. Accessibility features, such as voice selection in a screen reader, depend on language information. 
+Other language-related operations are also affected by not having language metadata. For example, language-affected operations include (among others) hyphenation, voice browser rendering, line breaking behaviour, the rendering of quotes when using HTML's `q` element, the application of spell checking by the user-agent, the sorting of lists, or the formatting of values. Accessibility features, such as voice selection in a screen reader, depend on language information. 
 
 ### Why is base direction needed? What can go wrong?
 
