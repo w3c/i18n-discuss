@@ -1,4 +1,4 @@
-# Explainer: String-Meta TAG Request
+# Explainer: String-Meta discussion between ECMA-402 and W3C I18N
 
 The [W3C Internationalization (I18N) Working Group](https://www.w3.org/International/i18n-activity/i18n-wg/) has been working on getting Web specifications to provide language and base direction metadata in document formats and protocols. We have developed a Working Group Note ["String-Meta"](https://w3c.github.io/string-meta) and a [use cases](https://www.w3.org/International/articles/lang-bidi-use-cases/) document that describe requirements and potential approaches in depth.
 
