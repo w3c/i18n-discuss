@@ -10,7 +10,7 @@ The display or processing of text often depends on metadata not encoded into str
 
 We have reached a rough consensus with W3C TAG and several working groups that a good long term approach could be to add a natural language string type to ECMAScript. This type would include language and direction metadata attributes. It might also be consistent with or leverage work done by Unicode's MessageFormat working group and related work at ECMA-402 in support of localization and runtime string formatting. However, these would be "nice-to-have" from our point of view.
 
-A model for such a datatype can be found in [webidl#1025](whatwg/webidl#1025), wherein we requested that WebIDL add a `Localizable` type to IDL. This would allow specifications to reference this string type and save them creating a local dictionary representation. TAG agrees that the next step would be for TC39 to consider such an addition.
+A model for such a datatype can be found in [webidl#1025](https://github.com/whatwg/webidl/issues/1025), wherein we requested that WebIDL add a `Localizable` type to IDL. This would allow specifications to reference this string type and save them creating a local dictionary representation. TAG agrees that the next step would be for TC39 to consider such an addition.
 
 ## What solutions have been considered?
 
@@ -57,19 +57,28 @@ Other language-related operations are also affected by not having language metad
 
 When data is sent to a user-agent and then inserted into the display, the base text direction of the data is needed to help the Unicode Bidirectional Algorithm (UBA) lay out the text correctly. When the base direction is not set and the wrong direction is used, the results can be difficult (and sometimes impossible) to read. 
 
-A super-simple example to illustrate how word order can change:
+A super-simple example to illustrate how the _apparent_ word order can change:
 
+<div style="border:1px black;width:30%;background-color: rgba(255, 255, 128, .5)" markdown="1">
 > Bahrain مصر Kuwait!
 
 > &#x200f;Bahrain مصر Kuwait!
+</div>
 
 #### Why can't we just introspect the data?
 
 Introspecting the string value itself can be difficult or unrealistic to get right. For more details and examples, see:[qa-direction-from-language](https://www.w3.org/International/questions/qa-direction-from-language)
 
-For example, the following string starts with a Latin-script brand name, but should be interpreted to be a right-to-left Arabic string (it means roughly "Apple iPhone back and tempered glass screen protector"):
+For example, the following string starts with a Latin-script brand name, but should be interpreted to be a right-to-left Arabic string (it means roughly "Apple iPhone back and tempered glass screen protector"). Because the string starts with a strong LTR character (the `A` in `Apple`) it instead gets interpreted as LTR:
 
+<div style="border:1px black;width:30%;background-color: rgba(255, 255, 128, .5)" markdown="1">
+## Incorrect (LTR)
 > Apple iPhone واقي شاشة زجاجي مقوى وخلفي 
+
+## Correct (RTL)
+> &#x200f;Apple iPhone واقي شاشة زجاجي مقوى وخلفي 
+
+</div>
 
 ### Why did "base direction" get added to I18N’s ask? Why didn’t you ask for it historically?
 
