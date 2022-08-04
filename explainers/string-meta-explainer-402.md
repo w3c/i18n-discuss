@@ -84,9 +84,9 @@ For example, the following string starts with a Latin-script brand name, but sho
 
 ### Why did "base direction" get added to I18N’s ask? Why didn’t you ask for it historically?
 
-Language metadata is more widespread in part because I18N has been more consistent in asking for language metadata (going back decades). However, the ability to associate a language tag with a specific string is not generally present in most data formats.
+Language metadata is more widespread in part because I18N has been more consistent in asking for language metadata (going back decades). However, the ability to associate a language tag with a specific string is not always present in data formats.
 
-Base direction metadata has gained in importance in part due to the work to define "bidi isolation" in Unicode and HTML. A common use for string data is to insert the values received into the textual content of a user interface or Web page. With bidi isolation, "spillover effects" can be avoided—but these depend in general on setting the base direction of a span of content (where previously setting the base direction did little to correct the display). The I18N WG should have been asking for base direction metadata just as much as we asked for language metadata historically, but it was the introduction of isolation that made this more critical to us.
+Base direction metadata has gained in importance in part due to the work to define "bidi isolation" in Unicode and HTML. A common use for string data is to insert the values received into the textual content of a user interface or Web page. With bidi isolation, "spillover effects" can be avoided&mdash;but these depend on setting the base direction of a span of content (where previously setting the base direction did little to correct the display). While many strings can use first-string heuristics (by using the value `auto` for HTML's `dir` attribute), some strings, such as those illustrated in this document, depend on correct metadata values. The I18N WG should have been asking for base direction metadata just as much as we asked for language metadata historically, but it was the introduction of isolation that made this more critical to us.
 
 ### Why don’t document formats such as HTML have this problem?
 
