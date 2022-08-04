@@ -1,6 +1,6 @@
 # Explainer: String-Meta discussion between ECMA-402 and W3C I18N
 
-The [W3C Internationalization (I18N) Working Group](https://www.w3.org/International/i18n-activity/i18n-wg/) has been working on getting Web specifications to provide language and base direction metadata in document formats and protocols. We have developed a Working Group Note ["String-Meta"](https://w3c.github.io/string-meta) and a [use cases](https://www.w3.org/International/articles/lang-bidi-use-cases/) document that describe requirements and potential approaches in depth.
+The [W3C Internationalization (I18N) Working Group](https://www.w3.org/International/i18n-activity/i18n-wg/) has been working on getting Web specifications to provide language and base direction metadata in document formats and protocols. We have developed a Working Group Note ["String-Meta"](https://w3c.github.io/string-meta) and a [use cases](https://www.w3.org/International/articles/lang-bidi-use-cases/) document that describe requirements and potential approaches in depth. We encourage readers to seek out those documents, of which this is a summary.
 
 # What is the problem?
 
@@ -8,28 +8,33 @@ The display or processing of text often depends on metadata not encoded into str
 
 ## What do we want TC39 and ECMA-402 to do?
 
-We have reached a rough consensus with W3C TAG and several working groups that a good long term approach could be to add a natural language string type to ECMAScript. This type would include language and direction metadata attributes. It might also be consistent with or leverage work done by Unicode's MessageFormat working group and related work at ECMA-402 in support of localization and runtime string formatting. However, these would be "nice-to-have" from our point of view.
+We would like ECMAScript to add a new datatype for [natural language](https://www.w3.org/TR/i18n-glossary/#def_natural_language) strings that, in addition to existing `String` methods, includes attributes for language and base direction, plus appropriate methods for interacting with these attributes.
 
-A model for such a datatype can be found in [webidl#1025](https://github.com/whatwg/webidl/issues/1025), wherein we requested that WebIDL add a `Localizable` type to IDL. This would allow specifications to reference this string type and save them creating a local dictionary representation. TAG agrees that the next step would be for TC39 to consider such an addition.
+We have reached a rough consensus with W3C TAG and several working groups that this is a desirable approach to the problem of consistent interchange of natural language strings. Such a datatype might also be consistent with or leverage work done by Unicode's MessageFormat working group and potentially related work at ECMA-402 in support of localization and runtime string formatting. However, these would be "nice-to-have" from our point of view.
+
+A model for such a datatype can be found in [webidl#1025](https://github.com/whatwg/webidl/issues/1025), wherein we requested that WebIDL add a `Localizable` type to IDL. Our goal in defining a datatype via core standards, such as EMCAScript and WebIDL, is to avoid having each specification define its own (possibly different) natural language string definition. This would promote interoperability. TAG agrees that the next step would be for TC39 to consider such an addition.
 
 ## What solutions have been considered?
 
 Different threads have suggested different ways of providing this:
 
-* Provide a `Localizable` dictionary definition that each Specification can define locally
-* Provide a `Localizable` type in [WebIDL](https://github.com/whatwg/webidl/issues/1025) that Specifications can just reference
-* Use [JSON-LD serialization forms](https://www.w3.org/TR/json-ld/#base-direction) based on the `i18n` namespace
-* Use an application-specific means of encoding the values into a string’s character sequence (such as used by [WebAuthn](https://www.w3.org/TR/webauthn-2/#sctn-strings-langdir); note I18N's [comments](https://github.com/w3c/webauthn/issues?q=is%3Aissue+is%3Aopen+label%3Ai18n-needs-resolution) about this)
+* Provide a `Localizable` dictionary definition that each Specification can define locally. _While this would be effective in addressing the needs of a given API or document format, interoperability might be harmed since there would be no built-in support in core libraries and since mapping between specifications/APIs/formats would have to be done manually._
+* Provide a `Localizable` type in [WebIDL](https://github.com/whatwg/webidl/issues/1025) that Specifications can just reference. _This would be effective for specifications that use IDL, but might not address the needs found in libraries, runtimes, etc. Also, IDL tries to mirror what ECMAScript does._
+* Use [JSON-LD serialization forms](https://www.w3.org/TR/json-ld/#base-direction) based on the `i18n` namespace. _This solution is already effective for JSON-LD, but is limited to JSON-LD._
+* Use an application-specific means of encoding the values into a string’s character sequence (such as used by [WebAuthn](https://www.w3.org/TR/webauthn-2/#sctn-strings-langdir); note I18N's [comments](https://github.com/w3c/webauthn/issues?q=is%3Aissue+is%3Aopen+label%3Ai18n-needs-resolution) about this). _This solution solves a specifications immediate local needs, but does not address interoperability concerns._
 
 ### What is the state of the request to WebIDL?
 
 The sense of the thread with WebIDL is that WebIDL generally tries to encode JavaScript primitives and types, which can then be used to form complex types, rather than encoding "canned" formats for general use. They would prefer that TC39 (i.e. JavaScript) provide a native type, which could then be encoded by WebIDL, or, if we seek to define a standardized structure, that we do so using WebIDL in some referenceable way, but not as part of WebIDL itself. This is a reasonable and logical position.
 
-### Why is it called `Localizable`?
+### Why is the WebIDL proposal called `Localizable`?
 
-The name `Localizable` was suggested by Marcos Caceres as part of an attempt to address our comments on Web Payments. The idea is that it represents a natural language string. Some proprietary implementations contain names like `LString` for this type of purpose. The name is not necessarily the best for this type, since "localizable" implies that the value is available in multiple languages or has other features of a localization solutions. 
+The name `Localizable` was suggested by Marcos Caceres as part of an attempt to address our comments on Web Payments. The idea is that it represents a natural language string. This name is "interface-like", in that a Specification could define a field to be "localizable", meaning it had the `language` and `direction` attributes, perhaps among other attributes.
 
-Alternatives generally lean on "i18n" rather than localization. For example, see the `i18n` namespace in [JSON-LD](https://www.w3.org/TR/json-ld/#the-i18n-namespace).
+The I18N WG is not keen on this as the name of an ECMAScript datatype. `Localizable` implies that the value is available in multiple languages or has other features of various localization solutions. Some alternatives might be:
+
+* `LString`. Some proprietary implementations contain names like `LString` for this type of purpose. 
+* `I18nString`, `IString`, `Intl.String`. Alternatives generally lean on "i18n" rather than localization. For example, see the `i18n` namespace in [JSON-LD](https://www.w3.org/TR/json-ld/#the-i18n-namespace). Some variations in this vein might make more sense.
 
 ### What else are we doing? 
 
