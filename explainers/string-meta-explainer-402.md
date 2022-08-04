@@ -59,11 +59,9 @@ When data is sent to a user-agent and then inserted into the display, the base t
 
 A super-simple example to illustrate how the _apparent_ word order can change:
 
-<div style="border:1px black;width:30%;background-color: rgba(255, 255, 128, .5)" markdown="1">
 > Bahrain مصر Kuwait!
 
 > &#x200f;Bahrain مصر Kuwait!
-</div>
 
 #### Why can't we just introspect the data?
 
@@ -71,14 +69,13 @@ Introspecting the string value itself can be difficult or unrealistic to get rig
 
 For example, the following string starts with a Latin-script brand name, but should be interpreted to be a right-to-left Arabic string (it means roughly "Apple iPhone back and tempered glass screen protector"). Because the string starts with a strong LTR character (the `A` in `Apple`) it instead gets interpreted as LTR:
 
-<div style="border:1px black;width:30%;background-color: rgba(255, 255, 128, .5)" markdown="1">
-## Incorrect (LTR)
+**Incorrect (LTR)**
+
 > Apple iPhone واقي شاشة زجاجي مقوى وخلفي 
 
-## Correct (RTL)
-> &#x200f;Apple iPhone واقي شاشة زجاجي مقوى وخلفي 
+**Correct (RTL)**
 
-</div>
+> &#x200f;Apple iPhone واقي شاشة زجاجي مقوى وخلفي 
 
 ### Why did "base direction" get added to I18N’s ask? Why didn’t you ask for it historically?
 
@@ -98,11 +95,11 @@ For the subset of data values that are natural language text, however, the lack 
 
 One of the reasons for string data values in an API to have independant direction metadata are what we call "spillover effects". When text (such as a value returned by an API) is inserted into a larger string, the resulting string may appear scrambled due to the application of bidi. Overcoming spillover effects requires that data values inserted into the page be "bidi isolated" from the surrounding text, which, in turn, requires a base direction for the inserted value.
 
-For example, consider the pattern string:
+For example, consider the Arabic language pattern string:
 
 > السعر  # + # الشحن
 
-This means roughly "Price x + y in shipping". When we insert the item price and shipping charge, though, we get a spillover effect:
+This means roughly "Price {item_price} + {ship_amt} in shipping". When we insert the item price (let's say it is `1234.56 AED`) and shipping charge (let's say it is `12.99 AED`), though, we get a spillover effect:
 
 > السعر 1,234.56 AED + 12.99 AED الشحن
 
