@@ -8,7 +8,7 @@ The display or processing of text often depends on metadata not encoded into str
 
 ## What do we want TC39 and ECMA-402 to do?
 
-We have reached a rough consensus with W3C TAG and several working groups that a good long term approach would be to add a natural language string type to ECMAScript. Such as type would include language and direction metadata attributes. It might also be consistent with or leverage work done by Unicode's MessageFormat working group and related work at ECMA-402 in support of localization and runtime string formatting. However, these would be "nice-to-have" from our point of view.
+We have reached a rough consensus with W3C TAG and several working groups that a good long term approach could be to add a natural language string type to ECMAScript. This type would include language and direction metadata attributes. It might also be consistent with or leverage work done by Unicode's MessageFormat working group and related work at ECMA-402 in support of localization and runtime string formatting. However, these would be "nice-to-have" from our point of view.
 
 A model for such a datatype can be found in [webidl#1025](whatwg/webidl#1025), wherein we requested that WebIDL add a `Localizable` type to IDL. This would allow specifications to reference this string type and save them creating a local dictionary representation. TAG agrees that the next step would be for TC39 to consider such an addition.
 
