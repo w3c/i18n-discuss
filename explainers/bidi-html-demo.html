@@ -12,11 +12,11 @@
 	                  'ar-EG',
 	                  'he',
 	                  'he-IL',
-	   	              'ja',
-	   	              'zh-Hans',
-	   	              'zh-Hant',
-	   	              'zh-CN',
-	   	              'zh-TW' 
+                      'ja',
+                      'zh-Hans',
+                      'zh-Hant',
+                      'zh-CN',
+                      'zh-TW' 
        ];
 		 	   
 	   function dialogRender() {
@@ -41,7 +41,7 @@
 		   document.forms.form.elements.displayMeDir.value = select.options[select.selectedIndex].dir;
 		   //document.forms.form.elements.displayMeLang.value = select.options[select.selectedIndex].lang;
 		   updateDisplay(val);
-	   }
+       }
 	   
 	   function updateFromEscaped() {
 		   var escaped = document.getElementById('escaped');
@@ -231,7 +231,8 @@ these to populate the content and display boxes or enter your own text into the 
 <p>Shows the underlying code point sequence with non-ASCII characters escaped using JavaScript's <code>\u</code> escape syntax.
 Edits in this box can be reflected into the "display" box by clicking <kbd>Update</kbd>. HTML inserted here is treated as
 markup in the display box. Use bidi control buttons or <kbd>span</kbd>-inserting buttons to insert controls into the text (for example,
-to provide bidi isolation).</p>
+to provide bidi isolation). You can directly enter plain non-ASCII text into this box: clicking <code>update</code> will convert 
+it to escapes.</p>
 <textarea rows=5 cols=80 id="escaped" dir="ltr" style="font-size: 16pt"></textarea><br>
 <button type="button" name="escButton" onclick="updateFromEscaped()">Update</button> 
 <button type=button name="spanButton" onclick="insertAtCursor(escaped, '<span class=magenta dir=auto>')">Open Span</button>
