@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <title>Bidi Demo Page</title>
+  
+     <script>
+		
+	   var currentlyShowing = ""; 
+	   var locales = ['en-US',
+	                  'ar',
+	                  'ar-EG',
+	                  'he',
+	                  'he-IL',
+	   	              'ja',
+	   	              'zh-Hans',
+	   	              'zh-Hant',
+	   	              'zh-CN',
+	   	              'zh-TW' 
+       ];
+		 	   
+	   function dialogRender() {
+		   var dialog = document.getElementById('nativeDialog');
+		   dialog.show();
+	   }
+	   
+	   function dialogHide() {
+		   var displayContent = document.getElementById('displayableContent').text;
+		   document.getElementById('nativeDialog').close();
+		   currentlyShowing = displayContent;
+	   }
+	   
+	   function nativeRender() {
+		   var value = document.getElementById('displayableContent');
+		   alert(value.textContent);
+	   }
+		 
+       function updateFromSelect() {
+		   var select = document.getElementById("values");
+		   var val = select.options[select.selectedIndex].text;
+		   document.forms.form.elements.displayMeDir.value = select.options[select.selectedIndex].dir;
+		   //document.forms.form.elements.displayMeLang.value = select.options[select.selectedIndex].lang;
+		   updateDisplay(val);
+	   }
+	   
+	   function updateFromEscaped() {
+		   var escaped = document.getElementById('escaped');
+		   var escValue = escaped.value;
+           updateDisplay(unescapeUnicode(escValue));
+       }
+       
+       function updateDir() {
+		   var dir = document.forms.form.elements.displayMeDir.value;
+		   var displayMe = document.getElementById('displayableContent');
+		   var attr = document.createAttribute('dir');
+		   attr.value = dir;
+		   displayMe.setAttributeNode(attr);
+	   }
+	   
+	   function updateDisplayMe(val) {
+		   currentlyShowing = val;
+		   var displayDiv = document.getElementById('displayMe');
+		   while (displayDiv.firstChild) {
+			   displayDiv.removeChild(displayDiv.firstChild);
+		   }
+		   var dialogDiv = document.getElementById('dialogDiv');
+		   while (dialogDiv.firstChild) {
+			   dialogDiv.removeChild(dialogDiv.firstChild);
+		   }
+		   // get the direction selected in the radio buttons
+		   var displayMeDir = document.forms.form.elements.displayMeDir.value;
+
+		   var h2 = document.createElement('h2');
+		   h2.dir = displayMeDir ? displayMeDir : select.options[select.selectedIndex].dir;
+		   var attr = document.createAttribute('id');
+		   attr.value = 'displayableContent';
+		   h2.setAttributeNode(attr);
+		   var t = document.createTextNode(val);
+		   h2.append(t);
+		   // hack: if there appears to be HTML in the string, set innerHTML 
+		   // instead of just text node
+		   if (val.indexOf("<") >= 0) h2.innerHTML = val;
+		   
+		   // get the language from the form
+		   var langAttr = document.createAttribute('lang');
+		   langAttr.value = getLocale(); // document.forms.form.elements.displayMeLang.value;
+		   h2.setAttributeNode(langAttr);
+		   
+		   displayDiv.append(h2);
+		   dialogDiv.append(h2.cloneNode(true));
+	   }
+	   
+	   function getLocale() {
+		   var selectLang = document.getElementById('selectLang');
+		   return selectLang.options[selectLang.selectedIndex].value;
+	   }
+       
+       
+       function updateDisplay(val) {
+		   var escaped = document.getElementById('escaped');
+		   escaped.value = unicodeEscape(val);
+		   updateDisplayMe(val);
+	   }
+	   
+       // thanks to Mathias Bynens; converts text to backslash-u escapes
+       // note the fixed line
+       function unicodeEscape(str) {
+	       return str.replace(/[\s\S]/g, function(character) {
+		       var escape = character.charCodeAt().toString(16),
+		           longhand = escape.length > 2;
+               return ( ! longhand) ? character : '\\u' + ('0000' + escape).slice(-4);
+	       });
+       }
+       
+       // converts backslash-u escapes to UTF-16 code units
+       function unescapeUnicode(str) {
+		   var r = /\\u([\d\w]{4})/gi;
+           str = str.replace(r, function (match, grp) {
+              return String.fromCharCode(parseInt(grp, 16)); } );
+           return str;
+	   }
+	   
+	   // thanks to stackoverflow; inserts 'myValue' at the cursor in 'myField'
+	   function insertAtCursor(myField, myValue) {
+          if (document.selection) {
+			  // IE support
+              myField.focus();
+              sel = document.selection.createRange();
+              sel.text = myValue;
+          } else if (myField.selectionStart || myField.selectionStart == '0') {
+			  // Mozilla and friends
+              var startPos = myField.selectionStart;
+              var endPos = myField.selectionEnd;
+              myField.value = myField.value.substring(0, startPos)
+                  + myValue
+                  + myField.value.substring(endPos, myField.value.length);
+              myField.selectionStart = startPos + myValue.length;
+              myField.selectionEnd = startPos + myValue.length;
+          } else {
+              myField.value += myValue;
+          }
+      }
+        
+        
+      function loadLocales() {
+		 var select = document.getElementById('selectLang');
+		 for (locale in locales) {
+			 const loc = new Intl.Locale(locales[locale]);
+			 const display = new Intl.DisplayNames(loc, {type: 'language', style: 'short'});
+			 var option = document.createElement('option');
+			 option.value = locales[locale]; // use the language tag
+			 const title = document.createAttribute('title');
+			 title.value = locales[locale];
+			 option.setAttributeNode(title);
+
+			 option.appendChild(document.createTextNode(display.of(locales[locale]) + '\u00a0(' + locales[locale] + ')'));
+			 select.appendChild(option);
+		 }
+         select.value = 'en-US';
+         document.getElementById('displayableContent').text = currentlyShowing;
+         console.log(currentlyShowing);
+	 }
+   </script>
+   
+   <style>
+   .blocktitle {
+	   font-family: sans-serif;
+	   background-color: #fafafa;
+   }
+   
+   div.display {
+	   font-family: Noto Sans, sans-serif;
+	   font-size: 24pt;
+	   background-color: #fafafa;
+	   padding: 6px;
+   }
+   
+   span.magenta {
+	   color:magenta;
+   }
+   </style>
+</head>
+<body onload="loadLocales()">
+<h1>Bidirectional Text Demo</h1>
+
+<form id="form" action="bidi-html-demo.html">
+	
+<h4>Content:</h4>
+<p>Exemplary text values drawn from <a href="https://w3c.github.io/string-meta">String-Meta</a> and 
+<a href="https://www.w3.org/International/articles/lang-bidi-use-cases/">Use Cases for bidi and language metadata on the Web</a>. Chose one of
+these to populate the content and display boxes or enter your own text into the content box below.</p>
+<select name="values" id=values onchange="updateFromSelect()">
+<!-- 
+      DATA VALUES: replace with the canned values you want. Note that the 'dir' and 'lang' values are used for the display when present.
+-->
+<option value="" dir=auto lang=en>The quick brown fox jumped over the lazy dog.</option>
+<option value="" dir=auto lang=en>Bahrain Egypt Kuwait!</option>
+<option value="" dir=auto lang=ar>Bahrain &#x0645;&#x0635;&#x0631; Kuwait!</option>
+<option value="" dir=auto lang=ar>&#x0627;&#x0644;&#x0628;&#x062D;&#x0631;&#x064A;&#x0646; &#x0645;&#x0635;&#x0631; &#x0627;&#x0644;&#x0643;&#x0648;&#x064A;&#x062A;!</option>
+<option value="" dir=auto lang=ar>The title is "&#x0627;&#x0644;&#x0628;&#x062D;&#x0631;&#x064A;&#x0646; (123456) &#x0645;&#x0635;&#x0631; &#x0627;&#x0644;&#x0643;&#x0648;&#x064A;&#x062A;!" in Arabic.</option>
+
+<option value="" dir=auto lang=en>Purple Pizza - 4 reviews</option>
+<option value="" dir=rtl lang=he>פיצה סגולה - 4 reviews</option>
+<option value="" dir=auto lang=ar>&#x0627;&#x0644;&#x0633;&#x0639;&#x0631; 1,234.56 AED + 12.99 USD &#x0627;&#x0644;&#x0634;&#x062D;&#x0646;</option>
+<option value="" dir=ltr lang="ja">雪, 刃, 直, 令, 垔</option> <!-- this example displays differently using zh-Hans or zh-Hant -->
+
+<!-- string-meta core example -->
+<option value="" dir=rtl lang=ar>HTML &#x0648; CSS: &#x062A;&#x0635;&#x0645;&#x064A;&#x0645; &#x0648; &#x0625;&#x0646;&#x0634;&#x0627;&#x0621; &#x0645;&#x0648;&#x0627;&#x0642;&#x0639; &#x0627;&#x0644;&#x0648;&#x064A;&#x0628;</option>
+<!-- SEATAC message from google translate -->
+<option value="" dir=auto lang=ar>&#x0627;&#x0633;&#x062A;&#x0642;&#x0644; &#x0647;&#x0646;&#x0627; &#x0644;&#x0644;&#x0628;&#x0648;&#x0627;&#x0628;&#x0627;&#x062A; A & B &#x060C; &#x0648;&#x0646;&#x0642;&#x0644; &#x0625;&#x0644;&#x0649; &#x062C;&#x0645;&#x064A;&#x0639; &#x0627;&#x0644;&#x0628;&#x0648;&#x0627;&#x0628;&#x0627;&#x062A; &#x0627;&#x0644;&#x0623;&#x062E;&#x0631;&#x0649; &#x060C; &#x0648;&#x0627;&#x0633;&#x062A;&#x0644;&#x0627;&#x0645; &#x0627;&#x0644;&#x0623;&#x0645;&#x062A;&#x0639;&#x0629; &#x060C; &#x0648;&#x0627;&#x0644;&#x0646;&#x0642;&#x0644; &#x0627;&#x0644;&#x0628;&#x0631;&#x064A;.</option>
+
+
+<option value="" dir=auto>The title is "&#x0627;&#x0644;&#x0628;&#x062D;&#x0631;&#x064A;&#x0646; &#x0645;&#x0635;&#x0631; &#x0627;&#x0644;&#x0643;&#x0648;&#x064A;&#x062A;!" in Arabic.</option>
+<option value="" dir=auto>The title is "&#x202E;&#x0627;&#x0644;&#x0628;&#x062D;&#x0631;&#x064A;&#x0646; &#x0645;&#x0635;&#x0631; &#x0627;&#x0644;&#x0643;&#x0648;&#x064A;&#x062A;!&#x202C;" in Arabic.</option>
+<option value="" dir=auto>&#x0627;&#x0644;&#x0639;&#x0646;&#x0648;&#x0627;&#x0646; &#x0647;&#x0648; ''Bahrain Egypt Kuwait!'' &#x0628;&#x0627;&#x0644;&#x0644;&#x063A;&#x0629; &#x0627;&#x0644;&#x0625;&#x0646;&#x062C;&#x0644;&#x064A;&#x0632;&#x064A;&#x0629;.</option>
+<option value="" dir=auto>&#x0645;&#x0627; &#x0647;&#x0648; &#x202A;C++&#x202C;&#x200F;&#x061F; (Arabic Edition)</option>
+<option value="" dir=auto>&#x0627;&#x0644;&#x0639;&#x0646;&#x0648;&#x0627;&#x0646; &#x0647;&#x0648; {0,number,integer} &#x0628;&#x0627;&#x0644;&#x0644;&#x063A;&#x0629; &#x0627;&#x0644;&#x0625;&#x0646;&#x062C;&#x0644;&#x064A;&#x0632;&#x064A;&#x0629;.</option>
+<option value="" dir=auto>&#x0627;&#x0644;&#x0633;&#x0639;&#x0631; {0,price,in_sentence} + {1,price,in_sentence} &#x0627;&#x0644;&#x0634;&#x062D;&#x0646;</option>
+<option value="" dir=auto>&#x0627;&#x0644;&#x0633;&#x0639;&#x0631; {0,price,in_sentence} &#x0648; {1,price,in_sentence} &#x0627;&#x0644;&#x0634;&#x062D;&#x0646;</option>
+<option value="" dir=auto>&#x0627;&#x0644;&#x0633;&#x0639;&#x0631; {0,number, ##.00} + {1, number, 000.00} &#x0627;&#x0644;&#x0634;&#x062D;&#x0646;</option>
+<option value="" dir=auto>&#x0627;&#x0644;&#x0633;&#x0639;&#x0631; 1,234.56 AED &#x0648; 12,99 USD &#x0627;&#x0644;&#x0634;&#x062D;&#x0646;</option>
+<option value="" dir=auto>The price is 1,234.56 &#x062f;&#x0631;&#x0647;&#x645; + 12.99 &#x062f;&#x0631;&#x0647;&#x645; in shipping.</option>
+<!-- Apple iPhone XS Max 6.5 tempered glass back and screen protector -->
+<option value="" dir=rtl>Apple iPhone XS Max (6.5) &#x0648;&#x0627;&#x0642;&#x064A; &#x0634;&#x0627;&#x0634;&#x0629; &#x0632;&#x062C;&#x0627;&#x062C;&#x064A; &#x0645;&#x0642;&#x0648;&#x0649; &#x0648;&#x062E;&#x0644;&#x0641;&#x064A; 2.5D - &#x0634;&#x0641;&#x0627;&#x0641; &#x0644;&#x0647;&#x0627;&#x062A;&#x0641; iPhone XS Max</option>
+<!-- comma-separated list spillover effects -->
+<option value="" dir=ltr>from البحرين, بربادوس, and روسيا البيضاء</option>
+</select>
+</p>
+
+
+<p>Shows the underlying code point sequence with non-ASCII characters escaped using JavaScript's <code>\u</code> escape syntax.
+Edits in this box can be reflected into the "display" box by clicking <kbd>Update</kbd>. HTML inserted here is treated as
+markup in the display box. Use bidi control buttons or <kbd>span</kbd>-inserting buttons to insert controls into the text (for example,
+to provide bidi isolation).</p>
+<textarea rows=5 cols=80 id="escaped" dir="ltr" style="font-size: 16pt"></textarea><br>
+<button type="button" name="escButton" onclick="updateFromEscaped()">Update</button> 
+<button type=button name="spanButton" onclick="insertAtCursor(escaped, '<span class=magenta dir=auto>')">Open Span</button>
+<button type=button name="spanButton" onclick="insertAtCursor(escaped, '</span>')">Close Span</button> Marks: 
+<button type=button name="spanButton" onclick="insertAtCursor(escaped, '\\u200e')">LRM</button>
+<button type=button name="spanButton" onclick="insertAtCursor(escaped, '\\u200f')">RLM</button>
+<button type=button name="spanButton" onclick="insertAtCursor(escaped, '\\u061c')">ALM</button> Embedding Ctrls:
+<button type=button name="spanButton" onclick="insertAtCursor(escaped, '\\u202a')">LRE</button>
+<button type=button name="spanButton" onclick="insertAtCursor(escaped, '\\u202b')">RLE</button>
+<button type=button name="spanButton" onclick="insertAtCursor(escaped, '\\u202c')">PDF</button> Isolate Ctrls:
+<button type=button name="spanButton" onclick="insertAtCursor(escaped, '\\u2066')">LRI</button>
+<button type=button name="spanButton" onclick="insertAtCursor(escaped, '\\u2067')">RLI</button>
+<button type=button name="spanButton" onclick="insertAtCursor(escaped, '\\u2068')">FSI</button>
+<button type=button name="spanButton" onclick="insertAtCursor(escaped, '\\u2069')">PDI</button>
+<br>
+
+<h4>Language:</h4>
+<p>Select the language to use for the <code>lang</code> attribute in the display box below. Choosing a different language can result in changes
+to font selection, processing, line-breaking, and more.</p>
+<p>
+	<select name="selectLang" id="selectLang" onchange="updateFromSelect()">
+	</select>
+</p>
+
+<h4>Direction:</h4>
+<p>Select the base paragraph direction to use for the <code>dir</code> attribute in the display box.</p>
+<p>
+  <input type=radio id=ltr name=displayMeDir value=ltr onclick="updateDir()"><label for=ltr>LTR</label>
+  <input type=radio id=rtl name=displayMeDir value=rtl onclick="updateDir()"><label for=rtl>RTL</label>
+  <input type=radio id=auto name=displayMeDir value=auto onclick="updateDir()" checked><label for=auto>Auto</label>
+</p>
+
+<h3>Displays as:</h3>
+
+<div style="border:1pt solid black; width:80%; margins: 12px;">
+
+  <div id="displayMe" class="display">
+	  <p id="displayableContent"></p>
+  </div>
+
+</div>
+
+<p>
+   <button type=button name="dialogRenderButton" onclick="dialogRender()">Dialog Render</button><br>
+   <button type=button name="nativeRenderButton" onclick="nativeRender()">Native Render</button>
+</p>
+
+<dialog id="nativeDialog">
+	<form method="dialog" id="dialog">
+		<div id="dialogDiv">
+		   <h2 id="nativeText" value="" lang="" dir=""></h2>
+		</div>
+		<button value="default" onclick="dialogHide()">OK</button>
+	</form>
+</dialog>
+
+<input type="submit" style="visibility:hidden">
+
+</form>
+
+</body>
+</html>
