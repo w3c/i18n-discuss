@@ -13,6 +13,7 @@
 	                  'he',
 	                  'he-IL',
                       'ja',
+                      'ko',
                       'zh-Hans',
                       'zh-Hant',
                       'zh-CN',
@@ -39,6 +40,7 @@
 		   var select = document.getElementById("values");
 		   var val = select.options[select.selectedIndex].text;
 		   document.forms.form.elements.displayMeDir.value = select.options[select.selectedIndex].dir;
+		   select.dir = select.options[select.selectedIndex].dir;
 		   //document.forms.form.elements.displayMeLang.value = select.options[select.selectedIndex].lang;
 		   updateDisplay(val);
        }
@@ -190,7 +192,7 @@
    }
    
    div.display {
-	   font-family: Noto Sans, sans-serif;
+	   font-family: sans-serif;
 	   font-size: 24pt;
 	   background-color: #fafafa;
 	   padding: 6px;
@@ -210,44 +212,51 @@
 <p>Exemplary text values drawn from <a href="https://w3c.github.io/string-meta">String-Meta</a> and 
 <a href="https://www.w3.org/International/articles/lang-bidi-use-cases/">Use Cases for bidi and language metadata on the Web</a>. Chose one of
 these to populate the content and display boxes or enter your own text into the content box below.</p>
-<select name="values" id=values onchange="updateFromSelect()">
+<select name="values" id="values" onchange="updateFromSelect()">
 <!-- 
-      DATA VALUES: replace with the canned values you want. Note that the 'dir' and 'lang' values are used for the display when present.
+      Example values.
 -->
 <option value="" dir="auto" lang="en">The quick brown fox jumped over the lazy dog.</option>
-<option value="" dir="auto" lang="en">Bahrain Egypt Kuwait!</option>
-<option value="" dir="auto" lang="ar">Bahrain &#x0645;&#x0635;&#x0631; Kuwait!</option>
-<option value="" dir="auto" lang="ar">&#x0627;&#x0644;&#x0628;&#x062D;&#x0631;&#x064A;&#x0646; &#x0645;&#x0635;&#x0631; &#x0627;&#x0644;&#x0643;&#x0648;&#x064A;&#x062A;!</option>
+<optgroup label="Bidi Ordering Examples">
+   <option value="" dir="auto" lang="en">Bahrain Egypt Kuwait!</option>
+   <option value="" dir="auto" lang="ar">Bahrain &#x0645;&#x0635;&#x0631; Kuwait!</option>
+   <option value="" dir="auto" lang="ar">&#x0627;&#x0644;&#x0628;&#x062D;&#x0631;&#x064A;&#x0646; &#x0645;&#x0635;&#x0631; &#x0627;&#x0644;&#x0643;&#x0648;&#x064A;&#x062A;!</option>
+</optgroup>
 <!-- this example displays differently using ja, ko, zh-Hans or zh-Hant -->
-<option value="" dir="ltr" lang="ja">雪, 刃, 直, 令, 垔</option> 
+<optgroup label="Language Variation Examples">
+   <option value="" dir="auto" lang="ja">雪, 刃, 直, 令, 垔</option> 
+</optgroup>
 
-<!-- classic example of spillover from HTML Bidi requirments -->
-<option value="" dir="auto" lang="en">Purple Pizza - 4 reviews</option>
-<option value="" dir="rtl" lang="he">פיצה סגולה - 4 reviews</option>
+<optgroup label="Base paragraph direction and embedding examples">
+   <!-- string-meta core example -->
+   <option value="" dir="rtl" lang="ar">HTML &#x0648; CSS: &#x062A;&#x0635;&#x0645;&#x064A;&#x0645; &#x0648; &#x0625;&#x0646;&#x0634;&#x0627;&#x0621; &#x0645;&#x0648;&#x0627;&#x0642;&#x0639; &#x0627;&#x0644;&#x0648;&#x064A;&#x0628;</option>
+   <!-- Embedded LTR title in an RTL sentence. Note that this sentence requires isolating or embedding controls to display correctly. -->
+   <option value="" dir="auto">The title is "&#x0627;&#x0644;&#x0628;&#x062D;&#x0631;&#x064A;&#x0646; &#x0645;&#x0635;&#x0631; &#x0627;&#x0644;&#x0643;&#x0648;&#x064A;&#x062A;!" in Arabic.</option>
+   <!-- Same as the previous example, but with a weakly directional run inside the Arabic. Used in the demo. -->
+   <option value="" dir="auto" lang="ar">The title is "&#x0627;&#x0644;&#x0628;&#x062D;&#x0631;&#x064A;&#x0646; (123456) &#x0645;&#x0635;&#x0631; &#x0627;&#x0644;&#x0643;&#x0648;&#x064A;&#x062A;!" in Arabic.</option>
+   <!-- inverse of the above 'the title is' example, with an LTR title embedded into an RTL sentence -->
+   <option value="" dir="auto">&#x0627;&#x0644;&#x0639;&#x0646;&#x0648;&#x0627;&#x0646; &#x0647;&#x0648; ''Bahrain Egypt Kuwait!'' &#x0628;&#x0627;&#x0644;&#x0644;&#x063A;&#x0629; &#x0627;&#x0644;&#x0625;&#x0646;&#x062C;&#x0644;&#x064A;&#x0632;&#x064A;&#x0629;.</option>
+   <!-- Example of the C++ inclusion -->
+   <option value="" dir="rtl" lang="ar">&#x0645;&#x0627; &#x0647;&#x0648; &#x202A;C++&#x202C;&#x200F;&#x061F; (Arabic Edition)</option>
+</optgroup>
 
-<!-- example of spillover. This says approximately "Price 1234.56 AED + 12.99 USD in shipping" -->
-<option value="" dir="auto" lang="ar">&#x0627;&#x0644;&#x0633;&#x0639;&#x0631; 1,234.56 AED + 12.99 USD &#x0627;&#x0644;&#x0634;&#x062D;&#x0646;</option>
+<optgroup label="Spillover Effects">
+   <!-- classic example of spillover from HTML Bidi requirements -->
+   <option value="" dir="auto" lang="en">Purple Pizza - 4 reviews</option>
+   <option value="" dir="rtl" lang="he">פיצה סגולה - 4 reviews</option>
+   <!-- example of spillover. This says approximately "Price 1234.56 AED + 12.99 USD in shipping" -->
+   <option value="" dir="auto" lang="ar">&#x0627;&#x0644;&#x0633;&#x0639;&#x0631; 1,234.56 AED + 12.99 USD &#x0627;&#x0644;&#x0634;&#x062D;&#x0646;</option>
 
-<!-- string-meta core example -->
-<option value="" dir="rtl" lang="ar">HTML &#x0648; CSS: &#x062A;&#x0635;&#x0645;&#x064A;&#x0645; &#x0648; &#x0625;&#x0646;&#x0634;&#x0627;&#x0621; &#x0645;&#x0648;&#x0627;&#x0642;&#x0639; &#x0627;&#x0644;&#x0648;&#x064A;&#x0628;</option>
-
-<!-- Embedded LTR title in an RTL sentence. Note that this sentence requires isolating or embedding controls to display correctly. -->
-<option value="" dir="auto">The title is "&#x0627;&#x0644;&#x0628;&#x062D;&#x0631;&#x064A;&#x0646; &#x0645;&#x0635;&#x0631; &#x0627;&#x0644;&#x0643;&#x0648;&#x064A;&#x062A;!" in Arabic.</option>
-<!-- Same as the previous example, but with a weakly directional run inside the Arabic. Used in the demo. -->
-<option value="" dir="auto" lang="ar">The title is "&#x0627;&#x0644;&#x0628;&#x062D;&#x0631;&#x064A;&#x0646; (123456) &#x0645;&#x0635;&#x0631; &#x0627;&#x0644;&#x0643;&#x0648;&#x064A;&#x062A;!" in Arabic.</option>
-<!-- inverse of the above 'the title is' example, with an LTR title embedded into an RTL sentence -->
-<option value="" dir="auto">&#x0627;&#x0644;&#x0639;&#x0646;&#x0648;&#x0627;&#x0646; &#x0647;&#x0648; ''Bahrain Egypt Kuwait!'' &#x0628;&#x0627;&#x0644;&#x0644;&#x063A;&#x0629; &#x0627;&#x0644;&#x0625;&#x0646;&#x062C;&#x0644;&#x064A;&#x0632;&#x064A;&#x0629;.</option>
-<!-- Example of the C++ inclusion -->
-<option value="" dir="rtl" lang="ar">&#x0645;&#x0627; &#x0647;&#x0648; &#x202A;C++&#x202C;&#x200F;&#x061F; (Arabic Edition)</option>
-<!-- The English for this is approximately: "Apple iPhone XS Max 6.5 tempered glass back and screen protector". 
+   <!-- The English for this is approximately: "Apple iPhone XS Max 6.5 tempered glass back and screen protector". 
      The Arabic starts with a strong LTR character sequence (Apple) and contains weakly directional sequences that display
      incorrectly without help from controls or markup.
--->
-<option value="" dir="auto">Apple iPhone XS Max (6.5) &#x0648;&#x0627;&#x0642;&#x064A; &#x0634;&#x0627;&#x0634;&#x0629; &#x0632;&#x062C;&#x0627;&#x062C;&#x064A; &#x0645;&#x0642;&#x0648;&#x0649; &#x0648;&#x062E;&#x0644;&#x0641;&#x064A; 2.5D - &#x0634;&#x0641;&#x0627;&#x0641; &#x0644;&#x0647;&#x0627;&#x062A;&#x0641; iPhone XS Max</option>
-<!-- comma-separated list spillover effects -->
-<option value="" dir="ltr">from البحرين, بربادوس, and روسيا البيضاء</option>
-<!-- SEATAC message from google translate -->
-<option value="" dir="auto" lang="ar">&#x0627;&#x0633;&#x062A;&#x0642;&#x0644; &#x0647;&#x0646;&#x0627; &#x0644;&#x0644;&#x0628;&#x0648;&#x0627;&#x0628;&#x0627;&#x062A; A & B &#x060C; &#x0648;&#x0646;&#x0642;&#x0644; &#x0625;&#x0644;&#x0649; &#x062C;&#x0645;&#x064A;&#x0639; &#x0627;&#x0644;&#x0628;&#x0648;&#x0627;&#x0628;&#x0627;&#x062A; &#x0627;&#x0644;&#x0623;&#x062E;&#x0631;&#x0649; &#x060C; &#x0648;&#x0627;&#x0633;&#x062A;&#x0644;&#x0627;&#x0645; &#x0627;&#x0644;&#x0623;&#x0645;&#x062A;&#x0639;&#x0629; &#x060C; &#x0648;&#x0627;&#x0644;&#x0646;&#x0642;&#x0644; &#x0627;&#x0644;&#x0628;&#x0631;&#x064A;.</option>
+   -->
+   <option value="" dir="auto">Apple iPhone XS Max (6.5) &#x0648;&#x0627;&#x0642;&#x064A; &#x0634;&#x0627;&#x0634;&#x0629; &#x0632;&#x062C;&#x0627;&#x062C;&#x064A; &#x0645;&#x0642;&#x0648;&#x0649; &#x0648;&#x062E;&#x0644;&#x0641;&#x064A; 2.5D - &#x0634;&#x0641;&#x0627;&#x0641; &#x0644;&#x0647;&#x0627;&#x062A;&#x0641; iPhone XS Max</option>
+   <!-- comma-separated list spillover effects -->
+   <option value="" dir="ltr">from البحرين, بربادوس, and روسيا البيضاء</option>
+   <!-- SEATAC message from google translate -->
+   <option value="" dir="auto" lang="ar">&#x0627;&#x0633;&#x062A;&#x0642;&#x0644; &#x0647;&#x0646;&#x0627; &#x0644;&#x0644;&#x0628;&#x0648;&#x0627;&#x0628;&#x0627;&#x062A; A & B &#x060C; &#x0648;&#x0646;&#x0642;&#x0644; &#x0625;&#x0644;&#x0649; &#x062C;&#x0645;&#x064A;&#x0639; &#x0627;&#x0644;&#x0628;&#x0648;&#x0627;&#x0628;&#x0627;&#x062A; &#x0627;&#x0644;&#x0623;&#x062E;&#x0631;&#x0649; &#x060C; &#x0648;&#x0627;&#x0633;&#x062A;&#x0644;&#x0627;&#x0645; &#x0627;&#x0644;&#x0623;&#x0645;&#x062A;&#x0639;&#x0629; &#x060C; &#x0648;&#x0627;&#x0644;&#x0646;&#x0642;&#x0644; &#x0627;&#x0644;&#x0628;&#x0631;&#x064A;.</option>
+</optgroup>
 
 </select>
 </p>
