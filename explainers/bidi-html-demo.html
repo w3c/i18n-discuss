@@ -103,7 +103,8 @@
 	   }
 	   
        // thanks to Mathias Bynens; converts text to backslash-u escapes
-       // note the fixed line
+       // note the fixed line; notice that this works with supplementary
+       // characters because they are already encoded as UTF-16 surrogates
        function unicodeEscape(str) {
 	       return str.replace(/[\s\S]/g, function(character) {
 		       var escape = character.charCodeAt().toString(16),
@@ -141,6 +142,26 @@
           }
       }
         
+      function removeAllControls() {
+		  var escaped = document.getElementById('escaped');
+		  var text = unescapeUnicode(escaped.value);
+		  var removed = text.replace(/[\s\S]/g, function(character) {
+			  switch (character) {
+				  case '\u061c':
+				  case '\u200e':
+				  case '\u200f':
+				  case '\u2066':
+				  case '\u2067':
+				  case '\u2068':
+				  case '\u2069':
+				  case '\u202a':
+				  case '\u202b':
+				  case '\u202c': return '';
+				  default: return character;
+			  }
+		  });
+		  updateDisplay(removed);
+	  }
         
       function loadLocales() {
 		 var select = document.getElementById('selectLang');
@@ -193,37 +214,41 @@ these to populate the content and display boxes or enter your own text into the 
 <!-- 
       DATA VALUES: replace with the canned values you want. Note that the 'dir' and 'lang' values are used for the display when present.
 -->
-<option value="" dir=auto lang=en>The quick brown fox jumped over the lazy dog.</option>
-<option value="" dir=auto lang=en>Bahrain Egypt Kuwait!</option>
-<option value="" dir=auto lang=ar>Bahrain &#x0645;&#x0635;&#x0631; Kuwait!</option>
-<option value="" dir=auto lang=ar>&#x0627;&#x0644;&#x0628;&#x062D;&#x0631;&#x064A;&#x0646; &#x0645;&#x0635;&#x0631; &#x0627;&#x0644;&#x0643;&#x0648;&#x064A;&#x062A;!</option>
-<option value="" dir=auto lang=ar>The title is "&#x0627;&#x0644;&#x0628;&#x062D;&#x0631;&#x064A;&#x0646; (123456) &#x0645;&#x0635;&#x0631; &#x0627;&#x0644;&#x0643;&#x0648;&#x064A;&#x062A;!" in Arabic.</option>
+<option value="" dir="auto" lang="en">The quick brown fox jumped over the lazy dog.</option>
+<option value="" dir="auto" lang="en">Bahrain Egypt Kuwait!</option>
+<option value="" dir="auto" lang="ar">Bahrain &#x0645;&#x0635;&#x0631; Kuwait!</option>
+<option value="" dir="auto" lang="ar">&#x0627;&#x0644;&#x0628;&#x062D;&#x0631;&#x064A;&#x0646; &#x0645;&#x0635;&#x0631; &#x0627;&#x0644;&#x0643;&#x0648;&#x064A;&#x062A;!</option>
+<!-- this example displays differently using ja, ko, zh-Hans or zh-Hant -->
+<option value="" dir="ltr" lang="ja">雪, 刃, 直, 令, 垔</option> 
 
-<option value="" dir=auto lang=en>Purple Pizza - 4 reviews</option>
-<option value="" dir=rtl lang=he>פיצה סגולה - 4 reviews</option>
-<option value="" dir=auto lang=ar>&#x0627;&#x0644;&#x0633;&#x0639;&#x0631; 1,234.56 AED + 12.99 USD &#x0627;&#x0644;&#x0634;&#x062D;&#x0646;</option>
-<option value="" dir=ltr lang="ja">雪, 刃, 直, 令, 垔</option> <!-- this example displays differently using zh-Hans or zh-Hant -->
+<!-- classic example of spillover from HTML Bidi requirments -->
+<option value="" dir="auto" lang="en">Purple Pizza - 4 reviews</option>
+<option value="" dir="rtl" lang="he">פיצה סגולה - 4 reviews</option>
+
+<!-- example of spillover. This says approximately "Price 1234.56 AED + 12.99 USD in shipping" -->
+<option value="" dir="auto" lang="ar">&#x0627;&#x0644;&#x0633;&#x0639;&#x0631; 1,234.56 AED + 12.99 USD &#x0627;&#x0644;&#x0634;&#x062D;&#x0646;</option>
 
 <!-- string-meta core example -->
-<option value="" dir=rtl lang=ar>HTML &#x0648; CSS: &#x062A;&#x0635;&#x0645;&#x064A;&#x0645; &#x0648; &#x0625;&#x0646;&#x0634;&#x0627;&#x0621; &#x0645;&#x0648;&#x0627;&#x0642;&#x0639; &#x0627;&#x0644;&#x0648;&#x064A;&#x0628;</option>
-<!-- SEATAC message from google translate -->
-<option value="" dir=auto lang=ar>&#x0627;&#x0633;&#x062A;&#x0642;&#x0644; &#x0647;&#x0646;&#x0627; &#x0644;&#x0644;&#x0628;&#x0648;&#x0627;&#x0628;&#x0627;&#x062A; A & B &#x060C; &#x0648;&#x0646;&#x0642;&#x0644; &#x0625;&#x0644;&#x0649; &#x062C;&#x0645;&#x064A;&#x0639; &#x0627;&#x0644;&#x0628;&#x0648;&#x0627;&#x0628;&#x0627;&#x062A; &#x0627;&#x0644;&#x0623;&#x062E;&#x0631;&#x0649; &#x060C; &#x0648;&#x0627;&#x0633;&#x062A;&#x0644;&#x0627;&#x0645; &#x0627;&#x0644;&#x0623;&#x0645;&#x062A;&#x0639;&#x0629; &#x060C; &#x0648;&#x0627;&#x0644;&#x0646;&#x0642;&#x0644; &#x0627;&#x0644;&#x0628;&#x0631;&#x064A;.</option>
+<option value="" dir="rtl" lang="ar">HTML &#x0648; CSS: &#x062A;&#x0635;&#x0645;&#x064A;&#x0645; &#x0648; &#x0625;&#x0646;&#x0634;&#x0627;&#x0621; &#x0645;&#x0648;&#x0627;&#x0642;&#x0639; &#x0627;&#x0644;&#x0648;&#x064A;&#x0628;</option>
 
-
-<option value="" dir=auto>The title is "&#x0627;&#x0644;&#x0628;&#x062D;&#x0631;&#x064A;&#x0646; &#x0645;&#x0635;&#x0631; &#x0627;&#x0644;&#x0643;&#x0648;&#x064A;&#x062A;!" in Arabic.</option>
-<option value="" dir=auto>The title is "&#x202E;&#x0627;&#x0644;&#x0628;&#x062D;&#x0631;&#x064A;&#x0646; &#x0645;&#x0635;&#x0631; &#x0627;&#x0644;&#x0643;&#x0648;&#x064A;&#x062A;!&#x202C;" in Arabic.</option>
-<option value="" dir=auto>&#x0627;&#x0644;&#x0639;&#x0646;&#x0648;&#x0627;&#x0646; &#x0647;&#x0648; ''Bahrain Egypt Kuwait!'' &#x0628;&#x0627;&#x0644;&#x0644;&#x063A;&#x0629; &#x0627;&#x0644;&#x0625;&#x0646;&#x062C;&#x0644;&#x064A;&#x0632;&#x064A;&#x0629;.</option>
-<option value="" dir=auto>&#x0645;&#x0627; &#x0647;&#x0648; &#x202A;C++&#x202C;&#x200F;&#x061F; (Arabic Edition)</option>
-<option value="" dir=auto>&#x0627;&#x0644;&#x0639;&#x0646;&#x0648;&#x0627;&#x0646; &#x0647;&#x0648; {0,number,integer} &#x0628;&#x0627;&#x0644;&#x0644;&#x063A;&#x0629; &#x0627;&#x0644;&#x0625;&#x0646;&#x062C;&#x0644;&#x064A;&#x0632;&#x064A;&#x0629;.</option>
-<option value="" dir=auto>&#x0627;&#x0644;&#x0633;&#x0639;&#x0631; {0,price,in_sentence} + {1,price,in_sentence} &#x0627;&#x0644;&#x0634;&#x062D;&#x0646;</option>
-<option value="" dir=auto>&#x0627;&#x0644;&#x0633;&#x0639;&#x0631; {0,price,in_sentence} &#x0648; {1,price,in_sentence} &#x0627;&#x0644;&#x0634;&#x062D;&#x0646;</option>
-<option value="" dir=auto>&#x0627;&#x0644;&#x0633;&#x0639;&#x0631; {0,number, ##.00} + {1, number, 000.00} &#x0627;&#x0644;&#x0634;&#x062D;&#x0646;</option>
-<option value="" dir=auto>&#x0627;&#x0644;&#x0633;&#x0639;&#x0631; 1,234.56 AED &#x0648; 12,99 USD &#x0627;&#x0644;&#x0634;&#x062D;&#x0646;</option>
-<option value="" dir=auto>The price is 1,234.56 &#x062f;&#x0631;&#x0647;&#x645; + 12.99 &#x062f;&#x0631;&#x0647;&#x645; in shipping.</option>
-<!-- Apple iPhone XS Max 6.5 tempered glass back and screen protector -->
-<option value="" dir=rtl>Apple iPhone XS Max (6.5) &#x0648;&#x0627;&#x0642;&#x064A; &#x0634;&#x0627;&#x0634;&#x0629; &#x0632;&#x062C;&#x0627;&#x062C;&#x064A; &#x0645;&#x0642;&#x0648;&#x0649; &#x0648;&#x062E;&#x0644;&#x0641;&#x064A; 2.5D - &#x0634;&#x0641;&#x0627;&#x0641; &#x0644;&#x0647;&#x0627;&#x062A;&#x0641; iPhone XS Max</option>
+<!-- Embedded LTR title in an RTL sentence. Note that this sentence requires isolating or embedding controls to display correctly. -->
+<option value="" dir="auto">The title is "&#x0627;&#x0644;&#x0628;&#x062D;&#x0631;&#x064A;&#x0646; &#x0645;&#x0635;&#x0631; &#x0627;&#x0644;&#x0643;&#x0648;&#x064A;&#x062A;!" in Arabic.</option>
+<!-- Same as the previous example, but with a weakly directional run inside the Arabic. Used in the demo. -->
+<option value="" dir="auto" lang="ar">The title is "&#x0627;&#x0644;&#x0628;&#x062D;&#x0631;&#x064A;&#x0646; (123456) &#x0645;&#x0635;&#x0631; &#x0627;&#x0644;&#x0643;&#x0648;&#x064A;&#x062A;!" in Arabic.</option>
+<!-- inverse of the above 'the title is' example, with an LTR title embedded into an RTL sentence -->
+<option value="" dir="auto">&#x0627;&#x0644;&#x0639;&#x0646;&#x0648;&#x0627;&#x0646; &#x0647;&#x0648; ''Bahrain Egypt Kuwait!'' &#x0628;&#x0627;&#x0644;&#x0644;&#x063A;&#x0629; &#x0627;&#x0644;&#x0625;&#x0646;&#x062C;&#x0644;&#x064A;&#x0632;&#x064A;&#x0629;.</option>
+<!-- Example of the C++ inclusion -->
+<option value="" dir="rtl" lang="ar">&#x0645;&#x0627; &#x0647;&#x0648; &#x202A;C++&#x202C;&#x200F;&#x061F; (Arabic Edition)</option>
+<!-- The English for this is approximately: "Apple iPhone XS Max 6.5 tempered glass back and screen protector". 
+     The Arabic starts with a strong LTR character sequence (Apple) and contains weakly directional sequences that display
+     incorrectly without help from controls or markup.
+-->
+<option value="" dir="auto">Apple iPhone XS Max (6.5) &#x0648;&#x0627;&#x0642;&#x064A; &#x0634;&#x0627;&#x0634;&#x0629; &#x0632;&#x062C;&#x0627;&#x062C;&#x064A; &#x0645;&#x0642;&#x0648;&#x0649; &#x0648;&#x062E;&#x0644;&#x0641;&#x064A; 2.5D - &#x0634;&#x0641;&#x0627;&#x0641; &#x0644;&#x0647;&#x0627;&#x062A;&#x0641; iPhone XS Max</option>
 <!-- comma-separated list spillover effects -->
-<option value="" dir=ltr>from البحرين, بربادوس, and روسيا البيضاء</option>
+<option value="" dir="ltr">from البحرين, بربادوس, and روسيا البيضاء</option>
+<!-- SEATAC message from google translate -->
+<option value="" dir="auto" lang="ar">&#x0627;&#x0633;&#x062A;&#x0642;&#x0644; &#x0647;&#x0646;&#x0627; &#x0644;&#x0644;&#x0628;&#x0648;&#x0627;&#x0628;&#x0627;&#x062A; A & B &#x060C; &#x0648;&#x0646;&#x0642;&#x0644; &#x0625;&#x0644;&#x0649; &#x062C;&#x0645;&#x064A;&#x0639; &#x0627;&#x0644;&#x0628;&#x0648;&#x0627;&#x0628;&#x0627;&#x062A; &#x0627;&#x0644;&#x0623;&#x062E;&#x0631;&#x0649; &#x060C; &#x0648;&#x0627;&#x0633;&#x062A;&#x0644;&#x0627;&#x0645; &#x0627;&#x0644;&#x0623;&#x0645;&#x062A;&#x0639;&#x0629; &#x060C; &#x0648;&#x0627;&#x0644;&#x0646;&#x0642;&#x0644; &#x0627;&#x0644;&#x0628;&#x0631;&#x064A;.</option>
+
 </select>
 </p>
 
@@ -231,7 +256,7 @@ these to populate the content and display boxes or enter your own text into the 
 <p>Shows the underlying code point sequence with non-ASCII characters escaped using JavaScript's <code>\u</code> escape syntax.
 Edits in this box can be reflected into the "display" box by clicking <kbd>Update</kbd>. HTML inserted here is treated as
 markup in the display box. Use bidi control buttons or <kbd>span</kbd>-inserting buttons to insert controls into the text (for example,
-to provide bidi isolation). You can directly enter plain non-ASCII text into this box: clicking <code>update</code> will convert 
+to provide bidi isolation). You can directly enter plain text (including any <em>non-ASCII</em> text) into this box: clicking <code>update</code> will convert 
 it to escapes.</p>
 <textarea rows=5 cols=80 id="escaped" dir="ltr" style="font-size: 16pt"></textarea><br>
 <button type="button" name="escButton" onclick="updateFromEscaped()">Update</button> 
@@ -247,6 +272,7 @@ it to escapes.</p>
 <button type=button name="spanButton" onclick="insertAtCursor(escaped, '\\u2067')">RLI</button>
 <button type=button name="spanButton" onclick="insertAtCursor(escaped, '\\u2068')">FSI</button>
 <button type=button name="spanButton" onclick="insertAtCursor(escaped, '\\u2069')">PDI</button>
+<button type=button name="removeCtrlsButton" onclick="removeAllControls()">Remove Controls</button>
 <br>
 
 <h4>Language:</h4>
