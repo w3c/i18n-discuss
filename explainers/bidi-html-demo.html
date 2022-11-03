@@ -35,13 +35,23 @@
 		   var value = document.getElementById('displayableContent');
 		   alert(value.textContent);
 	   }
+	   
+	   // load displayed content from the query parameter 'text'
+	   function updateFromParameter() {
+		   // note that this API handles URI percent-encoding
+		   const query = window.location.search;
+		   console.log(query);
+		   const params = new URLSearchParams(query);
+		   if (params.has('text')) {
+			   updateDisplay(unescapeUnicode(params.get('text')));
+		   }
+	   }
 		 
        function updateFromSelect() {
 		   var select = document.getElementById("values");
 		   var val = select.options[select.selectedIndex].text;
 		   document.forms.form.elements.displayMeDir.value = select.options[select.selectedIndex].dir;
 		   select.dir = select.options[select.selectedIndex].dir;
-		   //document.forms.form.elements.displayMeLang.value = select.options[select.selectedIndex].lang;
 		   updateDisplay(val);
        }
 	   
@@ -115,9 +125,10 @@
 	       });
        }
        
-       // converts backslash-u escapes to UTF-16 code units
+       // converts JavaScript escapes to UTF-16 code units
+       // this only handles pre-JS6 backslash-u escapes
        function unescapeUnicode(str) {
-		   var r = /\\u([\d\w]{4})/gi;
+		   var r = /[\\\/]u([\d\w]{4})/gi;
            str = str.replace(r, function (match, grp) {
               return String.fromCharCode(parseInt(grp, 16)); } );
            return str;
@@ -172,7 +183,7 @@
 			 const display = new Intl.DisplayNames(loc, {type: 'language', style: 'short'});
 			 var option = document.createElement('option');
 			 option.value = locales[locale]; // use the language tag
-			 const title = document.createAttribute('title');
+			 var title = document.createAttribute('title');
 			 title.value = locales[locale];
 			 option.setAttributeNode(title);
 
@@ -203,7 +214,7 @@
    }
    </style>
 </head>
-<body onload="loadLocales()">
+<body onload="loadLocales(); updateFromParameter()">
 <h1>Bidirectional Text Demo</h1>
 
 <form id="form" action="bidi-html-demo.html">
