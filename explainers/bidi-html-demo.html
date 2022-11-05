@@ -45,6 +45,17 @@
 		   if (params.has('text')) {
 			   updateDisplay(unescapeUnicode(params.get('text')));
 		   }
+		   if (params.has('dir')) {
+			   var passedDir = params.get('dir').toLowerCase();
+			   switch (passedDir) {
+				   case 'ltr':
+				   case 'rtl':
+				   case 'auto':
+				      document.forms.form.elements.displayMeDir.value = passedDir;
+				      break;
+				   default: // do nothing
+			   }
+		   }
 	   }
 		 
        function updateFromSelect() {
