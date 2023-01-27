@@ -1,16 +1,32 @@
-# Explainer: String-Meta discussion between ECMA-402 and W3C I18N
+# Explainer: Why is W3C I18N trying to add language and direction metadata to the Web?
 
-The [W3C Internationalization (I18N) Working Group](https://www.w3.org/International/i18n-activity/i18n-wg/) has been working on getting Web specifications to provide language and base direction metadata in document formats and protocols. We have developed a Working Group Note ["String-Meta"](https://w3c.github.io/string-meta) and a [use cases](https://www.w3.org/International/articles/lang-bidi-use-cases/) document that describe requirements and potential approaches in depth. We encourage readers to seek out those documents, of which this is a summary.
+The [W3C Internationalization (I18N) Working Group](https://www.w3.org/International/i18n-activity/i18n-wg/) has been working on getting Web specifications to provide language and base direction metadata in document formats and protocols. We have documented our work in a Working Group Note ["String-Meta"](https://w3c.github.io/string-meta) and a [use cases](https://www.w3.org/International/articles/lang-bidi-use-cases/) document that describe requirements and potential approaches in depth. We encourage readers to seek out those documents, of which this is a summary.
 
 # What is the problem?
 
 The display or processing of text often depends on metadata not encoded into strings of Unicode characters. Many Web APIs and data formats do not address the need for this metadata to be preserved or transmitted for natural language string content or, where they do, do not address these needs consistently and interoperably. Detailed examples are provided in our [use cases document](https://www.w3.org/International/articles/lang-bidi-use-cases/).
 
+Our goal is to allow natural language text data to be collected, serialized, stored, disseminated, processed, and ultimately displayed as expected across the Web platform. When data without language or direction metadata is inserted into an HTML page, if that text is labeled with the correct language tag and bidi isolated with the correct base direction, it will be displayed in the most appropriate manner. When the metadata is missing, the results can degrade (even to the point of illegibility).
+
+If each specification were left to their own devices, we might end up with a myriad of different ways of encoding the language and direction metadata on the Web. Mapping this data through various specs, standards, and implementations would require greater care on the part of developers. Specifications or implementations that didn't adopt metadata might serve effectively as "filters", removing the metadata in some mid-stream process, rendering the work of others moot. So consistency and wide availability of a standardized solution would be the best choice.
+
+Generally speaking, I18N has asked for language metadata dating back over 30 years. As a result, such metadata is widely available in structured document formats and many protocols. Base direction metadata is less prevalent and I18N's request for this metadata was less consistent prior to work on HTML5.
+
 ## Why do we need *language* metadata? Is it only for CJK font selection?
+
+No. The most visible negative impact of omitting or having the wrong language metadata appears in font selection for Chinese, Japanese, and Korean language materials using Han ideographs. Improper font selection can render certain characters illegible or difficult to read or result in unattractive "ransom note" effects. However, CJK font selection is not the only text processing that is affected by language. Many other processes, such as hyphenation, first-letter selection, titlecasing, spelling correction, and many others depend on language metadata.
 
 ## Why do we need *base paragraph direction* metadata?
 
+There are two ways that base paragraph direction affects data on the Web.
+
+First, when text is presented as paragraphs, having the correct base paragraph direction results is proper layout and overcomes problems with text that has misleading initial directional runs.
+
+Second, when text, such as from an API, is _inserted_ into a page or display element (such as a larger message), the text should always be bidirectionally isolated from the surrounding message. In HTML this requires adding a `dir` attribute with a specific value. In plain text this requires adding Unicode isolating control character pairs around the string. While "first-strong" detection can sometimes provide the correct result for such placement, there are many strings where this is not the case.
+
 ## Why are we asking for a data type?
+
+> stopped here
 
 ## What do we want TC39 and ECMA-402 to do?
 
