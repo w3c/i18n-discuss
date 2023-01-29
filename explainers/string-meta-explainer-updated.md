@@ -12,21 +12,33 @@ If each specification were left to their own devices, we might end up with a myr
 
 Generally speaking, I18N has asked for language metadata dating back over 30 years. As a result, such metadata is widely available in structured document formats and many protocols. Base direction metadata is less prevalent and I18N's request for this metadata was less consistent prior to work on HTML5.
 
-## Why do we need *language* metadata? Is it only for CJK font selection?
+## Is language metadata only for CJK font selection? What is *language* metadata used for anyway?
 
-No. The most visible negative impact of omitting or having the wrong language metadata appears in font selection for Chinese, Japanese, and Korean language materials using Han ideographs. Improper font selection can render certain characters illegible or difficult to read or result in unattractive "ransom note" effects. However, CJK font selection is not the only text processing that is affected by language. Many other processes, such as hyphenation, first-letter selection, titlecasing, spelling correction, and many others depend on language metadata.
+No.
+
+The most visible negative impact of omitting or having the wrong language metadata appears in font selection for Chinese, Japanese, and Korean language materials using Han ideographs. Improper font selection can render certain characters illegible or difficult to read or result in unattractive "ransom note" effects. However, CJK font selection is not the only text processing that is affected by language. Many other processes, such as hyphenation, first-letter selection, titlecasing, spelling correction, and many other operations depend on language metadata.
 
 ## Why do we need *base paragraph direction* metadata?
 
-There are two ways that base paragraph direction affects data on the Web.
+Direction metadata is needed because the Unicode Bidirectional Algorithm often needs help to get the right results for display and interpolating the value is difficult. There are two ways that base paragraph direction affects data on the Web:
 
 First, when text is presented as paragraphs, having the correct base paragraph direction results is proper layout and overcomes problems with text that has misleading initial directional runs.
 
 Second, when text, such as from an API, is _inserted_ into a page or display element (such as a larger message), the text should always be bidirectionally isolated from the surrounding message. In HTML this requires adding a `dir` attribute with a specific value. In plain text this requires adding Unicode isolating control character pairs around the string. While "first-strong" detection can sometimes provide the correct result for such placement, there are many strings where this is not the case.
 
-## Why are we asking for a data type?
+## Why are we asking for a new string data type?
+
+Mainly we're asking because WebIDL wants it. What I18N actually wants is for specs and standards on the Web to consistently provide `language` and `direction` metadata fields for natural language string values. For Javascript and JSON based data structures and formats, this could take the form of a `Dictionary` or other standardized set of values that can be included into a field by reference.
+
+We thought the best location for such a pre-defined pseudo-type would be the [WebIDL specification](https://webidl.spec.whatwg.org), since many specs use IDL to describe their own data structures or interfaces for their APIs. However, WebIDL's maintainers want to restrict types to those defined by EMCAScript proper. Various groups, including TAG, concur with this idea, leading to our request for a datatype.
 
 > stopped here
+
+## Are there other alternatives?
+
+## How would adoption work?
+
+## What about specs that don't understand the new type? What about existing standards?
 
 ## What do we want TC39 and ECMA-402 to do?
 
