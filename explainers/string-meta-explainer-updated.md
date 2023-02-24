@@ -12,6 +12,39 @@ If each specification were left to their own devices, we might end up with a myr
 
 Generally speaking, I18N has asked for language metadata dating back over 30 years. As a result, such metadata is widely available in structured document formats and many protocols. Base direction metadata is less prevalent and I18N's request for this metadata was less consistent prior to work on HTML5.
 
+## The core bidi example
+
+Here is a book title presented correctly in Arabic:
+
+> ⁧HTML و CSS: تصميم و إنشاء مواقع الويب!⁩
+
+The equivalent title in English would be:
+
+> HTML and CSS: Design and Build Websites!
+
+The correct presentation of the Arabic title in this page was achieved by inserting bidirectional control characters around the string. These characters will not exist in normal data and should not be inserted into the data itself. However, without the controls, the display of the string is not correct:
+
+> HTML و CSS: تصميم و إنشاء مواقع الويب!"
+
+If we further insert this title into an English (or other _ltr_ language) message, it might look like this:
+
+> You purchased "HTML و CSS: تصميم و إنشاء مواقع الويب!" today
+
+And presenting that string in an RTL context can look like this:
+
+![image](https://user-images.githubusercontent.com/69082/221299274-4dce7520-08f7-4a04-a3bb-a3acc147fc0c.png)
+
+... which is illegible. To avoid problems like this, we need to provide bidirectional isolation for string data values inserted at runtime and this requires direction metadata to get the correct result. Notice that our example title starts with a strongly _ltr_ word: `HTML`, so heuristics that look at the "first strong" character in the string will be fooled by the Latin-script acronym "HTML".
+
+To complete the set, here's an approximate translation of the string into Arabic:
+
+> لقد اشتريت "HTML و CSS: تصميم و إنشاء مواقع الويب!" اليوم
+
+Which can look like this when presented in an LTR page:
+
+![image](https://user-images.githubusercontent.com/69082/221300949-7801e8ba-ff9c-4358-9315-f7673df5e702.png)
+
+
 ## What is *language* metadata used for anyway?
 
 Many processes on the Web depend on accurate language metadata or language detection to get high-quality results. Some examples of this include:
