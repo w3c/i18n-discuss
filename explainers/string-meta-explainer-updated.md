@@ -12,11 +12,21 @@ If each specification were left to their own devices, we might end up with a myr
 
 Generally speaking, I18N has asked for language metadata dating back over 30 years. As a result, such metadata is widely available in structured document formats and many protocols. Base direction metadata is less prevalent and I18N's request for this metadata was less consistent prior to work on HTML5.
 
-## Is language metadata only for CJK font selection? What is *language* metadata used for anyway?
+## What is *language* metadata used for anyway?
+
+Many processes on the Web depend on accurate language metadata or language detection to get high-quality results. Some examples of this include:
+
+* hyphenation
+* first "letter" selection (such as creating drop caps)
+* case folding (such as titlecasing)
+* spelling correction
+* font selection (including selection of fallback fonts)
+
+## Is language metadata mainly or only for CJK font selection?
 
 No.
 
-The most visible negative impact of omitting or having the wrong language metadata appears in font selection for Chinese, Japanese, and Korean language materials using Han ideographs. Improper font selection can render certain characters illegible or difficult to read or result in unattractive "ransom note" effects. However, CJK font selection is not the only text processing that is affected by language. Many other processes, such as hyphenation, first-letter selection, titlecasing, spelling correction, and many other operations depend on language metadata.
+The best-known visible negative impact of omitting or having the wrong language metadata appears in font selection for Chinese, Japanese, and Korean language materials using Han ideographs. Improper font selection can render certain characters illegible or difficult to read or result in unattractive "ransom note" effects. However, these are not the only languages affected by language-specific font selection. Other examples include Arabic script languages (where some languages need, for example, a Nastaliq style font vs. a more general purpose font in a style such as Naskh), or a variety of languages in less common scripts, where linguistic needs are sometimes accounted for by fonts.
 
 ## Why do we need *base paragraph direction* metadata?
 
