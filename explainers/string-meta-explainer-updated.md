@@ -1,4 +1,4 @@
-# Explainer: Why is W3C I18N trying to add language and direction metadata to the Web?
+# Explainer: Why is W3C I18N trying to define a common data structure for language and direction metadata on the Web?
 
 The [W3C Internationalization (I18N) Working Group](https://www.w3.org/International/i18n-activity/i18n-wg/) has been working on getting Web specifications to provide language and base direction metadata in document formats and protocols. We have documented our work in a Working Group Note ["String-Meta"](https://w3c.github.io/string-meta) and a [use cases](https://www.w3.org/International/articles/lang-bidi-use-cases/) document that describe requirements and potential approaches in depth. We encourage readers to seek out those documents, of which this is a summary.
 
@@ -39,41 +39,48 @@ The equivalent title in English would be:
 
 > HTML and CSS: Design and Build Websites!
 
-The correct presentation of the Arabic title in this explainer was achieved by inserting bidirectional control characters around the string. These characters will not exist in normal data and should not be inserted into the data itself. However, without the controls, the display of the string is not correct:
+The correct presentation of the Arabic title in this explainer was achieved by inserting bidirectional control characters around the string. These characters will not exist in normal data and should not be inserted into the data itself. However, without the controls, the display of the string is not quite correct:
 
 > HTML و CSS: تصميم و إنشاء مواقع الويب!
 
-This may not be immediately apparent if you do not speak or read Arabic, since the English words `HTML` and `CSS` and the `:` and `!` appear to be correctly positioned for your English language expectations. However, the last word in the title is actually the one directly to the right of the colon. Try using your mouse to select the text and observe how the bidi behaves.
+This may not be immediately apparent if you do not speak or read Arabic, since the English words `HTML` and `CSS` and the `:` and `!` appear to be correctly positioned for your English language expectations. However, the last word in the title is actually the one directly to the right of the colon. Try using your mouse to select the text and observe how the text selection behaves.
 
-If we retrieve the JSON record in the example and attempt to display it into an English (or other _ltr_ language) page, the resulting HTML fragment might look like this:
+One common operation is to retrieve a record (such as our example) and use it to assemble part of the user experience, such as in a Web page. The application typically has a template that the data is inserted into, either at the server or client-side, when rendering the page. Such a template might look like this:
 
 ```html
-<p>You purchased "HTML و CSS: تصميم و إنشاء مواقع الويب!" today.</p>
+<p>The book <cite>{$title}</cite> will be published on {$pubdate}.</p>
 ```
+
+If we retrieve the JSON record in the example and attempt to display it into an English (or other _ltr_ language) page, the resulting display might look like this:
+
+![image](https://user-images.githubusercontent.com/69082/221373856-c45c2eb6-7203-4052-8cee-0ecad5819a87.png)
+
 
 If we present that string in an RTL context (perhaps the string hasn't been localized into Arabic yet), it can look like this:
 
-![image](https://user-images.githubusercontent.com/69082/221299274-4dce7520-08f7-4a04-a3bb-a3acc147fc0c.png)
+![image](https://user-images.githubusercontent.com/69082/221373887-e5873363-12f2-4258-ab0d-c9c236337c10.png)
 
-... which is illegible. To avoid problems like this, we need to provide bidirectional isolation for string data values inserted at runtime and this requires direction metadata to get the correct result. Notice that our example title starts with a strongly _ltr_ word: `HTML`, so heuristics that look at the "first strong" character in the string will be fooled by the Latin-script acronym "HTML".
+... which is illegible. 
 
-To complete the set, here's an approximate translation of the string into Arabic:
-
-> لقد اشتريت "HTML و CSS: تصميم و إنشاء مواقع الويب!" اليوم
-
-Which can look like this when presented in an LTR page:
-
-![image](https://user-images.githubusercontent.com/69082/221300949-7801e8ba-ff9c-4358-9315-f7673df5e702.png)
-
-What should happen when inserting the data into the page is that the application surrounds the title with an element (such as `span`) with a `dir` attribute. Doing so in HTML5 results in bidi isolation and the correct display of the title *and* its surrounding string, with no spillover effects. Here we use the `cite` element:
+To avoid problems like this (when writing a static HTML page), a page author would normally provide help to the bidi algorithm. Notice that our example title starts with a strongly _ltr_ word: `HTML`, so heuristics that look at the "first strong" character in the string will be fooled by the Latin-script acronym "HTML". What we want to do is modify our template so that the program that inserts the title and date can also insert the help that the bidi algoritm (and other processing) needs:
 
 ```html
-<pYou purchased <cite dir=rtl>HTML و CSS: تصميم و إنشاء مواقع الويب!</cite> today.</p>
+<p>The book <cite dir={$title.dir} lang={$title.lang}>{$title}</cite> will be published on {$pubdate}.</p>
+```
+
+Doing this in HTML5 results in bidi isolation and the correct display of the title *and* its surrounding string, with no spillover effects. Here we are using the `cite` element:
+
+```html
+<pYou purchased <cite dir=rtl lang=ar>HTML و CSS: تصميم و إنشاء مواقع الويب!</cite> today.</p>
 ```
 
 The results might look something like this:
 
-![image](https://user-images.githubusercontent.com/69082/221372930-095021d6-4850-4978-93f9-0f8a9bba6c8a.png)
+![image](https://user-images.githubusercontent.com/69082/221374099-1137818c-e5a1-4c2b-8e40-d3d7301a0dca.png)
+
+One other thing to notice: the font in the bottom screen capture changed! This is because the `lang` attribute triggered the browser's font fallback mechanism to look for an appropriate Arabic language font (rather than the default fallback). There is nothing special in the style sheet of the page to trigger this: merely providing the correct `lang` value got the appropriate display.
+
+_Feel free to paste the above texts into our [playground page](https://w3c.github.io/i18n-discuss/explainers/bidi-html-demo.html) or choose examples from the drop down box. Screen shots in this section were taken from the playground page in Firefox/Windows._
 
 
 ## What is *language* metadata used for anyway?
