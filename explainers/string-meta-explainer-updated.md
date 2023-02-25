@@ -62,13 +62,15 @@ If we present that string in an RTL context (perhaps the string hasn't been loca
 
 ... which is illegible. 
 
-To avoid problems like this (when writing a static HTML page), a page author would normally provide help to the bidi algorithm. Notice that our example title starts with a strongly _ltr_ word: `HTML`, so heuristics that look at the "first strong" character in the string will be fooled by the Latin-script acronym "HTML". What we want to do is modify our template so that the program that inserts the title and date can also insert the help that the bidi algoritm (and other processing) needs:
+We could hardcode `dir="auto"` into the template, which would result in bidirectional isolation (good) and would use a "first-strong" heuristic to guess the rest of the text presentation. However, notice that our example title starts with a strongly left-to-right word: `HTML`, the _first-strong_ heuristic will be fooled into thinking that the string is left-to-right, when in fact it is an RTL string.
+
+To avoid problems like this (when writing a static HTML page), a page author would normally provide help to the bidi algorithm.  What we want to do is modify our template so that the program that inserts the title and date can also insert the help that the bidi algoritm (and other processing) needs:
 
 ```html
 <p>The book <cite dir={$title.dir} lang={$title.lang}>{$title}</cite> will be published on {$pubdate}.</p>
 ```
 
-Doing this in HTML5 results in bidi isolation and the correct display of the title *and* its surrounding string, with no spillover effects. Here we are using the `cite` element:
+Doing this in HTML5 results in bidi isolation and the correct display of the title *and* its surrounding string, with no spillover effects:
 
 ```html
 <pYou purchased <cite dir=rtl lang=ar>HTML و CSS: تصميم و إنشاء مواقع الويب!</cite> today.</p>
@@ -78,7 +80,9 @@ The results might look something like this:
 
 ![image](https://user-images.githubusercontent.com/69082/221374099-1137818c-e5a1-4c2b-8e40-d3d7301a0dca.png)
 
-One other thing to notice: the font in the bottom screen capture changed! This is because the `lang` attribute triggered the browser's font fallback mechanism to look for an appropriate Arabic language font (rather than the default fallback). There is nothing special in the style sheet of the page to trigger this: merely providing the correct `lang` value got the appropriate display.
+The problem here is that the values for `{$title.dir}` and `{$title.lang}` have to come from somewhere. If the application's author is careful, she might make allowances for this throughout her application. But if each standard solves this problem individually, there is a risk that data structures defined by standards will do so in different ways, using different field names, and requiring careful "wiring" to ensure that nothing is lost end-to-end.
+
+One other thing to notice: the font for the Arabic text in the bottom screen capture changed! This is because the `lang` attribute triggered the browser's font fallback mechanism to look for an appropriate Arabic language font (rather than the default fallback). There is nothing special in the style sheet of the page to trigger this: merely providing the correct `lang` value got the appropriate `sans-serif` font for Arabic (vs. the previous use of a generic fallback, which happened to use a `serif` font for Arabic script text).
 
 _Feel free to paste the above texts into our [playground page](https://w3c.github.io/i18n-discuss/explainers/bidi-html-demo.html) or choose examples from the drop down box. Screen shots in this section were taken from the playground page in Firefox/Windows._
 
