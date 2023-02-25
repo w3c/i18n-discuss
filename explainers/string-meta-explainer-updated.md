@@ -14,7 +14,24 @@ Generally speaking, I18N has asked for language metadata dating back over 30 yea
 
 ## The core bidi example
 
-Here is a book title presented correctly in Arabic:
+To understand the need for directional metadata, we have to think about the lifecycle of data in an application. While page authors using HTML now have the tools to manage and display bidirectional text when composing a page, this isn't always true when an application is retrieving data from various services or databases and composing the page at runtime. In our document [Strings on the Web: Language and Direction Metadata](https://w3c.github.io/string-meta) (aka `String-Meta`), we use the example of an on-line book catalog.
+
+One data structure you might find in this catalog might look something like this:
+
+```json
+{
+    "id": "978-111887164-5",
+    "title": "HTML \u0648 CSS: \u062a\u0635\u0645\u064a\u0645 \u0648 \u0625\u0646\u0634\u0627\u0621 \u0645\u0648\u0627\u0642\u0639 \u0627\u0644\u0648\u064a\u0628!",
+    "authors": [ "Jon Duckett" ],
+    "language": "ar",
+    "pubDate": "2008-01-01",
+    "publisher": "مكتبة",
+    "coverImage": "https://example.com/images/html_and_css_cover.jpg",
+    // etc.
+},
+```
+
+Here we have used `\u` escapes for the Arabic in the book title to prevent any bidi issues in displaying the title here. When converted into a string and correctly presented in Arabic, the title looks like this:
 
 > ⁧HTML و CSS: تصميم و إنشاء مواقع الويب!⁩
 
@@ -22,15 +39,19 @@ The equivalent title in English would be:
 
 > HTML and CSS: Design and Build Websites!
 
-The correct presentation of the Arabic title in this page was achieved by inserting bidirectional control characters around the string. These characters will not exist in normal data and should not be inserted into the data itself. However, without the controls, the display of the string is not correct:
+The correct presentation of the Arabic title in this explainer was achieved by inserting bidirectional control characters around the string. These characters will not exist in normal data and should not be inserted into the data itself. However, without the controls, the display of the string is not correct:
 
-> HTML و CSS: تصميم و إنشاء مواقع الويب!"
+> HTML و CSS: تصميم و إنشاء مواقع الويب!
 
-If we further insert this title into an English (or other _ltr_ language) message, it might look like this:
+This may not be immediately apparent if you do not speak or read Arabic, since the English words `HTML` and `CSS` and the `:` and `!` appear to be correctly positioned for your English language expectations. However, the last word in the title is actually the one directly to the right of the colon. Try using your mouse to select the text and observe how the bidi behaves.
 
-> You purchased "HTML و CSS: تصميم و إنشاء مواقع الويب!" today
+If we retrieve the JSON record in the example and attempt to display it into an English (or other _ltr_ language) page, the resulting HTML fragment might look like this:
 
-And presenting that string in an RTL context can look like this:
+```html
+<p>You purchased "HTML و CSS: تصميم و إنشاء مواقع الويب!" today.</p>
+```
+
+If we present that string in an RTL context (perhaps the string hasn't been localized into Arabic yet), it can look like this:
 
 ![image](https://user-images.githubusercontent.com/69082/221299274-4dce7520-08f7-4a04-a3bb-a3acc147fc0c.png)
 
@@ -43,6 +64,16 @@ To complete the set, here's an approximate translation of the string into Arabic
 Which can look like this when presented in an LTR page:
 
 ![image](https://user-images.githubusercontent.com/69082/221300949-7801e8ba-ff9c-4358-9315-f7673df5e702.png)
+
+What should happen when inserting the data into the page is that the application surrounds the title with an element (such as `span`) with a `dir` attribute. Doing so in HTML5 results in bidi isolation and the correct display of the title *and* its surrounding string, with no spillover effects. Here we use the `cite` element:
+
+```html
+<pYou purchased <cite dir=rtl>HTML و CSS: تصميم و إنشاء مواقع الويب!</cite> today.</p>
+```
+
+The results might look something like this:
+
+![image](https://user-images.githubusercontent.com/69082/221372930-095021d6-4850-4978-93f9-0f8a9bba6c8a.png)
 
 
 ## What is *language* metadata used for anyway?
