@@ -4,7 +4,7 @@ The [W3C Internationalization (I18N) Working Group](https://www.w3.org/Internati
 
 # What is the problem?
 
-The Arabic script is the second most widely used script in the world after Latin, and there are many other RTL scripts. If you try to display a string without setting the right base direction, you will get garbled text.  For example:
+The Arabic script is the second most widely used script in the world after Latin, and there are many other RTL scripts. If you try to display a string without setting the correct base direction, you will get garbled text.  For example:
 
 <img width="702" alt="Screenshot 2023-03-02 at 11 31 37" src="https://user-images.githubusercontent.com/4839211/222420395-186bb379-ccc5-4cbb-844c-de594bc7b0d2.png">
 
