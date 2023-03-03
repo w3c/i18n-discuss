@@ -36,7 +36,7 @@
 		   alert(value.textContent);
 	   }
 	   
-	   // load displayed content from the query parameter 'text'
+	   // Update the display from URL parameters
 	   function updateFromParameter() {
 		   // note that this API handles URI percent-encoding
 		   const query = window.location.search;
@@ -69,10 +69,16 @@
 		   if (params.has('text')) {
 			   updateDisplay(unescapeUnicode(params.get('text')));
 		   }
+		   
+		   if (params.has('selectLang')) {
+			   var selectedLang = params.get('selectLang');
+			   var index = Math.max(0, locales.indexOf(selectedLang));
+			   document.getElementById('selectLang').selectedIndex = index;
+	       }
 	   }
 		 
        function updateFromSelect() {
-		   var select = document.getElementById("values");
+		   var select = document.getElementById('values');
 		   var val = select.options[select.selectedIndex].text;
 		   document.forms.form.elements.displayMeDir.value = select.options[select.selectedIndex].dir;
 		   select.dir = select.options[select.selectedIndex].dir;
