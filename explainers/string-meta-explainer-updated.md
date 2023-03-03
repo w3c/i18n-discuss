@@ -4,11 +4,11 @@ The [W3C Internationalization (I18N) Working Group](https://www.w3.org/Internati
 
 # What is the problem?
 
-The Arabic script is the second most widely used script in the world after Latin, and there are many other RTL scripts. If you try to display a string without setting the correct base direction, you will get garbled text.  For example:
+The Arabic script is the second most widely used script in the world after Latin, and there are many other RTL scripts. If you try to display a string without setting the correct base direction, you will get garbled text.  For example [^1]:
 
 <img width="702" alt="Screenshot 2023-03-02 at 11 31 37" src="https://user-images.githubusercontent.com/4839211/222420395-186bb379-ccc5-4cbb-844c-de594bc7b0d2.png">
 
-will become the very garbled:
+will become the very garbled [^2]:
 
 <img width="702" alt="Screenshot 2023-03-02 at 11 31 25" src="https://user-images.githubusercontent.com/4839211/222420448-aaed7f58-087c-4b26-91ca-d48b35dd4ebf.png">
 
@@ -18,7 +18,10 @@ If you are displaying a string of Han ideographs to a user, you'll need to know 
 
 ![ja_zh_fonts](https://user-images.githubusercontent.com/4839211/222422731-8b6f4aff-599c-4326-99f0-b09811428f65.png)
 
-This is a problem that affects other languages, besides Japanese and Chinese.  But language metadata is also needed to support things like hyphenation, voice browser rendering, line breaking behaviour, spell checking, sorting  lists, or formatting values, and so on.
+* <span lang="ja">雪, 刃, 直, 令, 垔</span>
+* <span lang="zh-Hans">雪, 刃, 直, 令, 垔</span>
+
+This is a problem that affects other languages, besides Japanese and Chinese: language metadata is also needed to support things like hyphenation, voice browser rendering, line breaking behaviour, spell checking, sorting  lists, or formatting values, and so on.
 
 Because a lack of information about direction and language can cause problems for end users, we need to find solutions for the cases that fail.  That's the aim of the work described here.
 
@@ -277,6 +280,9 @@ When an API returns base direction, the consumer can use that to assign base dir
 
 In a series of spec reviews dating back approximately four years, I18N has asked for specifications to include language and direction metadata for every natural language text string value in data structures. It seems likely that a standardized representation would help with interchange. 
 
+# Examples
+[^1] https://w3c.github.io/i18n-discuss/explainers/bidi-html-demo.html?item=4&dir=rtl
+[^2] https://w3c.github.io/i18n-discuss/explainers/bidi-html-demo.html?item=4&dir=ltr
 
 # References 
 
