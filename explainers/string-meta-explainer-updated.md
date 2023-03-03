@@ -19,9 +19,9 @@ If you are displaying a string of Han ideographs to a user, you'll need to know 
 ![ja_zh_fonts](https://user-images.githubusercontent.com/4839211/222422731-8b6f4aff-599c-4326-99f0-b09811428f65.png)
 
 As markdown:
-> <span lang="ja">雪, 刃, 直, 令, 垔</span> (Japanese)
+> <span lang="ja">雪, 刃, 直, 令, 垔</span> (Japanese) [^3]
 
-> <span lang="zh-Hans">雪, 刃, 直, 令, 垔</span> (Simplfied Chinese)
+> <span lang="zh-Hans">雪, 刃, 直, 令, 垔</span> (Simplfied Chinese) [^4]
 
 This is a problem that affects other languages, besides Japanese and Chinese and includes more than just font selection: language metadata is also needed to support things like hyphenation, voice browser rendering, line breaking behaviour, spell checking, sorting  lists, or formatting values, and so on.
 
@@ -109,35 +109,7 @@ The I18N WG is not keen on this as the name of an ECMAScript datatype. `Localiza
 
 We worked with JSON-LD to define a [serialization](https://www.w3.org/TR/json-ld/#the-i18n-namespace), but it doesn’t solve our problem in APIs.
 
-## Background
-
-### Why is this important?
-
-Strings containing natural language text are a common type of data on the Web. Display APIs and document formats such as HTML provide the means to set the language and base direction of text. When strings are passed through data formats such as JSON and then inserted into a customer’s display, unless the language and direction metadata remain associated with the string values, there is nothing to use to set these "hooks" into the display layer. Introspection of strings to restore or detect language and base direction is difficult to accomplish and heuristics for doing this are estimates at best.
-
-This document cannot present all of the details of why language and direction metadata are important. The below examples are just a taste of the issues. **For detailed examples and breakdown of all of the issues, see [lang-bidi-use-cases](https://www.w3.org/International/articles/lang-bidi-use-cases/).**
-
-### Why is language information needed? What can go wrong?
-
-Language metadata is used by user-agents to select fonts and do other text rendering tasks that are important to end users. When language metadata is missing or incorrect, the results can be damaged in appearance or functionality. 
-
-For example, the following strings are identical. Changing the language causes the characters to render differently:
-* <span lang="ja">雪, 刃, 直, 令, 垔</span>
-* <span lang="zh-Hans">雪, 刃, 直, 令, 垔</span>
-
-Other language-related operations are also affected by not having language metadata. For example, language-affected operations include (among others) hyphenation, voice browser rendering, line breaking behaviour, the rendering of quotes when using HTML's `q` element, the application of spell checking by the user-agent, the sorting of lists, or the formatting of values. Accessibility features, such as voice selection in a screen reader, depend on language information. 
-
-### Why is base direction needed? What can go wrong?
-
-When data is sent to a user-agent and then inserted into the display, the base text direction of the data is needed to help the Unicode Bidirectional Algorithm (UBA) lay out the text correctly. When the base direction is not set and the wrong direction is used, the results can be difficult (and sometimes impossible) to read. 
-
-A super-simple example to illustrate how the _apparent_ word order can change:
-
-> Bahrain مصر Kuwait!
-
-> &#x200f;Bahrain مصر Kuwait!
-
-#### Why can't we just introspect the data?
+## Why can't we just introspect the data?
 
 Introspecting the string value itself can be difficult or unrealistic to get right. For more details and examples, see:[qa-direction-from-language](https://www.w3.org/International/questions/qa-direction-from-language)
 
@@ -300,3 +272,5 @@ _Feel free to paste the above texts into our [playground page](https://w3c.githu
 
 [^1]: [Example 1](https://w3c.github.io/i18n-discuss/explainers/bidi-html-demo.html?item=4&dir=rtl)
 [^2]: [Example 2](https://w3c.github.io/i18n-discuss/explainers/bidi-html-demo.html?item=4&dir=ltr)
+[^3]: [`ja` Example](https://w3c.github.io/i18n-discuss/explainers/bidi-html-demo.html?item=5&selectLang=ja)
+[^4]: [`zh-Hans` Example](https://w3c.github.io/i18n-discuss/explainers/bidi-html-demo.html?item=5&selectLang=zh-Hans)
