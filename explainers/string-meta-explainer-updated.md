@@ -33,9 +33,8 @@ Our goal is to allow natural language text data to be collected, serialized, sto
 
 If each specification were left to their own devices, we might end up with a myriad of different ways of encoding the language and direction metadata on the Web. Mapping this data through various specs, standards, and implementations would require greater care on the part of developers. Specifications or implementations that didn't adopt metadata might serve effectively as "filters", removing the metadata in some mid-stream process, rendering the work of others moot. So consistency and wide availability of a standardized solution would be the best choice.
 
-Generally speaking, I18N has asked for language metadata dating back over 30 years. As a result, such metadata is widely available in structured document formats and many protocols. Base direction metadata is less prevalent and I18N's request for this metadata was less consistent prior to work on HTML5.
 
-## The core bidi example
+## A deeper dive...
 
 To understand the need for directional metadata, we have to think about the lifecycle of data in an application. While page authors using HTML now have the tools to manage and display bidirectional text when composing a page, this isn't always true when an application is retrieving data from various services or databases and composing the page at runtime. In our document [Strings on the Web: Language and Direction Metadata](https://w3c.github.io/string-meta) (aka `String-Meta`), we use the example of an on-line book catalog.
 
@@ -140,9 +139,20 @@ Mainly we're asking because WebIDL wants it. What I18N actually wants is for spe
 
 We thought the best location for such a pre-defined pseudo-type would be the [WebIDL specification](https://webidl.spec.whatwg.org), since many specs use IDL to describe their own data structures or interfaces for their APIs. However, WebIDL's maintainers want to restrict types to those defined by EMCAScript proper. Various groups, including TAG, concur with this idea, leading to our request for a datatype.
 
-> stopped here
+## Why didn't you ask for direction metadata earlier?
 
-## Are there other alternatives?
+We didn't identify this as a problem early enough. The need for base direction metadata grew out of efforts by the bidi community to improve usability in HTML. This lead to improvements and changes in the Unicode Bidirectional Algorithm and a better understanding of the difficulties faced by bidi language speakers.
+
+By contrast, I18N has asked for language metadata dating back over 30 years. As a result, such metadata is widely available in structured document formats and many protocols. Base direction metadata is less prevalent and I18N's request for this metadata was less consistent prior to work on HTML5.
+
+## Are there other alternatives? What other solutions have been considered?
+
+Yes. The other options for providing base direction metadata on the Web include:
+
+* Provide a `Localizable` dictionary definition that each Specification can define locally. _While this would be effective in addressing the needs of a given API or document format, interoperability might be harmed since there would be no built-in support in core libraries and since mapping between specifications/APIs/formats would have to be done manually._
+* Provide a `Localizable` type in [WebIDL](https://github.com/whatwg/webidl/issues/1025) that Specifications can just reference. _This would be effective for specifications that use IDL, but might not address the needs found in libraries, runtimes, etc. Also, IDL tries to mirror what ECMAScript does._
+* Use [JSON-LD serialization forms](https://www.w3.org/TR/json-ld/#base-direction) based on the `i18n` namespace. _This solution is already effective for JSON-LD, but is limited to JSON-LD._
+* Use an application-specific means of encoding the values into a string’s character sequence (such as used by [WebAuthn](https://www.w3.org/TR/webauthn-2/#sctn-strings-langdir); note I18N's [comments](https://github.com/w3c/webauthn/issues?q=is%3Aissue+is%3Aopen+label%3Ai18n-needs-resolution) about this). _This solution solves a specifications immediate local needs, but does not address interoperability concerns._
 
 ## How would adoption work?
 
@@ -150,20 +160,11 @@ We thought the best location for such a pre-defined pseudo-type would be the [We
 
 ## What do we want TC39 and ECMA-402 to do?
 
-We would like ECMAScript to add a new datatype for [natural language](https://www.w3.org/TR/i18n-glossary/#def_natural_language) strings that, in addition to existing `String` methods, includes attributes for language and base direction, plus appropriate methods for interacting with these attributes.
+We asking ECMAScript to add a new datatype for [natural language](https://www.w3.org/TR/i18n-glossary/#def_natural_language) strings that, in addition to existing `String` methods, includes attributes for language and base direction, plus appropriate methods for interacting with these attributes.
 
 We have reached a rough consensus with W3C TAG and several working groups that this is a desirable approach to the problem of consistent interchange of natural language strings. Such a datatype might also be consistent with or leverage work done by Unicode's MessageFormat working group and potentially related work at ECMA-402 in support of localization and runtime string formatting. However, these would be "nice-to-have" from our point of view.
 
 A model for such a datatype can be found in [webidl#1025](https://github.com/whatwg/webidl/issues/1025), wherein we requested that WebIDL add a `Localizable` type to IDL. Our goal in defining a datatype via core standards, such as EMCAScript and WebIDL, is to avoid having each specification define its own (possibly different) natural language string definition. This would promote interoperability. TAG agrees that the next step would be for TC39 to consider such an addition.
-
-## What solutions have been considered?
-
-Different threads have suggested different ways of providing this:
-
-* Provide a `Localizable` dictionary definition that each Specification can define locally. _While this would be effective in addressing the needs of a given API or document format, interoperability might be harmed since there would be no built-in support in core libraries and since mapping between specifications/APIs/formats would have to be done manually._
-* Provide a `Localizable` type in [WebIDL](https://github.com/whatwg/webidl/issues/1025) that Specifications can just reference. _This would be effective for specifications that use IDL, but might not address the needs found in libraries, runtimes, etc. Also, IDL tries to mirror what ECMAScript does._
-* Use [JSON-LD serialization forms](https://www.w3.org/TR/json-ld/#base-direction) based on the `i18n` namespace. _This solution is already effective for JSON-LD, but is limited to JSON-LD._
-* Use an application-specific means of encoding the values into a string’s character sequence (such as used by [WebAuthn](https://www.w3.org/TR/webauthn-2/#sctn-strings-langdir); note I18N's [comments](https://github.com/w3c/webauthn/issues?q=is%3Aissue+is%3Aopen+label%3Ai18n-needs-resolution) about this). _This solution solves a specifications immediate local needs, but does not address interoperability concerns._
 
 ### What is the state of the request to WebIDL?
 
