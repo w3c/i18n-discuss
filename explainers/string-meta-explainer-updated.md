@@ -19,97 +19,21 @@ If you are displaying a string of Han ideographs to a user, you'll need to know 
 ![ja_zh_fonts](https://user-images.githubusercontent.com/4839211/222422731-8b6f4aff-599c-4326-99f0-b09811428f65.png)
 
 As markdown:
-> Japanese: <span lang="ja">雪, 刃, 直, 令, 垔</span>
+> <span lang="ja">雪, 刃, 直, 令, 垔</span> (Japanese)
 
-> Simplified Chinese: <span lang="zh-Hans">雪, 刃, 直, 令, 垔</span>
+> <span lang="zh-Hans">雪, 刃, 直, 令, 垔</span> (Simplfied Chinese)
 
-This is a problem that affects other languages, besides Japanese and Chinese: language metadata is also needed to support things like hyphenation, voice browser rendering, line breaking behaviour, spell checking, sorting  lists, or formatting values, and so on.
+This is a problem that affects other languages, besides Japanese and Chinese and includes more than just font selection: language metadata is also needed to support things like hyphenation, voice browser rendering, line breaking behaviour, spell checking, sorting  lists, or formatting values, and so on.
 
 Because a lack of information about direction and language can cause problems for end users, we need to find solutions for the cases that fail.  That's the aim of the work described here.
 
-# What is the problem?
-
-The display or processing of text often depends on metadata not encoded into strings of Unicode characters. Many Web APIs and data formats do not address the need for this metadata to be preserved or transmitted for natural language string content or, where they do, do not address these needs consistently and interoperably. Detailed examples are provided in our [use cases document](https://www.w3.org/International/articles/lang-bidi-use-cases/).
+## What is your goal?
 
 Our goal is to allow natural language text data to be collected, serialized, stored, disseminated, processed, and ultimately displayed as expected across the Web platform. When data without language or direction metadata is inserted into an HTML page, if that text is labeled with the correct language tag and bidi isolated with the correct base direction, it will be displayed in the most appropriate manner. When the metadata is missing, the results can degrade (even to the point of illegibility).
 
+## Why can't each specification define its own solution?
+
 If each specification were left to their own devices, we might end up with a myriad of different ways of encoding the language and direction metadata on the Web. Mapping this data through various specs, standards, and implementations would require greater care on the part of developers. Specifications or implementations that didn't adopt metadata might serve effectively as "filters", removing the metadata in some mid-stream process, rendering the work of others moot. So consistency and wide availability of a standardized solution would be the best choice.
-
-
-## A deeper dive...
-
-To understand the need for directional metadata, we have to think about the lifecycle of data in an application. While page authors using HTML now have the tools to manage and display bidirectional text when composing a page, this isn't always true when an application is retrieving data from various services or databases and composing the page at runtime. In our document [Strings on the Web: Language and Direction Metadata](https://w3c.github.io/string-meta) (aka `String-Meta`), we use the example of an on-line book catalog.
-
-One data structure you might find in this catalog might look something like this:
-
-```json
-{
-    "id": "978-111887164-5",
-    "title": "HTML \u0648 CSS: \u062a\u0635\u0645\u064a\u0645 \u0648 \u0625\u0646\u0634\u0627\u0621 \u0645\u0648\u0627\u0642\u0639 \u0627\u0644\u0648\u064a\u0628!",
-    "authors": [ "Jon Duckett" ],
-    "language": "ar",
-    "pubDate": "2008-01-01",
-    "publisher": "مكتبة",
-    "coverImage": "https://example.com/images/html_and_css_cover.jpg",
-    // etc.
-},
-```
-
-Here we have used `\u` escapes for the Arabic in the book title to prevent any bidi issues in displaying the title here. When converted into a string and correctly presented in Arabic, the title looks like this:
-
-> ⁧HTML و CSS: تصميم و إنشاء مواقع الويب!⁩
-
-The equivalent title in English would be:
-
-> HTML and CSS: Design and Build Websites!
-
-The correct presentation of the Arabic title in this explainer was achieved by inserting bidirectional control characters around the string. These characters will not exist in normal data and should not be inserted into the data itself. However, without the controls, the display of the string is not quite correct:
-
-> HTML و CSS: تصميم و إنشاء مواقع الويب!
-
-This may not be immediately apparent if you do not speak or read Arabic, since the English words `HTML` and `CSS` and the `:` and `!` appear to be correctly positioned for your English language expectations. However, the last word in the title is actually the one directly to the right of the colon. Try using your mouse to select the text and observe how the text selection behaves.
-
-One common operation is to retrieve a record (such as our example) and use it to assemble part of the user experience, such as in a Web page. The application typically has a template that the data is inserted into, either at the server or client-side, when rendering the page. Such a template might look like this:
-
-```html
-<p>The book <cite>{$title}</cite> will be published on {$pubdate}.</p>
-```
-
-If we retrieve the JSON record in the example and attempt to display it into an English (or other _ltr_ language) page, the resulting display might look like this:
-
-![image](https://user-images.githubusercontent.com/69082/221373856-c45c2eb6-7203-4052-8cee-0ecad5819a87.png)
-
-
-If we present that string in an RTL context (perhaps the string hasn't been localized into Arabic yet), it can look like this:
-
-![image](https://user-images.githubusercontent.com/69082/221373887-e5873363-12f2-4258-ab0d-c9c236337c10.png)
-
-... which is illegible. 
-
-We could hardcode `dir="auto"` into the template, which would result in bidirectional isolation (good) and would use a "first-strong" heuristic to guess the rest of the text presentation. However, notice that our example title starts with a strongly left-to-right word: `HTML`, the _first-strong_ heuristic will be fooled into thinking that the string is left-to-right, when in fact it is an RTL string.
-
-To avoid problems like this (when writing a static HTML page), a page author would normally provide help to the bidi algorithm.  What we want to do is modify our template so that the program that inserts the title and date can also insert the help that the bidi algoritm (and other processing) needs:
-
-```html
-<p>The book <cite dir={$title.dir} lang={$title.lang}>{$title}</cite> will be published on {$pubdate}.</p>
-```
-
-Doing this in HTML5 results in bidi isolation and the correct display of the title *and* its surrounding string, with no spillover effects:
-
-```html
-<pYou purchased <cite dir=rtl lang=ar>HTML و CSS: تصميم و إنشاء مواقع الويب!</cite> today.</p>
-```
-
-The results might look something like this:
-
-![image](https://user-images.githubusercontent.com/69082/221374099-1137818c-e5a1-4c2b-8e40-d3d7301a0dca.png)
-
-The problem here is that the values for `{$title.dir}` and `{$title.lang}` have to come from somewhere. If the application's author is careful, she might make allowances for this throughout her application. But if each standard solves this problem individually, there is a risk that data structures defined by standards will do so in different ways, using different field names, and requiring careful "wiring" to ensure that nothing is lost end-to-end.
-
-One other thing to notice: the font for the Arabic text in the bottom screen capture changed! This is because the `lang` attribute triggered the browser's font fallback mechanism to look for an appropriate Arabic language font (rather than the default fallback). There is nothing special in the style sheet of the page to trigger this: merely providing the correct `lang` value got the appropriate `sans-serif` font for Arabic (vs. the previous use of a generic fallback, which happened to use a `serif` font for Arabic script text).
-
-_Feel free to paste the above texts into our [playground page](https://w3c.github.io/i18n-discuss/explainers/bidi-html-demo.html) or choose examples from the drop down box. Screen shots in this section were taken from the playground page in Firefox/Windows._
-
 
 ## What is *language* metadata used for anyway?
 
@@ -283,9 +207,80 @@ When an API returns base direction, the consumer can use that to assign base dir
 
 In a series of spec reviews dating back approximately four years, I18N has asked for specifications to include language and direction metadata for every natural language text string value in data structures. It seems likely that a standardized representation would help with interchange. 
 
-# Examples
-[^1]: [Example 1](https://w3c.github.io/i18n-discuss/explainers/bidi-html-demo.html?item=4&dir=rtl)
-[^2]: [Example 2](https://w3c.github.io/i18n-discuss/explainers/bidi-html-demo.html?item=4&dir=ltr)
+
+## A deeper dive...
+
+To understand the need for directional metadata, we have to think about the lifecycle of data in an application. While page authors using HTML now have the tools to manage and display bidirectional text when composing a page, this isn't always true when an application is retrieving data from various services or databases and composing the page at runtime. In our document [Strings on the Web: Language and Direction Metadata](https://w3c.github.io/string-meta) (aka `String-Meta`), we use the example of an on-line book catalog.
+
+One data structure you might find in this catalog might look something like this:
+
+```json
+{
+    "id": "978-111887164-5",
+    "title": "HTML \u0648 CSS: \u062a\u0635\u0645\u064a\u0645 \u0648 \u0625\u0646\u0634\u0627\u0621 \u0645\u0648\u0627\u0642\u0639 \u0627\u0644\u0648\u064a\u0628!",
+    "authors": [ "Jon Duckett" ],
+    "language": "ar",
+    "pubDate": "2008-01-01",
+    "publisher": "مكتبة",
+    "coverImage": "https://example.com/images/html_and_css_cover.jpg",
+    // etc.
+},
+```
+
+Here we have used `\u` escapes for the Arabic in the book title to prevent any bidi issues in displaying the title here. When converted into a string and correctly presented in Arabic, the title looks like this:
+
+> ⁧HTML و CSS: تصميم و إنشاء مواقع الويب!⁩
+
+The equivalent title in English would be:
+
+> HTML and CSS: Design and Build Websites!
+
+The correct presentation of the Arabic title in this explainer was achieved by inserting bidirectional control characters around the string. These characters will not exist in normal data and should not be inserted into the data itself. However, without the controls, the display of the string is not quite correct:
+
+> HTML و CSS: تصميم و إنشاء مواقع الويب!
+
+This may not be immediately apparent if you do not speak or read Arabic, since the English words `HTML` and `CSS` and the `:` and `!` appear to be correctly positioned for your English language expectations. However, the last word in the title is actually the one directly to the right of the colon. Try using your mouse to select the text and observe how the text selection behaves.
+
+One common operation is to retrieve a record (such as our example) and use it to assemble part of the user experience, such as in a Web page. The application typically has a template that the data is inserted into, either at the server or client-side, when rendering the page. Such a template might look like this:
+
+```html
+<p>The book <cite>{$title}</cite> will be published on {$pubdate}.</p>
+```
+
+If we retrieve the JSON record in the example and attempt to display it into an English (or other _ltr_ language) page, the resulting display might look like this:
+
+![image](https://user-images.githubusercontent.com/69082/221373856-c45c2eb6-7203-4052-8cee-0ecad5819a87.png)
+
+
+If we present that string in an RTL context (perhaps the string hasn't been localized into Arabic yet), it can look like this:
+
+![image](https://user-images.githubusercontent.com/69082/221373887-e5873363-12f2-4258-ab0d-c9c236337c10.png)
+
+... which is illegible. 
+
+We could hardcode `dir="auto"` into the template, which would result in bidirectional isolation (good) and would use a "first-strong" heuristic to guess the rest of the text presentation. However, notice that our example title starts with a strongly left-to-right word: `HTML`, the _first-strong_ heuristic will be fooled into thinking that the string is left-to-right, when in fact it is an RTL string.
+
+To avoid problems like this (when writing a static HTML page), a page author would normally provide help to the bidi algorithm.  What we want to do is modify our template so that the program that inserts the title and date can also insert the help that the bidi algoritm (and other processing) needs:
+
+```html
+<p>The book <cite dir={$title.dir} lang={$title.lang}>{$title}</cite> will be published on {$pubdate}.</p>
+```
+
+Doing this in HTML5 results in bidi isolation and the correct display of the title *and* its surrounding string, with no spillover effects:
+
+```html
+<pYou purchased <cite dir=rtl lang=ar>HTML و CSS: تصميم و إنشاء مواقع الويب!</cite> today.</p>
+```
+
+The results might look something like this:
+
+![image](https://user-images.githubusercontent.com/69082/221374099-1137818c-e5a1-4c2b-8e40-d3d7301a0dca.png)
+
+The problem here is that the values for `{$title.dir}` and `{$title.lang}` have to come from somewhere. If the application's author is careful, she might make allowances for this throughout her application. But if each standard solves this problem individually, there is a risk that data structures defined by standards will do so in different ways, using different field names, and requiring careful "wiring" to ensure that nothing is lost end-to-end.
+
+One other thing to notice: the font for the Arabic text in the bottom screen capture changed! This is because the `lang` attribute triggered the browser's font fallback mechanism to look for an appropriate Arabic language font (rather than the default fallback). There is nothing special in the style sheet of the page to trigger this: merely providing the correct `lang` value got the appropriate `sans-serif` font for Arabic (vs. the previous use of a generic fallback, which happened to use a `serif` font for Arabic script text).
+
+_Feel free to paste the above texts into our [playground page](https://w3c.github.io/i18n-discuss/explainers/bidi-html-demo.html) or choose examples from the drop down box. Screen shots in this section were taken from the playground page in Firefox/Windows._
 
 # References 
 
@@ -300,3 +295,8 @@ In a series of spec reviews dating back approximately four years, I18N has asked
 *    [7a] https://github.com/w3c/webauthn/issues/1644
 *    [7b] https://github.com/w3c/webauthn/issues?q=is%3Aissue+is%3Aopen+label%3Ai18n-needs-resolution
 
+---
+<!-- footnotes -->
+
+[^1]: [Example 1](https://w3c.github.io/i18n-discuss/explainers/bidi-html-demo.html?item=4&dir=rtl)
+[^2]: [Example 2](https://w3c.github.io/i18n-discuss/explainers/bidi-html-demo.html?item=4&dir=ltr)
