@@ -19,8 +19,9 @@ If you are displaying a string of Han ideographs to a user, you'll need to know 
 ![ja_zh_fonts](https://user-images.githubusercontent.com/4839211/222422731-8b6f4aff-599c-4326-99f0-b09811428f65.png)
 
 As markdown:
-> <span lang="ja">雪, 刃, 直, 令, 垔</span>
-> <span lang="zh-Hans">雪, 刃, 直, 令, 垔</span>
+> Japanese: <span lang="ja">雪, 刃, 直, 令, 垔</span>
+
+> Simplified Chinese: <span lang="zh-Hans">雪, 刃, 直, 令, 垔</span>
 
 This is a problem that affects other languages, besides Japanese and Chinese: language metadata is also needed to support things like hyphenation, voice browser rendering, line breaking behaviour, spell checking, sorting  lists, or formatting values, and so on.
 
