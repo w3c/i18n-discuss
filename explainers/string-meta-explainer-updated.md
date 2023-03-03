@@ -281,8 +281,8 @@ When an API returns base direction, the consumer can use that to assign base dir
 In a series of spec reviews dating back approximately four years, I18N has asked for specifications to include language and direction metadata for every natural language text string value in data structures. It seems likely that a standardized representation would help with interchange. 
 
 # Examples
-[^1] https://w3c.github.io/i18n-discuss/explainers/bidi-html-demo.html?item=4&dir=rtl
-[^2] https://w3c.github.io/i18n-discuss/explainers/bidi-html-demo.html?item=4&dir=ltr
+[^1]: [Example 1](https://w3c.github.io/i18n-discuss/explainers/bidi-html-demo.html?item=4&dir=rtl)
+[^2]: [Example 2](https://w3c.github.io/i18n-discuss/explainers/bidi-html-demo.html?item=4&dir=ltr)
 
 # References 
 
