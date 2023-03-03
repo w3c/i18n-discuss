@@ -74,6 +74,7 @@
 			   var selectedLang = params.get('selectLang');
 			   var index = Math.max(0, locales.indexOf(selectedLang));
 			   document.getElementById('selectLang').selectedIndex = index;
+			   updateLang();
 	       }
 	   }
 		 
@@ -96,6 +97,13 @@
 		   var displayMe = document.getElementById('displayableContent');
 		   var attr = document.createAttribute('dir');
 		   attr.value = dir;
+		   displayMe.setAttributeNode(attr);
+	   }
+	   
+	   function updateLang() {
+		   var displayMe = document.getElementById('displayableContent');
+		   var attr = document.createAttribute('lang');
+		   attr.value = getLocale();
 		   displayMe.setAttributeNode(attr);
 	   }
 	   
@@ -125,7 +133,7 @@
 		   
 		   // get the language from the form
 		   var langAttr = document.createAttribute('lang');
-		   langAttr.value = getLocale(); // document.forms.form.elements.displayMeLang.value;
+		   langAttr.value = getLocale();
 		   h2.setAttributeNode(langAttr);
 		   
 		   displayDiv.append(h2);
