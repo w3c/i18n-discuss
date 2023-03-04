@@ -23,13 +23,13 @@ As markdown:
 
 > <span lang="zh-Hans">雪, 刃, 直, 令, 垔</span> (Simplfied Chinese) [^4]
 
-This is a problem that affects other languages, besides Japanese and Chinese and includes more than just font selection: language metadata is also needed to support things like hyphenation, voice browser rendering, line breaking behaviour, spell checking, sorting  lists, or formatting values, and so on.
+This is a problem that affects other languages besides Japanese and Chinese and the functionality includes more than just font selection: language metadata is also needed to support things like hyphenation, voice browser rendering, line breaking behaviour, spell checking, sorting  lists, or formatting values, and so on.
 
 Because a lack of information about direction and language can cause problems for end users, we need to find solutions for the cases that fail.  That's the aim of the work described here.
 
 ## What is your goal?
 
-Our goal is to allow natural language text data to be collected, serialized, stored, disseminated, processed, and ultimately displayed as expected across the Web platform. When data without language or direction metadata is inserted into an HTML page, if that text is labeled with the correct language tag and bidi isolated with the correct base direction, it will be displayed in the most appropriate manner. When the metadata is missing, the results can degrade (even to the point of illegibility).
+Our goal is to allow natural language text data to be collected, serialized, stored, disseminated, processed, and ultimately displayed as expected across the Web platform. When data is inserted into an HTML page with the correct language and direction, it will be displayed in the most appropriate manner. When the metadata is missing, the results can degrade (even into illegibility).
 
 ## Why can't each specification define its own solution?
 
@@ -59,6 +59,14 @@ First, when text is presented as paragraphs, having the correct base paragraph d
 
 Second, when text, such as from an API, is _inserted_ into a page or display element (such as a larger message), the text should always be bidirectionally isolated from the surrounding message. In HTML this requires adding a `dir` attribute with a specific value. In plain text this requires adding Unicode isolating control character pairs around the string. While "first-strong" detection can sometimes provide the correct result for such placement, there are many strings where this is not the case.
 
+## What about bidirectional text *inside* of a string? Doesn't that still need help?
+
+Sometimes bidirectional text can fool the bidirectional algorithm, particularly when ambiguous runs of opposite direction characters appear in the text. In these cases, Unicode controls or markup is needed inside the string to get the right appearance. However, unlike base direction information, these presentational encoding tweaks are inherently part of the data. Authors can be expected to provide appropriate controls and expect them to be transmitted just like the visible characters in the text.
+
+## Why don't we just require implementations to wrap text in bidi controls?
+
+Generally speaking, most specifications for APIs, data formats, and the like don't want to modify data passing through them except where this would violate an application's constraints. Adding bidirectional controls actually changes the data from what is stored on the sending end. It also requires accurate knowledge of the base direction. Implementations receiving such data can't know if the controls or markup was part of the original data (and thus intentional) or was added by an interstitial process. Addition of controls also invites perverse cases of multiple wrapping.
+
 ## Why are we asking for a new string data type?
 
 Mainly we're asking because WebIDL wants it. What I18N actually wants is for specs and standards on the Web to consistently provide `language` and `direction` metadata fields for natural language string values. For Javascript and JSON based data structures and formats, this could take the form of a `Dictionary` or other standardized set of values that can be included into a field by reference.
@@ -81,6 +89,8 @@ Yes. The other options for providing base direction metadata on the Web include:
 * Use an application-specific means of encoding the values into a string’s character sequence (such as used by [WebAuthn](https://www.w3.org/TR/webauthn-2/#sctn-strings-langdir); note I18N's [comments](https://github.com/w3c/webauthn/issues?q=is%3Aissue+is%3Aopen+label%3Ai18n-needs-resolution) about this). _This solution solves a specifications immediate local needs, but does not address interoperability concerns._
 
 ## How would adoption work?
+
+Adoption of a new data type would require the same kind of rollout that other features do. Assuming the type were added to a release of the EMCAScript standard, this would be followed by implementation in the major engines and later adoption/deployment in browsers and other runtime hosts. Developers would have to use a shim initially, with full support emerging over time.
 
 ## What about specs that don't understand the new type? What about existing standards?
 
