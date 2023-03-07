@@ -33,9 +33,9 @@ Our goal is to allow natural language text data to be collected, serialized, sto
 
 ## Why can't each specification define its own solution?
 
-If each specification were left to their own devices, we might end up with a myriad of different ways of encoding the language and direction metadata on the Web. Mapping this data through various specs, standards, and implementations would require greater care on the part of developers. Specifications or implementations that didn't adopt metadata might serve effectively as "filters", removing the metadata in some mid-stream process, rendering the work of others moot. So consistency and wide availability of a standardized solution would be the best choice.
+If each specification were left to their own devices, we might end up with a myriad of different ways of encoding the language and direction metadata on the Web--including some specifications that provide no support at all. Mapping a string value through through various layers, formats, or applications would require greater care on the part of developers. Specifications or implementations that didn't adopt metadata might serve effectively as "filters", removing the metadata in some mid-stream process, rendering the work of others moot. So consistency and wide availability of a standardized solution would be the best choice.
 
-## What is *language* metadata used for anyway?
+## What is *language* metadata used for?
 
 Many processes on the Web depend on accurate language metadata or language detection to get high-quality results. Some examples of this include:
 
