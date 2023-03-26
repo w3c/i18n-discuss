@@ -12,7 +12,7 @@ will become the very garbled [^2]:
 
 <img width="702" alt="Screenshot 2023-03-02 at 11 31 25" src="https://user-images.githubusercontent.com/4839211/222420448-aaed7f58-087c-4b26-91ca-d48b35dd4ebf.png">
 
-Often this problem (and others) can be avoided by setting a base direction that is the same as that of the first character in the string. However, this isn't always possible, and in those cases the string has to come with metadata that indicates the expected display direction.
+Sometimes this problem (and others) can be avoided by setting a base direction that is the same as that of the first character in the string. However, many strings start with characters that are not representative of the string as a whole: in those cases the string has to come with metadata that indicates the expected display direction.
 
 If you are displaying a string of Han ideographs to a user, you'll need to know which language they speak in order to get the right font. Otherwise, Japanese users will be presented with text that reads like Chinese, and vice versa. The following shows examples of characters that appear differently depending on the language:
 
