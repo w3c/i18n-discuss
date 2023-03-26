@@ -57,7 +57,7 @@ Direction metadata is needed because the Unicode Bidirectional Algorithm often n
 
 First, when text is presented as paragraphs, having the correct base paragraph direction results is proper layout and overcomes problems with text that has misleading initial directional runs.
 
-Second, when text, such as from an API, is _inserted_ into a page or display element (such as a larger message), the text should always be bidirectionally isolated from the surrounding message. In HTML this requires adding a `dir` attribute with a specific value. In plain text this requires adding Unicode isolating control character pairs around the string. While "first-strong" detection can sometimes provide the correct result for such placement, there are many strings where this is not the case.
+Second (and potentially more important for data on the Web), when text is _inserted_ into a page or display element (such as a larger message), the text should always be bidirectionally isolated from the surrounding message. In HTML this requires adding a `dir` attribute with a specific value. In plain text this requires adding Unicode isolating control character pairs around the string. While "first-strong" detection can sometimes provide the correct result for such placement, there are many strings where this is not the case.
 
 ## What about bidirectional text *inside* of a string? Doesn't that still need help?
 
@@ -65,7 +65,7 @@ Sometimes bidirectional text can fool the bidirectional algorithm, particularly 
 
 ## Why don't we just require implementations to wrap text in bidi controls?
 
-Generally speaking, most specifications for APIs, data formats, and the like don't want to modify data passing through them except where this would violate an application's constraints. Adding bidirectional controls actually changes the data from what is stored on the sending end. It also requires accurate knowledge of the base direction. Implementations receiving such data can't know if the controls or markup was part of the original data (and thus intentional) or was added by an interstitial process. Addition of controls also invites perverse cases of multiple wrapping.
+Generally speaking, most specifications for APIs or data format should not require implementations to modify the data values passing through them except where this would violate an application's constraints. Adding bidirectional controls actually changes the data from what is stored on the sending end. It also requires accurate knowledge of the base direction (and introspection of the data in case controls are already present). Implementations receiving such data can't know if the controls or markup was part of the original data (and thus intentional) or was added by an interstitial process. Addition of controls also invites perverse cases of multiple wrapping. And, of course, some implementations need to run on resource constrained devices that might have a hard time doing any of this.
 
 ## Why are we asking for a new string data type?
 
