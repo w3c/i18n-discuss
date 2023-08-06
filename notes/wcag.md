@@ -16,7 +16,7 @@ This does not apply to all writing systems. For example, Chinese and Japanese pr
 
 > Line spacing (leading) is at least space-and-a-half within paragraphs
 
-Some writing systems expect larger inter-line gaps than others. `@kidayasuo` mentioned that case for Japanese in https://github.com/w3c/wcag/issues/2680#issuecomment-1252083642 and `@yyyug` mentioned the case for Chinese in https://github.com/w3c/wcag/issues/2680#issuecomment-1666380598
+Some writing systems expect larger inter-line gaps than others. `@kidayasuo` mentioned that case for Japanese in https://github.com/w3c/wcag/issues/2680#issuecomment-1252083642 and `@yyyug` mentioned the case for Chinese in https://github.com/w3c/wcag/issues/2680#issuecomment-1666380598 . Moreover, if it is vertical Chinese that includes Bopomofo, the line spacing may need to be increased further.
 
 Moreover, the complexity of characters in some Brahmic scripts may affect line height settings too. See [Tamil](https://www.w3.org/International/ilreq/tamil/#baselines) and [Thai](https://www.w3.org/International/sealreq/thai/#baselines) for examples.
 
