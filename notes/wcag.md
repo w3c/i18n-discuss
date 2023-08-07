@@ -56,4 +56,4 @@ Also, there is no mention of mixed text composition. There are also many cases o
 
 For example, [Chinese](https://www.w3.org/TR/clreq/#chinese_and_western_mixed_text_composition)/[Japanese](https://www.w3.org/TR/jlreq/#japanese_and_western_mixed_text_composition) and Latin mixed text composition is pretty common, and I have also seen mixed text composition of Chinese and other scripts such as Arabic, Tai Le, and so on.
 
-We should also mention that when WCAG is translated into other languages, care must be taken to adjust the text here to match the requirements of that language.
+We should also mention that when WCAG is translated into other languages, care must be taken to adjust the text here to match the requirements of that language/script/region.
