@@ -66,4 +66,4 @@ We could probably revise it to a note like this:
 
 > If the text contains multiple human languages, the author should adjust the text style properties in written text based on the overall readability and legibility of the text.
 
-> When WCAG is translated into another language, care must be taken to adjust the guideline to match the requirements of that language.
+> When WCAG is translated into another language, care must be taken to adjust the guideline to match the requirements of that combination of language, script, and region.
