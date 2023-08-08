@@ -1,3 +1,5 @@
+# I18N WG summary
+
 This is not exhaustive scientific research, but merely to give a basic idea of some of the requirements and recommendations for non-Latin orthographies.
 
 In https://www.w3.org/TR/WCAG22/#visual-presentation :
