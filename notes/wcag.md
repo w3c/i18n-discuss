@@ -16,15 +16,17 @@ This does not apply to all writing systems. For example, Chinese and Japanese pr
 
 > Line spacing (leading) is at least space-and-a-half within paragraphs
 
-Some writing systems expect larger inter-line gaps than others. `@kidayasuo` mentioned that case for Japanese in https://github.com/w3c/wcag/issues/2680#issuecomment-1252083642 and `@yyyug` mentioned the case for Chinese in https://github.com/w3c/wcag/issues/2680#issuecomment-1666380598 . Moreover, if it is vertical Chinese that includes Bopomofo, the line spacing may need to be increased further.
+Some writing systems expect larger inter-line gaps than others. `@kidayasuo` mentioned that case for Japanese in https://github.com/w3c/wcag/issues/2680#issuecomment-1252083642 and `@yyyug` mentioned the case for Chinese in https://github.com/w3c/wcag/issues/2680#issuecomment-1666380598 . Moreover, for Traditional Chinese, if the Bopomofo annotation mark is taller than the base character, the line spacing may need to be increased further.
 
-In addition to Chinese and Japanese, the complexity of characters in some Brahmic scripts may affect line height settings too. See [Tamil](https://www.w3.org/International/ilreq/tamil/#baselines) and [Thai](https://www.w3.org/International/sealreq/thai/#baselines) for examples.
+Moreover, the complexity of characters in some Brahmic scripts may affect line height settings too. See [Tamil](https://www.w3.org/International/ilreq/tamil/#baselines) and [Thai](https://www.w3.org/International/sealreq/thai/#baselines) for examples.
 
 > paragraph spacing is at least 1.5 times larger than the line spacing.
 
 Some writing systems prefer to indent the first line of a paragraph, rather than leave vertical gaps between paragraphs, like [Chinese](https://www.w3.org/TR/clreq/#first_line_indents) and [Japanese](https://www.w3.org/TR/jlreq/#line_head_indent_at_the_beginning_of_paragraphs).
 
-We should mention that for writing systems don't use paragraph spacing, similar mechanisms like first-line indent should be used to make sure the distinction between paragraphs is clear.
+We should change the guideline to something like this:
+
+> paragraph spacing is at least 1.5 times larger than the line spacing. For languages don't use paragraph spacing, similar mechanisms like first-line indent should be used to make sure the user recognizes the beginning of a new paragraph.
 
 -----
 
@@ -56,4 +58,12 @@ Also, there is no mention of mixed text composition. There are also many cases o
 
 For example, [Chinese](https://www.w3.org/TR/clreq/#chinese_and_western_mixed_text_composition)/[Japanese](https://www.w3.org/TR/jlreq/#japanese_and_western_mixed_text_composition) and Latin mixed text composition is pretty common, and I have also seen mixed text composition of Chinese and other scripts such as Arabic, Tai Le, and so on.
 
-We should also mention that when WCAG is translated into other languages, care must be taken to adjust the text here to match the requirements of that language/script/region.
+We could probably revise it to a note like this:
+
+> Note: This success criterion only applies to human languages using the Latin script. The working group intends to fix this in a future version.
+
+> Human languages and scripts that do not use one or more of these text style properties in written text can conform using only the properties that exist for that combination of language and script.
+
+> If the text contains multiple human languages, the author should adjust the text style properties in written text based on the overall readability and legibility of the text.
+
+> When WCAG is translated into another language, care must be taken to adjust the guideline to match the requirements of that language.
