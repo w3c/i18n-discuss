@@ -149,9 +149,9 @@ The world is not monolingual. Having a single language per document would mean p
 Because language selection is not merely the exact matching of language tag string values and because the normal object representation of a localized string requires that the object be deserialized in order to try and match it, it’s best if language maps are used to organize localized string values. These maps need an object on the value side of the map, since both language and direction might need to be overridden for the string value.
 ```json
 "name": [
-    "en": [ "value": "This is English"],
-    "en-GB": ["value: "This is UK English"],
-    "fr": [ "value": "C'est français"],
+    "en":    [ "value": "This is English"],
+    "en-GB": ["value": "This is UK English"],
+    "fr":    [ "value": "C'est français"],
 ```    
 
 There are two other broadly available means of serializing multiple language values for an item. The first is to use a language map:
