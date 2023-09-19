@@ -121,44 +121,44 @@ Yes, probably. I18N could publish a set of "best practice" patterns for Web spec
 
 Many data values are represented by strings. When strings represent values that are just data and not human language (such as an identifier, enumerated value, or such) they can be represented as plain values and don’t require any additional metadata values:
 ```
-“id”: “some string”
+"id": "some string"
 ```
 
 When a string is intended to store natural language, it needs to have both a language and base paragraph direction associated with it. In JSON, this can be done by associating language and direction metadata with the string using a object:
 ```
-“name”: [
-    “value”: “Here is my string”,
-    “lang”: “en-US”,
-    “dir”: “ltr”
+"name": [
+    "value": "Here is my string",
+    "lang": "en-US",
+    "dir": "ltr"
 ]
 ```
 
 This representation works best if there are only a few natural language strings in a given document. However, if the document contains many natural language strings, this becomes inefficient. To reduce the complexity of encoding these strings, one workaround is to establish a document-level default for language and direction. These are separate values, as language does not imply direction. There should still be the ability to override either value on any given string value:
 ```
-“language”: “en-US”,
-“direction”: “ltr”,
+"language": "en-US",
+"direction": "ltr",
 …
-“name”: “This string is in English”,
-“description”: [
-   “value”: “Diese Zeichenfolge ist auf Englisch”,
-   “lang”: “de”
+"name": "This string is in English",
+"description": [
+   "value": "Diese Zeichenfolge ist auf Englisch",
+   "lang": "de"
 ]
 ```
 
 The world is not monolingual. Having a single language per document would mean providing many iterations of the document, one for each language. It also requires language negotiation at the document request level. One way to address this is to allow multilingual values for a field inside the document.
 Because language selection is not merely the exact matching of language tag string values and because the normal object representation of a localized string requires that the object be deserialized in order to try and match it, it’s best if language maps are used to organize localized string values. These maps need an object on the value side of the map, since both language and direction might need to be overridden for the string value.
 ```
-“name”: [
-    “en”: [ “value”: “This is English”],
-    “en-GB”: [“value: “This is blighty English”],
-    “fr”: [ “value”: “C'est français”],
+"name": [
+    "en": [ "value": "This is English"],
+    "en-GB": ["value: "This is blighty English"],
+    "fr": [ "value": "C'est français"],
 ```    
 
 There are two other broadly available means of serializing multiple language values for an item. The first is to use a language map:
 ```
-“name”: [
-    “en”: “This is English”,
-    “fr”: “C'est français”,
+"name": [
+    "en": "This is English",
+    "fr": "C'est français",
 ]
 ```
 
@@ -166,9 +166,9 @@ The problem with language maps is that the value is a plain string and there is 
 
 The second is to use an array of objects:
 ```
-“name”: [
-    [ “value”:”This is English”, “lang”: “en”, “dir”: “ltr”],
-    [ “value”:”C'est français”, “lang”: “fr”, “dir”: “ltr”],
+"name": [
+    [ "value":"This is English", "lang": "en", "dir": "ltr"],
+    [ "value":"C'est français", "lang": "fr", "dir": "ltr"],
     ...
 ```
 
@@ -205,9 +205,9 @@ Base direction metadata has gained in importance in part due to the work to defi
 
 Document formats addressed the requirement for natural language metadata by providing language and direction attributes and instructions to implementers on how to use these attributes (or suitable defaults) to achieve the desired display or processing results. These values are not usually preserved when harvesting text from document formats nor do APIs and data formats usually provide a way to deliver the values into display formats.
 
-Many data values, of course, are not natural language text. These values do not require natural language metadata because they won’t be displayed to end users or are not expected to be handled as text in a language. These are not just pre-enumerated values but can include user defined data. For example, network `SSID` values are user assigned, composed of Unicode characters, and generally meant to be recognizable to humans, but these are not “natural language” text values.
+Many data values, of course, are not natural language text. These values do not require natural language metadata because they won’t be displayed to end users or are not expected to be handled as text in a language. These are not just pre-enumerated values but can include user defined data. For example, network `SSID` values are user assigned, composed of Unicode characters, and generally meant to be recognizable to humans, but these are not "natural language" text values.
 
-For the subset of data values that are natural language text, however, the lack of a consistent means to encode and exchange natural language metadata in the APIs or data formats between systems means that there is effectively an “air gap” that prevents otherwise well-formed consistently-presented data from being exchanged without resorting to private use or other workarounds. In the appendix of this document we’ll present one or two examples, but for a thorough understanding, please see our above linked docs.
+For the subset of data values that are natural language text, however, the lack of a consistent means to encode and exchange natural language metadata in the APIs or data formats between systems means that there is effectively an "air gap" that prevents otherwise well-formed consistently-presented data from being exchanged without resorting to private use or other workarounds. In the appendix of this document we’ll present one or two examples, but for a thorough understanding, please see our above linked docs.
 
 #### What are "spillover effects"?
 
