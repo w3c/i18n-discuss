@@ -115,9 +115,71 @@ The I18N WG is not keen on this as the name of an ECMAScript datatype. `Localiza
 * `LString`. Some proprietary implementations contain names like `LString` for this type of purpose. 
 * `I18nString`, `IString`, `Intl.String`. Alternatives generally lean on "i18n" rather than localization. For example, see the `i18n` namespace in [JSON-LD](https://www.w3.org/TR/json-ld/#the-i18n-namespace). Some variations in this vein might make more sense.
 
+## Is there a better approach?
+
+Yes, probably. I18N could publish a set of "best practice" patterns for Web specifications to use and promote general adoption.
+
+Many data values are represented by strings. When strings represent values that are just data and not human language (such as an identifier, enumerated value, or such) they can be represented as plain values and don’t require any additional metadata values:
+```
+“id”: “some string”
+```
+
+When a string is intended to store natural language, it needs to have both a language and base paragraph direction associated with it. In JSON, this can be done by associating language and direction metadata with the string using a object:
+```
+“name”: [
+    “value”: “Here is my string”,
+    “lang”: “en-US”,
+    “dir”: “ltr”
+]
+```
+
+This representation works best if there are only a few natural language strings in a given document. However, if the document contains many natural language strings, this becomes inefficient. To reduce the complexity of encoding these strings, one workaround is to establish a document-level default for language and direction. These are separate values, as language does not imply direction. There should still be the ability to override either value on any given string value:
+```
+“language”: “en-US”,
+“direction”: “ltr”,
+…
+“name”: “This string is in English”,
+“description”: [
+   “value”: “Diese Zeichenfolge ist auf Englisch”,
+   “lang”: “de”
+]
+```
+
+The world is not monolingual. Having a single language per document would mean providing many iterations of the document, one for each language. It also requires language negotiation at the document request level. One way to address this is to allow multilingual values for a field inside the document.
+Because language selection is not merely the exact matching of language tag string values and because the normal object representation of a localized string requires that the object be deserialized in order to try and match it, it’s best if language maps are used to organize localized string values. These maps need an object on the value side of the map, since both language and direction might need to be overridden for the string value.
+```
+“name”: [
+    “en”: [ “value”: “This is English”],
+    “en-GB”: [“value: “This is blighty English”],
+    “fr”: [ “value”: “C'est français”],
+```    
+
+There are two other broadly available means of serializing multiple language values for an item. The first is to use a language map:
+```
+“name”: [
+    “en”: “This is English”,
+    “fr”: “C'est français”,
+]
+```
+
+The problem with language maps is that the value is a plain string and there is no way to override the direction.
+
+The second is to use an array of objects:
+```
+“name”: [
+    [ “value”:”This is English”, “lang”: “en”, “dir”: “ltr”],
+    [ “value”:”C'est français”, “lang”: “fr”, “dir”: “ltr”],
+    ...
+```
+
+The problem with object arrays is that not only must each entry be deserialized when matching but, in order to ensure the best match, **_every_** entry must be deserialized to check the language tag.
+
+
 ### What else are we doing? 
 
 We worked with JSON-LD to define a [serialization](https://www.w3.org/TR/json-ld/#the-i18n-namespace), but it doesn’t solve our problem in APIs.
+
+We have also worked with a variety of WGs on serialization forms as workarounds. Notable recent efforts include RDF-star and Webapp Manifest.
 
 ## Why can't we just introspect the data?
 
