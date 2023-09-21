@@ -150,9 +150,15 @@ Because language selection is not merely the exact matching of language tag stri
 ```json
 "name": [
     "en":    [ "value": "This is English"],
-    "en-GB": ["value": "This is UK English"],
-    "fr":    [ "value": "C'est français"],
-```    
+    "en-GB": [ "value": "This is UK English", "dir": "ltr"],
+    "fr":    [ "value": "C'est français", "lang": "fr-CA", "dir": "ltr"],
+    "ar":    [ "value": "هذه عربية", "dir": "rtl"]
+```
+
+(Here is the description:)
+```json
+{ value: string, dir?: string, lang?: string }
+```
 
 There are two other broadly available means of serializing multiple language values for an item. The first is to use a language map:
 ```json
