@@ -120,39 +120,39 @@ The I18N WG is not keen on this as the name of an ECMAScript datatype. `Localiza
 Yes, probably. I18N could publish a set of "best practice" patterns for Web specifications to use and promote general adoption.
 
 Many data values are represented by strings. When strings represent values that are just data and not human language (such as an identifier, enumerated value, or such) they can be represented as plain values and don’t require any additional metadata values:
-```json
-"id": "some string"
+```javascript
+"id": "987-654-321.a3" // just a string with some data
 ```
 
 When a string is intended to store natural language, it needs to have both a language and base paragraph direction associated with it. In JSON, this can be done by associating language and direction metadata with the string using a object:
 ```json
-"name": [
+"name": {
     "value": "Here is my string",
     "lang": "en-US",
     "dir": "ltr"
-]
+}
 ```
 
-This representation works best if there are only a few natural language strings in a given document. However, if the document contains many natural language strings, this becomes inefficient. To reduce the complexity of encoding these strings, one workaround is to establish a document-level default for language and direction. These are separate values, as language does not imply direction. There should still be the ability to override either value on any given string value:
+This representation is at its best if there are only a few natural language strings in a given document. However, if the document contains many natural language strings, this becomes inefficient. To reduce the complexity of encoding these strings, one workaround is to establish a document-level default for language and direction. These are separate values, as language does not imply direction. There should still be the ability to override either value on any given string value:
 ```json
 "language": "en-US",
 "direction": "ltr",
 ...
 "name": "This string is in English",
-"description": [
+"description": {
    "value": "Diese Zeichenfolge ist auf Englisch",
    "lang": "de"
-]
+}
 ```
 
-The world is not monolingual. Having a single language per document would mean providing many iterations of the document, one for each language. It also requires language negotiation at the document request level. One way to address this is to allow multilingual values for a field inside the document.
+The world is not monolingual. Having a single language per document would mean providing many iterations of the document, one for each language. It might also requires language negotiation at the document request level. One way to address this is to allow multilingual values for a field inside the document.
 Because language selection is not merely the exact matching of language tag string values and because the normal object representation of a localized string requires that the object be deserialized in order to try and match it, it’s best if language maps are used to organize localized string values. These maps need an object on the value side of the map, since both language and direction might need to be overridden for the string value.
 ```json
-"name": [
-    "en":    [ "value": "This is English"],
-    "en-GB": [ "value": "This is UK English", "dir": "ltr"],
-    "fr":    [ "value": "C'est français", "lang": "fr-CA", "dir": "ltr"],
-    "ar":    [ "value": "هذه عربية", "dir": "rtl"]
+"name": {
+    "en":    {"value": "This is English"},
+    "en-GB": {"value": "This is UK English", "dir": "ltr"},
+    "fr":    {"value": "C'est français", "lang": "fr-CA", "dir": "ltr"},
+    "ar":    {"value": "هذه عربية", "dir": "rtl"}
 ```
 
 (Here is the description:)
@@ -160,25 +160,35 @@ Because language selection is not merely the exact matching of language tag stri
 { value: string, dir?: string, lang?: string }
 ```
 
+> [!NOTE]
+> It may seem odd to allow a different language tag on the "value" side of the
+> language map. It is likely that this will be a rarely used feature, since its
+> primary use case is allowing either foreign language text into a translation
+> or modulating tools such as spell-check, hyphenation, or voice selection.
+> The example given in the AppManifest meeting was the brand name "Hermes",
+> which wants to be pronounced in French even when it appears in English.
+> This is a rather extreme corner case and, in general, users should not use
+> the override.
+
 There are two other broadly available means of serializing multiple language values for an item. The first is to use a language map:
 ```json
-"name": [
+"name": {
     "en": "This is English",
     "fr": "C'est français",
-]
+}
 ```
 
 The problem with language maps is that the value is a plain string and there is no way to override the direction.
 
 The second is to use an array of objects:
 ```json
-"name": [
-    [ "value":"This is English", "lang": "en", "dir": "ltr"],
-    [ "value":"C'est français", "lang": "fr", "dir": "ltr"],
+"name": {
+    {"value":"This is English", "lang": "en", "dir": "ltr"},
+    {"value":"C'est français", "lang": "fr", "dir": "ltr"},
     ...
 ```
 
-The problem with object arrays is that not only must each entry be deserialized when matching but, in order to ensure the best match, **_every_** entry must be deserialized to check the language tag.
+The problem with object arrays is that not only must each entry be deserialized when matching but, in order to ensure the best match, **_every_** entry must be deserialized to check whether its language tag matches better than any of the preceding entries.
 
 
 ### What else are we doing? 
