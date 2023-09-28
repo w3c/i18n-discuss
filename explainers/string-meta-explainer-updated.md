@@ -29,11 +29,13 @@ Because a lack of information about direction and language can cause problems fo
 
 ## What is your goal?
 
-Our goal is to allow natural language text data to be collected, serialized, stored, disseminated, processed, and ultimately displayed as expected across the Web platform. When data is inserted into an HTML page with the correct language and direction, it will be displayed in the most appropriate manner. When the metadata is missing, the results can degrade (even into illegibility).
+At a high level, our goal is to allow natural language text data to be collected, serialized, stored, disseminated, processed, and ultimately displayed as expected across the Web platform. When data is inserted into an application (such as an HTML page) with the correct language and direction, it will be displayed in the most appropriate manner. When the metadata is missing, the results can degrade (even into illegibility).
+
+More discretely, I18N's goal is that, for any natural language string value in a document format, it MUST be possible to know the language and base paragraph direction of that string.
 
 ## Why can't each specification define its own solution?
 
-If each specification were left to their own devices, we might end up with a myriad of different ways of encoding the language and direction metadata on the Web--including some specifications that provide no support at all. Mapping a string value through through various layers, formats, or applications would require greater care on the part of developers. Specifications or implementations that didn't adopt metadata might serve effectively as "filters", removing the metadata in some mid-stream process, rendering the work of others moot. So consistency and wide availability of a standardized solution would be the best choice.
+If each specification encodes string metadata in different ways, or if some fail to encode some or all of the metadata needed, there will be an overall loss of interoperability. Developers on the Web platform will have to learn each document format's idiosyncrasies and expend effort to map between different representations. Data that passes through formats that don't provide support will be stripped of metadata. Consistency and wide availability of a standardized solution would be the best choice.
 
 ## What is *language* metadata used for?
 
@@ -45,11 +47,15 @@ Many processes on the Web depend on accurate language metadata or language detec
 * spelling correction
 * font selection (including selection of fallback fonts)
 
-## Is language metadata mainly or only for CJK font selection?
+### What's a good way to see the effect of missing language metadata?
 
-No.
+The best-known visible negative impact of omitting or having the wrong language metadata appears in font selection for Chinese, Japanese, and Korean language materials using Han ideographs. Improper font selection can render certain characters illegible or difficult to read or result in unattractive "ransom note" effects. 
 
-The best-known visible negative impact of omitting or having the wrong language metadata appears in font selection for Chinese, Japanese, and Korean language materials using Han ideographs. Improper font selection can render certain characters illegible or difficult to read or result in unattractive "ransom note" effects. However, these are not the only languages affected by language-specific font selection. Other examples include Arabic script languages (where some languages need, for example, a Nastaliq style font vs. a more general purpose font in a style such as Naskh), or a variety of languages in less common scripts, where linguistic needs are sometimes accounted for by fonts.
+### Is that the only use for language metadata? What else is affected by language?
+
+Chinese, Japanese, and Korean are not the only languages affected by language-specific font selection. Other examples include Arabic script languages (where some languages need, for example, a Nastaliq style font vs. a more general purpose font in a style such as Naskh), or a variety of languages in less common scripts, where linguistic needs are sometimes accounted for by fonts.
+
+In addition to font selection, many application functions are linked to content language. For example, hyphenation or spell-checking depend on correct language metadata. Accessibility features, such as screen readers, need language metadata to do voice selection. Many CSS features are sensitive to language variation.
 
 ## Why do we need *base paragraph direction* metadata?
 
@@ -59,11 +65,11 @@ First, when text is presented as paragraphs, having the correct base paragraph d
 
 Second (and potentially more important for data on the Web), when text is _inserted_ into a page or display element (such as a larger message), the text should always be bidirectionally isolated from the surrounding message. In HTML this requires adding a `dir` attribute with a specific value. In plain text this requires adding Unicode isolating control character pairs around the string. While "first-strong" detection can sometimes provide the correct result for such placement, there are many strings where this is not the case.
 
-## What about bidirectional text *inside* of a string? Doesn't that still need help?
+### What about bidirectional text *inside* of a string? Doesn't that still need help?
 
 Sometimes bidirectional text can fool the bidirectional algorithm, particularly when ambiguous runs of opposite direction characters appear in the text. In these cases, Unicode controls or markup is needed inside the string to get the right appearance. However, unlike base direction information, these presentational encoding tweaks are inherently part of the data. Authors can be expected to provide appropriate controls and expect them to be transmitted just like the visible characters in the text.
 
-## Why don't we just require implementations to wrap text in bidi controls?
+### Why don't we just require implementations to wrap text in bidi controls?
 
 Generally speaking, most specifications for APIs or data format should not require implementations to modify the data values passing through them except where this would violate an application's constraints. Adding bidirectional controls actually changes the data from what is stored on the sending end. It also requires accurate knowledge of the base direction (and introspection of the data in case controls are already present). Implementations receiving such data can't know if the controls or markup was part of the original data (and thus intentional) or was added by an interstitial process. Addition of controls also invites perverse cases of multiple wrapping. And, of course, some implementations need to run on resource constrained devices that might have a hard time doing any of this.
 
@@ -134,10 +140,10 @@ When a string is intended to store natural language, it needs to have both a lan
 ```
 
 This representation is at its best if there are only a few natural language strings in a given document. However, if the document contains many natural language strings, this becomes inefficient. To reduce the complexity of encoding these strings, one workaround is to establish a document-level default for language and direction. These are separate values, as language does not imply direction. There should still be the ability to override either value on any given string value:
-```json
+```javascript
 "language": "en-US",
 "direction": "ltr",
-...
+//...
 "name": "This string is in English",
 "description": {
    "value": "Diese Zeichenfolge ist auf Englisch",
