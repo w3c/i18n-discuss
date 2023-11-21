@@ -65,3 +65,4 @@ Allow:
   * `[\u30000-\u323af]`, i.e., CJK Unified Ideographs Extension G-H
   * Keeping track of new Unicode versions
   * Note that very urgently needed characters may be added and encoded at the end of each block.
+* [x] 12 code points in the CJK Compatibility Ideographs block included by Unicode `p{Ideo}`: 﨎﨏﨑﨓﨔﨟﨡﨣﨤﨧﨨﨩
