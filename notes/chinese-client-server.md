@@ -34,7 +34,7 @@ The current client-side input validation for Chinese is fragmented:
 
 This proposal aims to standardise the client-side input restriction and validation, and the communication with the server, to improve the Unicode usage, and to update the related constraints in time with Unicode.
 
-In client-server communication, the anomalies in the client side, such as @@TODO@@
+In client-server communication, the anomalies in the client side, such as appropriate prompts should be given for abnormalities entered at the client side, such as duplicate encoded ideographs, non-standard ideographs, PUA characters, and so on, in order to avoid the proliferation of errors.
 
 ## Goals
 
@@ -52,7 +52,7 @@ What is described herein, contains the following pre-conditions:
 
 @@TODO@@
 
-@@TODO@@
+For duplicate encoded ideographs already in Unicode, they should be normalised in the same way as in the ctext project (see 3.6 and `[R10]`).
 
 ### Client-side input validation for Chinese characters
 
