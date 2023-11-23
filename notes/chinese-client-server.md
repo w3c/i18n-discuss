@@ -66,3 +66,24 @@ Allow:
   * Keeping track of new Unicode versions
   * Note that very urgently needed characters may be added and encoded at the end of each block.
 * [x] 12 code points in the CJK Compatibility Ideographs block included by Unicode `p{Ideo}`: 﨎﨏﨑﨓﨔﨟﨡﨣﨤﨧﨨﨩
+* [x] Name separators (U+00B7 [·]) in personal name scenarios
+* [x] In extreme cases, ideographic variation sequences may be used to display the correct variant glyph (e.g. Macau government services)
+
+Restrictions:
+
+* Restrict the input and use of other code points in the CJK Compatibility Ideographs block (e.g., those from Japanese character encodings);
+* Restrict the use of Chinese characters in PUA and make the glyphs publicly available to all parties; set rules for Chinese characters in PUA to regularly track the latest Unicode release and migrate the data;
+
+Restrict the use of Kangxi radical @@TODO@@
+
+#### Optimisation of the rendering of missing-glyph Chinese characters
+
+Because of the continuous expansion of Unicode Chinese characters, many old systems won't have glyphs for some recently encoded Chinese characters. These characters are often displayed as `U+FFFD REPLACEMENT CHARACTER`, `U+2612 BALLOT BOX WITH X`, or blank, resulting in the user not being able to identify the specific content.
+
+Firefox on Linux renders the code point in order to avoid mapping a glyph to thousands or tens of thousands of different Chinese characters, because it can not be recognised by the user normally.
+
+#### UI optimisation
+
+Where there are specification requirements, for variant characters (e.g., 戶 and 戶), wrongly written characters (e.g., 𪚔 should be 龑), duplicate encoded characters (e.g., U+363D and U+39B3, only the former should be used after normalisation), PUA characters (e.g., in GBK-1995, U+E863 should be U+4DAE `䶮`), and compatibility ideographs other than the 12 characters mentioned above, etc., the necessary normalisation should be done, and users should be given sufficient hints. The hints have the following categories:
+
+* PUA: If there is an official code point, the server should store it using the official code point and inform the user to use the official code point; if there is no official code point, the website should suggest that it can't be used for the exchange of information, and should be replaced by using the correct character splitting method or pinyin.
