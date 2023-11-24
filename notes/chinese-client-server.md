@@ -73,8 +73,7 @@ Restrictions:
 
 * Restrict the input and use of other code points in the CJK Compatibility Ideographs block (e.g., those from Japanese character encodings);
 * Restrict the use of Chinese characters in PUA and make the glyphs publicly available to all parties; set rules for Chinese characters in PUA to regularly track the latest Unicode release and migrate the data;
-
-Restrict the use of Kangxi radical @@TODO@@
+* Restrict the use of Kangxi radical characters to radical-specific areas. In general-purpose environments, only use the usual Chinese characters to avoid ambiguity and possible legal disputes, and to reduce additional communication costs.
 
 #### Optimisation of the rendering of missing-glyph Chinese characters
 
@@ -84,6 +83,17 @@ Firefox on Linux renders the code point in order to avoid mapping a glyph to tho
 
 #### UI optimisation
 
-Where there are specification requirements, for variant characters (e.g., 戶 and 戶), wrongly written characters (e.g., 𪚔 should be 龑), duplicate encoded characters (e.g., U+363D and U+39B3, only the former should be used after normalisation), PUA characters (e.g., in GBK-1995, U+E863 should be U+4DAE `䶮`), and compatibility ideographs other than the 12 characters mentioned above, etc., the necessary normalisation should be done, and users should be given sufficient hints. The hints have the following categories:
+Where there are specification requirements, for variant characters (e.g., 戶 and 戶), wrongly written characters (e.g., 𪚔 should be 龑), duplicate encoded characters (e.g., U+363D and U+39B3 [㦳](https://ctext.org/dictionary.pl?if=en&char=%E3%A6%B3), only the former should be used after normalisation), PUA characters (e.g., in GBK-1995, U+E863 should be U+4DAE `䶮`), and compatibility ideographs other than the 12 characters mentioned above, etc., the necessary normalisation should be done, and users should be given sufficient hints. The hints have the following categories:
 
-* PUA: If there is an official code point, the server should store it using the official code point and inform the user to use the official code point; if there is no official code point, the website should suggest that it can't be used for the exchange of information, and should be replaced by using the correct character splitting method or pinyin.
+* PUA: If there is an official code point, the server should store it using the official code point and inform the user to use the official code point; if there is no official code point, the website or the user agent should suggest that it can't be used for the exchange of information, and should be replaced by using the correct character splitting method or pinyin.
+* Irregular variants and compatibility ideographs: hints according to local language specifications
+* Wrongly written characters: prompt to ask the user to use the correct standardised character
+* Duplicate encoded characters: prompt to ask the user to use the correct character
+* Kangxi radicals: in personal names and other non-radical use cases, ask the user to use the normal Chinese characters.
+
+Another issue of concern is the IVS mechanism for handling variant characters. According to The Unicode Standard, variants can handled using VS1–VS16 (U+FE00 through U+FE0F) and VS17–VS256 (U+E0100 through U+E01EF):
+
+* VS1-VS16 are only used for compatibility ideographs, 'Phags-pa letters, and emoji, generally called standardized variation sequences (SVS), of which VS15-VS16 are only used for emoji
+* VS17-VS256 are used for @@TODO@@
+
+Variation selectors and the previous code point should be rendered, printed, and processed as a single "character". Glyphs exist in the .ttf file in the form of Format 14. When doing string searching operations, the first code point should be the processing baseline. For example, if the two Chinese characters appear together, such as "龍VS天" (U+9F8D U+E0100 U+5929), typing "龍天" would find "龍VS天". The user agent can also have a method for precise query.
