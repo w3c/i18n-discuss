@@ -97,3 +97,64 @@ Another issue of concern is the IVS mechanism for handling variant characters. A
 * VS17-VS256 are used for @@TODO@@
 
 Variation selectors and the previous code point should be rendered, printed, and processed as a single "character". Glyphs exist in the .ttf file in the form of Format 14. When doing string searching operations, the first code point should be the processing baseline. For example, if the two Chinese characters appear together, such as "龍VS天" (U+9F8D U+E0100 U+5929), typing "龍天" would find "龍VS天". The user agent can also have a method for precise query.
+
+@@TODO@@
+
+#### Filtering implementation
+
+This may vary from programming language to programming language, refer to [R11-R14] for generic JavaScript as an example.
+
+1. UTF-16 surrogates method: use `[\uD800-\uDFFF]` for SIP and TIP, which can be difficult to handle when controlling the scope.
+2. Character method: starting and ending Chinese characters such as `[一-龥]`, which uses UTF-8 encoding, but not intuitive enough from a readability perspective.
+3. `u` flag method: `[\u{20000}-\u{3ffff}]` for SIP and TIP, easier to read
+4. Unicode Script method, with the `u` flag:
+  * `\p{UIdeo}`: all Unicode official Chinese characters, including 12 compatibility ideographs
+  * `\p{Ideo}`: @@TODO@@
+  * `\p{Han}`: contains all Chinese characters and radicals in the compatibility block
+  * `\p{PUA}`: Private Use Area in the Basic Multilingual Plane
+
+Method 4 should be used.
+
+Example of actual ranges of `\p{UIdeo}` in Unicode 15.1:
+
+![Unified CJK Ideographs](chinese-client-server-data/uideo.png "Unified CJK Ideographs")
+
+#### Chinese input methods
+
+1. Ordinary keyboard input
+2. Machine-readable digital input (such as NFC)
+3. Handwriting input
+4. OCR input
+5. Voice input
+
+3-5 are not within the scope of this project because they involve other technologies and cannot be accurate enough.
+
+Regarding #1, if Pinyin input cannot be used normally, it is recommended to add split-character Pinyin and shape-based input methods such as Wubi and Cangjie. In extreme cases, Unicode code point input can supported. For example, in Microsoft Pinyin IME, `vuc20164` can be used to input `𠅤`.
+
+In modern life, more and more machine-readable methods are used for input (such as ID cards, electronic ID cards, QR codes, etc.), which should generally be completely transmitted to the server. The original information must not be lost due to encoding conversion, such as converting UTF-8 Chinese characters into GBK "?" (0x3F). For errors in the original the machine-readable information, the issuer should be contacted for correction.
+
+#### Compatibility processing mechanism in client and server side
+
+@@TODO@@
+
+## Key scenarios
+
+There are three types of Chinese form input scenarios:
+
+@@TODO@@
+
+### Scenario 1
+
+@@TODO@@
+
+### Scenario 2
+
+@@TODO@@
+
+### Scenario 3
+
+@@TODO@@
+
+## Detailed design discussion
+
+@@TODO@@
