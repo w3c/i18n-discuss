@@ -109,7 +109,7 @@ This may vary from programming language to programming language, refer to [R11-R
 3. `u` flag method: `[\u{20000}-\u{3ffff}]` for SIP and TIP, easier to read
 4. Unicode Script method, with the `u` flag:
   * `\p{UIdeo}`: all Unicode official Chinese characters, including 12 compatibility ideographs
-  * `\p{Ideo}`: @@TODO@@
+  * `\p{Ideo}`: contains all Chinese characters in the compatibility block and Chinese characters in the SMP
   * `\p{Han}`: contains all Chinese characters and radicals in the compatibility block
   * `\p{PUA}`: Private Use Area in the Basic Multilingual Plane
 
@@ -135,7 +135,25 @@ In modern life, more and more machine-readable methods are used for input (such 
 
 #### Compatibility processing mechanism in client and server side
 
+Since Unicode has [ghost characters](https://en.wikipedia.org/wiki/Ghost_characters) and duplicate encoded Chinese characters in its history, it is recommended to use the method similar to ctext.org to search for information related to Chinese characters and give clear and definite prompts for such characters, such as [㦳](https://ctext.org/dictionary.pl?if=en&char=%E3%A6%B3) in ctext will prompt:
+
+> This character representation 㦳 (U+39B3) has been normalized to 㘽 (U+363D) in the CTP, and therefore does not appear in the database.
+
+Processing mechanisms include:
+
+1. Although the front end allows input, it will prompt
+2. When writing back-end data, only formally standardized Chinese characters are entered into the database
+3. Front-end query may be normalized to standard Chinese character query
+
+Another good method is like many search engines, normalizing Simplified and Traditional Chinese in queries. For example, searching 为人民服务 or 爲人民服務 ("serve the people" in Simplified and Traditional Chinese) will find all Simplified and Traditional Chinese results.
+
+This method has been used in handwriting, telegraph codes, and manual reading. However, in the digital era, because each character has its own code point, the "one character to one code point" process makes it impossible to find many variant characters and the information becomes "zombie information" in the end.
+
 @@TODO@@
+
+As for compatibility ideographs, only 12 of them are regular Chinese characters for input and storage. The other code points are generally treated as variant characters, as shown in [R8]: "U+2F8A6 (慈) is canonically equivalent to U+ 6148 (慈).”
+
+For existing PUA Chinese character data, as mentioned in @@TODO@@, they should be checked and updated regularly (no more than 3 years after the new Unicode release). [R5]
 
 ## Key scenarios
 
