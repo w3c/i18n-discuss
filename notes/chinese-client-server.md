@@ -149,7 +149,11 @@ Another good method is like many search engines, normalizing Simplified and Trad
 
 This method has been used in handwriting, telegraph codes, and manual reading. However, in the digital era, because each character has its own code point, the "one character to one code point" process makes it impossible to find many variant characters and the information becomes "zombie information" in the end.
 
-@@TODO@@
+![Chinese telegraph code
+](chinese-client-server-data/Chinese_telegraph_code.png "Chinese telegraph code
+")
+
+As shown in the figure above, Chinese telegraph code uses four-digit numbers to represent Chinese characters. `7115 2051 6671` corresponds to 陈伟达 in a Simplified Chinese environment, and 陳偉達 in a Traditional Chinese environment.
 
 As for compatibility ideographs, only 12 of them are regular Chinese characters for input and storage. The other code points are generally treated as variant characters, as shown in [R8]: "U+2F8A6 (慈) is canonically equivalent to U+ 6148 (慈).”
 
@@ -159,20 +163,98 @@ For existing PUA Chinese character data, as mentioned in @@TODO@@, they should b
 
 There are three types of Chinese form input scenarios:
 
-@@TODO@@
+1. Internet real-name systems
+2. Modern universal information exchange, such as ctext.org 
+3. Chinese archaeology and philology
 
 ### Scenario 1
 
-@@TODO@@
+Modern personal name and place name scenarios:
+
+* More than 10 million Chinese residents use characters not in Unicode.
+* In a digital society, each person needs to deal with at least 10 other people, which involves hundreds of millions of people providing public and government services, and the ability to input, display, store, read, print, and exchange information is a basic requirement.
+* The service industries, which is estimated to employ over 1 million people, requires real-name network verification in accordance with anti-money-laundering regulations.
+Historically, names of people and places were handwritten and orally transmitted, but in a digital society, every character needs to be encoded.
+* Since GB 2312, GBK, and Big5 encodings were used in the early days, a few missing characters were encoded with PUA, including 52 characters in GBK (later officially included in [CJK Unified Ideographs Extension A](https://www.unicode.org/charts/PDF/U3400.pdf)), 415 characters created by [Sogou Pinyin](https://en.wikipedia.org/wiki/Sogou_Pinyin), more than 4,700 characters created by Mainland China's Resident Identity Cards (more than 4,500 characters have been officially encoded in September 2023), more than 5,000 characters created by the Government of Hong Kong, and so on.
+* The addition of Chinese characters in Unicode is a complicated project. Some characters are actually typos, called "ghost characters" (e.g. ⿺辵袁, which is really 遠), and some characters are duplicate encoded (e.g. 㖈 and 䎛、㦳 and 㘽, etc.), which need to be handled correctly in order to avoid legal disputes.
+* General processing methods, such as the National Ethnic Affairs Commission [R18], clearly state that only Chinese characters within the GB 18030 and GB 13000 standards are allowed to be used, and other characters not included in the standards are replaced by pinyin. @@TODO@@
+* Taiwan's household registration convention allows only the use of Chinese characters in a general dictionary for names, which may be 30,000-50,000 characters. The Korean character list for personal names contains 8,142 Hanja characters.
 
 ### Scenario 2
 
-@@TODO@@
+Modern generic information exchange scenarios:
+
+* Generally refers to media such as news, radio, television, official documents, etc.
+* Involving thousands to hundreds of millions of people
+* Some old systems use GBK, for characters outside `[\u4e00-\u9fa5]`, blank or "?" is usually rendered. More recent systems generally use UTF-8: W3Techs states that 97.7% of the web is using the UTF-8 Unicode character encoding.
+* Because of the support of fonts in platforms like Windows and mobile phones, they can only render characters within GB18030-2000 + Table of General Standard Chinese Characters (Chinese: 通用规范汉字表). Other characters may not be rendered.
+* It is generally believed that the number of Chinese characters used in modern life is within 30,000-50,000 characters.
+* When information is exchanged in the form of documents, it is generally possible to use PDF embedded fonts to avoid losing the glyphs.
+* When exchanging information involving a small number of people, it is possible to install the same PUA font for all parties and exchange text information. PUA-encoded Chinese character-related information in the form of graphics or split characters should be conveyed.
+* The use of ideographs encoded in the radical blocks is permitted under special conditions (e.g., editing of dictionaries, etc.). For example, there is no difference in the rendering between 生日 (official code points) and ⽣⽇ (radical code points), but the latter should not be used in general information exchange.
 
 ### Scenario 3
 
-@@TODO@@
+Chinese archaeology and philology scenarios:
+
+* Limited to specialised research, involving an audience that may range from several to several thousand people
+* When the text is complex, PUA in the BMP, Supplementary Private Use Area-A, and Supplementary Private Use Area-B may be used, and the number of PUA characters may be more than 100,000.
+* When disclosed to the public, most of the relevant PUA text information is displayed in image form.
 
 ## Detailed design discussion
 
+1. Following Unihan is a dynamic process. How to follow it? Can there be a requirement for timeframe? @@TODO@@
+2. How to deal with duplicate encoded Chinese characters in Unihan?
+  * Generally, the first encoded Chinese characters are allowed, and the later encoded ones are normalised, like ctext.org.
+  * Maybe do normalisation in the server side and prompt the user in the client side.
+3. Is PUA allowed? How is it handled?
+  * PUA is not allowed by common standards, regulations and industry standards, and most of them are processed by splitting characters or pinyin instead.
+  * For every Unicode release, the conversion to official code points should be checked in time, and relevant updates should be completed within 1-3 years.
+4. How to deal with Simplified and Traditional Chinese correspondence similar to telegraph codes?
+  * Maybe process in the server side
+5. How to deal with ancient characters?
+  * Modern real-name systems should have a special character set to reduce the processing difficulty.
+6. How to deal with compatibility ideographs?
+  * Unicode recognises only 12 common Chinese compatibility ideographs, and most of the other ideographs are Japanese-specific and are only used in Japan.
+7. How are typos handled?
+  * Generally, it is necessary to hint the user to avoid further proliferation of the character.
+8. Special Characters
+  * Fullwidth Latin letters and halfwidth Latin letters: generally, halfwidth letters should be used @@TODO@@
+  * Name separators (U+00B7 [·]) should be used in personal name scenarios according to [R18]
+  * U+3007 [〇] should not be used. 零 should be used instead.
+9. Method of displaying Chinese characters without glyphs or with the same glyphs but in different code points
+  * in GNU/Linux, the code point is rendered
+  * Firefox under Windows also uses this and it should be recommended
+  * @@TODO@@
+  * For characters with duplicated code points and radical code points, a clear distinction of the glyph should be made, like 张䶮/张 and 工人/⼯⼈.
+10. Design of the evaluation mechanism
+
+Client side:
+
+* Can the user input of the full character set in the service area?
+* When there are multiple parties, do all parties use the same method of text processing?
+* If the font is not aligned, is there support for displaying missing glyphs as the code point to differentiate them?
+* Is the client-side input fully transmitted to the server? For example, if it's not fully transmitted, such as UTF-8 encoded content is transmitted via the GBK channel, characters not in GBK will be converted to "?" characters.
+* Can display and printing be handled properly?
+
+Server side:
+
 @@TODO@@
+
+## Security Considerations
+
+Client-side input validation has the following security benefits:
+
+1. Avoid invalid and incorrect inputs frequently requesting the back-end service interface. Invalid and incorrect user input can be validated and processed in the client side to ensure that the data submitted to the server is in line with the rules.
+2. Increase the difficulty of XSS attacks
+Relying on the computing power of the front-end, validation and filtering of user input information at the front-end, followed by encrypting the data and passing it to the back-end, and then strict validation by the back-end service, is the basic practice of XSS attack prevention. Attackers need to read the client-side code to understand its logic before attempting to bypass it, which to some extent can increase the implementation cost of XSS attacks.
+
+## Acknowledgements
+
+Many thanks for valuable feedback and advice from:
+
+* Eiso Chan  (Culture and Art Publishing House)
+* Fuqiao Xue (W3C)
+
+## References
+
