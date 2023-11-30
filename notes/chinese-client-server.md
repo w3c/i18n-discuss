@@ -258,3 +258,19 @@ Many thanks for valuable feedback and advice from:
 
 ## References
 
+1. Ken Whistler. Unicode Normalization Forms. 12 August 2023. Unicode Standard Annex #15. URL: https://www.unicode.org/reports/tr15/tr15-54.html
+2. Mark Davis. Unicode Regular Expressions. 8 February 2022. Unicode Technical Standard #18. URL: https://www.unicode.org/reports/tr18/tr18-23.html
+3. [Regular-Expressions.info](https://www.regular-expressions.info/)
+4. [Unicode汉字正则表达式方法比较](https://zhuanlan.zhihu.com/p/537245858)
+5. [PUA](https://wiki.suikawiki.org/n/PUA#gsc.tab=0) ([Chinese version](https://zhuanlan.zhihu.com/p/360408639))
+6. Addison Phillips et al. Character Model for the World Wide Web: String Matching Section 2.2.1 Canonical vs. Compatibility Equivalence. 11 August 2021. W3C Note. URL: https://www.w3.org/TR/charmod-norm/#canonical_compatibility
+7. @@TODO@@
+8. [Unicode等价性与正规化](https://medium.com/@wanxiao1994/unicode%E7%AD%89%E4%BB%B7%E6%80%A7%E4%B8%8E%E6%AD%A3%E8%A7%84%E5%8C%96-2eb50b343bc1)
+9. [标准中文电码查询 by NJStar](https://www.njstar.com/tools/telecode/search_cn.php)
+10. [ctext.org漢字標準化實例](https://zhuanlan.zhihu.com/p/651291004)
+11. 姓名生僻字应用的困境与对策，艾卓码，信息技术与标准化,2021(10)
+12. 正则表达式作用于汉字姓名生僻字方法初探，马良有，金融电子化，2021.10
+13. 姓名生僻字的银行标准化实践和建议，纪熙东、李言平，第十六届中国标准化论坛论文集，2019
+14. [Unicode Utilities: Regex](https://util.unicode.org/UnicodeJsps/regex.jsp): regular expressions synchronised with Unicode and ICU
+15. Ken Lunde. [Ideographic Variation Sequences
+Implementation Details](https://ccjktype.fonts.adobe.com/wp-content/uploads/2017/09/iuc31-lunde-s8t1.pdf). 17 October 2017.
