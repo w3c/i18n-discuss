@@ -1,5 +1,7 @@
 grammar
 
+[R1]
+
 # Client-side input validation and client-server communication methods for Chinese characters
 
 ## Author:
@@ -49,10 +51,8 @@ What is described herein, contains the following pre-conditions:
 * It is possible to enter all Chinese characters in Unicode. For not yet encoded Chinese characters, it is generally recommended to use the correct character splitting method to represent them (for example, use `钅监` or `⿰钅监` to represent the simplified version of U+30FAB `鑑`) to reduce ambiguity and facilitate future updates.
 * Unicode characters without glyphs (including future code points for Chinese) should be displayed as the code point, instead of displaying blanks or tofu that make it impossible to distinguish between different characters.
 * PUA characters are not recommended for use, especially when multiple parties are using them for information exchange. However, if they are used, the assignments and glyphs should be disclosed to all users and the relevant fonts should be installed. For existing PUA characters, they should be converted to non-PUA characters periodically according to the frequency of Unicode updates.
-
-@@TODO@@
-
-For duplicate encoded ideographs already in Unicode, they should be normalised in the same way as in the ctext project (see 3.6 and `[R10]`).
+* Full use should be made of the Chinese character code query tool to archive and provide query tools for split or PUA Chinese characters, in order to avoid duplicate encoded characters.
+* For duplicate encoded ideographs already in Unicode, they should be normalised in the same way as in the ctext project (see 3.6 and `[R10]`).
 
 ### Client-side input validation for Chinese characters
 
@@ -94,11 +94,11 @@ Where there are specification requirements, for variant characters (e.g., 戶 an
 Another issue of concern is the IVS mechanism for handling variant characters. According to The Unicode Standard, variants can handled using VS1–VS16 (U+FE00 through U+FE0F) and VS17–VS256 (U+E0100 through U+E01EF):
 
 * VS1-VS16 are only used for compatibility ideographs, 'Phags-pa letters, and emoji, generally called standardized variation sequences (SVS), of which VS15-VS16 are only used for emoji
-* VS17-VS256 are used for @@TODO@@
+* VS17-VS256 are used in ideographic variation sequences. Submissions to Unicode requires a a review period of 90 days.
 
 Variation selectors and the previous code point should be rendered, printed, and processed as a single "character". Glyphs exist in the .ttf file in the form of Format 14. When doing string searching operations, the first code point should be the processing baseline. For example, if the two Chinese characters appear together, such as "龍VS天" (U+9F8D U+E0100 U+5929), typing "龍天" would find "龍VS天". The user agent can also have a method for precise query.
 
-@@TODO@@
+Typical examples of ideographic variation sequences are the HanaMinA/HanaMinB fonts and the Macao Supplementary Character Set [R17].
 
 #### Filtering implementation
 
@@ -274,3 +274,9 @@ Many thanks for valuable feedback and advice from:
 14. [Unicode Utilities: Regex](https://util.unicode.org/UnicodeJsps/regex.jsp): regular expressions synchronised with Unicode and ICU
 15. Ken Lunde. [Ideographic Variation Sequences
 Implementation Details](https://ccjktype.fonts.adobe.com/wp-content/uploads/2017/09/iuc31-lunde-s8t1.pdf). 17 October 2017.
+16. Eiso Chan. [IVS Test Page](https://xfq.github.io/testing/ivs/ivs.xml). October 2023.
+17. [澳門特別行政區資訊系統中文編碼統一方案 Proposta de uniformização da codificação dos caracteres chineses dos sistemas informáticos da Região Administrativa Especial de Macau](https://g2e.gov.mo/zh-hant/content/chncode-extdoc/)
+18. 民委发[2016]33号文《[关于在政府管理和社会公共服务信息系统中统一姓名采集应用规范的通知](https://www.gov.cn/xinwen/2016-05/09/content_5071481.htm)》
+19. Richard Ishida. [Character encodings: Essential concepts](https://www.w3.org/International/articles/definitions-characters/). URL: https://www.w3.org/International/articles/definitions-characters/
+20. [Ghost characters](https://en.wikipedia.org/wiki/Ghost_characters)
+21. [The Unicode Standard](https://www.unicode.org/versions/latest/). URL: https://www.unicode.org/versions/latest/
