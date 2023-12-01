@@ -155,6 +155,27 @@ We didn't identify this as a problem early enough. The need for base direction m
 
 By contrast, I18N has asked for language metadata dating back over 30 years. As a result, such metadata is widely available in structured document formats and many protocols. Base direction metadata is less prevalent and I18N's request for this metadata was less consistent prior to work on HTML5.
 
+## If I have direction metadata, how can I make use of it in APIs or display frameworks? Are there APIs that use this metadata?
+
+Here are some links to ways in which developers can use direction metadata to manage the display of text:
+
+* Cocoa (Mac): https://developer.apple.com/documentation/uikit/nswritingdirection?language=objc
+
+* Java: https://docs.oracle.com/javase/8/docs/api/java/awt/ComponentOrientation.html
+
+* Tutorial for Win32: https://learn.microsoft.com/en-us/windows/apps/design/globalizing/design-for-bidi-text
+
+* Android: https://developer.android.com/reference/android/text/BidiFormatter
+  - https://developer.android.com/training/basics/supporting-devices/languages#MirroringUpdateResources
+  - https://medium.com/android-news/rtl-support-on-android-here-is-all-you-need-know-e13f2df512e2
+  - https://developer.android.com/reference/android/view/View#attr_android:layoutDirection  <- this one
+
+* Angular: https://material.angular.io/cdk/bidi/overview
+
+* Qt: https://doc.qt.io/qt-6/qtquick-positioning-righttoleft.html
+
+(submit more links!)
+
 ## Are there other alternatives? What other solutions have been considered?
 
 Yes. The other options for providing base direction metadata on the Web include:
