@@ -1,7 +1,5 @@
 grammar
 
-[R1]
-
 # Client-side input validation and client-server communication methods for Chinese characters
 
 ## Author:
@@ -157,7 +155,7 @@ As shown in the figure above, Chinese telegraph code uses four-digit numbers to 
 
 As for compatibility ideographs, only 12 of them are regular Chinese characters for input and storage. The other code points are generally treated as variant characters, as shown in [R8]: "U+2F8A6 (慈) is canonically equivalent to U+ 6148 (慈).”
 
-For existing PUA Chinese character data, as mentioned in @@TODO@@, they should be checked and updated regularly (no more than 3 years after the new Unicode release). [R5]
+For existing PUA Chinese character data, as mentioned in [Client-side input validation for Chinese characters], they should be checked and updated regularly (no more than 3 years after the new Unicode release). [R5]
 
 ## Key scenarios
 
@@ -173,11 +171,11 @@ Modern personal name and place name scenarios:
 
 * More than 10 million Chinese residents use characters not in Unicode.
 * In a digital society, each person needs to deal with at least 10 other people, which involves hundreds of millions of people providing public and government services, and the ability to input, display, store, read, print, and exchange information is a basic requirement.
-* The service industries, which is estimated to employ over 1 million people, requires real-name network verification in accordance with anti-money-laundering regulations.
+* The service industries, which is estimated to employ over 10 million people, requires real-name network verification in accordance with anti-money-laundering regulations.
 Historically, names of people and places were handwritten and orally transmitted, but in a digital society, every character needs to be encoded.
 * Since GB 2312, GBK, and Big5 encodings were used in the early days, a few missing characters were encoded with PUA, including 52 characters in GBK (later officially included in [CJK Unified Ideographs Extension A](https://www.unicode.org/charts/PDF/U3400.pdf)), 415 characters created by [Sogou Pinyin](https://en.wikipedia.org/wiki/Sogou_Pinyin), more than 4,700 characters created by Mainland China's Resident Identity Cards (more than 4,500 characters have been officially encoded in September 2023), more than 5,000 characters created by the Government of Hong Kong, and so on.
 * The addition of Chinese characters in Unicode is a complicated project. Some characters are actually typos, called "ghost characters" (e.g. ⿺辵袁, which is really 遠), and some characters are duplicate encoded (e.g. 㖈 and 䎛、㦳 and 㘽, etc.), which need to be handled correctly in order to avoid legal disputes.
-* General processing methods, such as the National Ethnic Affairs Commission [R18], clearly state that only Chinese characters within the GB 18030 and GB 13000 standards are allowed to be used, and other characters not included in the standards are replaced by pinyin. @@TODO@@
+* General processing methods, such as the National Ethnic Affairs Commission [R18], clearly state that only Chinese characters within the GB 18030 and GB 13000 standards are allowed to be used, and other characters not included in the standards are replaced by pinyin. Other livelihood service operating procedures [R22] state that personal names are not fully checked when using alternative approaches (split characters or pinyin) for PUA or other non-standard characters.
 * Taiwan's household registration convention allows only the use of Chinese characters in a general dictionary for names, which may be 30,000-50,000 characters. The Korean character list for personal names contains 8,142 Hanja characters.
 
 ### Scenario 2
@@ -203,7 +201,8 @@ Chinese archaeology and philology scenarios:
 
 ## Detailed design discussion
 
-1. Following Unihan is a dynamic process. How to follow it? Can there be a requirement for timeframe? @@TODO@@
+1. Following Unihan is a dynamic process. How to follow it? Can there be a requirement for timeframe?
+  * 3-5 years after the publication of ISO/IEC 10646?
 2. How to deal with duplicate encoded Chinese characters in Unihan?
   * Generally, the first encoded Chinese characters are allowed, and the later encoded ones are normalised, like ctext.org.
   * Maybe do normalisation in the server side and prompt the user in the client side.
@@ -219,13 +218,13 @@ Chinese archaeology and philology scenarios:
 7. How are typos handled?
   * Generally, it is necessary to hint the user to avoid further proliferation of the character.
 8. Special Characters
-  * Fullwidth Latin letters and halfwidth Latin letters: generally, halfwidth letters should be used @@TODO@@
+  * Fullwidth Latin letters and halfwidth Latin letters: generally, halfwidth letters should be used. They are easier to input and take up less space.
   * Name separators (U+00B7 [·]) should be used in personal name scenarios according to [R18]
   * U+3007 [〇] should not be used. 零 should be used instead.
 9. Method of displaying Chinese characters without glyphs or with the same glyphs but in different code points
   * in GNU/Linux, the code point is rendered
   * Firefox under Windows also uses this and it should be recommended
-  * @@TODO@@
+  * Currently, the rendering in different mobile phones and apps varies: blank, U+FFFD, Hong Kong Private Character Set characters, emoji, and so on.
   * For characters with duplicated code points and radical code points, a clear distinction of the glyph should be made, like 张䶮/张 and 工人/⼯⼈.
 10. Design of the evaluation mechanism
 
@@ -239,7 +238,10 @@ Client side:
 
 Server side:
 
-@@TODO@@
+* How many standard Chinese characters are there? What are their frequency and the distribution of each extension block outside BMP?
+* What is the back-end normalisation and alerting method for duplicates and ghost characters?
+* Do PUA characters exist, and how many are known to all parties?
+* Is there a mechanism for regular reporting and correction of PUA characters?
 
 ## Security Considerations
 
@@ -280,3 +282,4 @@ Implementation Details](https://ccjktype.fonts.adobe.com/wp-content/uploads/2017
 19. Richard Ishida. [Character encodings: Essential concepts](https://www.w3.org/International/articles/definitions-characters/). URL: https://www.w3.org/International/articles/definitions-characters/
 20. [Ghost characters](https://en.wikipedia.org/wiki/Ghost_characters)
 21. [The Unicode Standard](https://www.unicode.org/versions/latest/). URL: https://www.unicode.org/versions/latest/
+22. [广东省人力资源和社会保障厅关于印发《广东省社会保障卡业务经办规程（第二版）》的通知](https://hrss.gd.gov.cn/slh/zcfgk/content/post_4171329.html)
