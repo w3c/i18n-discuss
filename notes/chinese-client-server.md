@@ -269,8 +269,10 @@ Server side:
 
 Client-side input validation has the following security benefits:
 
-1. Avoid invalid and incorrect inputs frequently requesting the back-end service interface. Invalid and incorrect user input can be validated and processed in the client side to ensure that the data submitted to the server is in line with the rules.
-2. Increase the difficulty of XSS attacks
+1. Avoid invalid and incorrect inputs frequently requesting the back-end service interface.
+Invalid and incorrect user input can be validated and processed in the client side to ensure that the data submitted to the server is in line with the rules.
+
+2. Increase the difficulty of XSS attacks.
 Relying on the computing power of the front-end, validation and filtering of user input information at the front-end, followed by encrypting the data and passing it to the back-end, and then strict validation by the back-end service, is the basic practice of XSS attack prevention. Attackers need to read the client-side code to understand its logic before attempting to bypass it, which to some extent can increase the implementation cost of XSS attacks.
 
 ## Acknowledgements
