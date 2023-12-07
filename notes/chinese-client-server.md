@@ -12,6 +12,28 @@
 
 ## Table of Contents
 
+- [Client-side input validation and client-server communication methods for Chinese characters](#client-side-input-validation-and-client-server-communication-methods-for-chinese-characters)
+   * [Author:](#author)
+   * [Participate](#participate)
+   * [Table of Contents](#table-of-contents)
+   * [Introduction](#introduction)
+   * [Goals](#goals)
+   * [Proposal](#proposal)
+      + [Client-side input validation for Chinese characters](#client-side-input-validation-for-chinese-characters)
+         - [Optimisation of the rendering of missing-glyph Chinese characters](#optimisation-of-the-rendering-of-missing-glyph-chinese-characters)
+         - [UI optimisation](#ui-optimisation)
+         - [Filtering implementation](#filtering-implementation)
+         - [Chinese input methods](#chinese-input-methods)
+         - [Compatibility processing mechanism in client and server side](#compatibility-processing-mechanism-in-client-and-server-side)
+   * [Key scenarios](#key-scenarios)
+      + [Scenario 1](#scenario-1)
+      + [Scenario 2](#scenario-2)
+      + [Scenario 3](#scenario-3)
+   * [Detailed design discussion](#detailed-design-discussion)
+   * [Security Considerations](#security-considerations)
+   * [Acknowledgements](#acknowledgements)
+   * [References](#references)
+
 ## Introduction
 
 The complete Unicode (ISO/IEC 10646) Chinese character set includes:
@@ -155,7 +177,7 @@ As shown in the figure above, Chinese telegraph code uses four-digit numbers to 
 
 As for compatibility ideographs, only 12 of them are regular Chinese characters for input and storage. The other code points are generally treated as variant characters, as shown in `[R8]`: "U+2F8A6 (慈) is canonically equivalent to U+ 6148 (慈).”
 
-For existing PUA Chinese character data, as mentioned in the [Client-side input validation for Chinese characters] section, they should be checked and updated regularly (no more than 3 years after the new Unicode release). `[R5]`
+For existing PUA Chinese character data, as mentioned in [Client-side input validation for Chinese characters](https://github.com/w3c/i18n-discuss/blob/gh-pages/notes/chinese-client-server.md#client-side-input-validation-for-chinese-characters), they should be checked and updated regularly (no more than 3 years after the new Unicode release). `[R5]`
 
 ## Key scenarios
 
