@@ -1,10 +1,10 @@
-grammar
-
 # Client-side input validation and client-server communication methods for Chinese characters
 
 ## Author:
 
-Xidong Ji (China Merchants Bank)
+* [Author 1]
+* [Author 2]
+* [etc.]
 
 ## Participate
 
@@ -21,20 +21,20 @@ The complete Unicode (ISO/IEC 10646) Chinese character set includes:
 * U+3400-U+9FFF (commonly known as Basic Multilingual Plane Chinese characters)
 * U+20000-U+2FFFF, i.e., CJK Unified Ideographs Extension B to Extension F (Extension I in September 2023), commonly known as the Supplementary Ideographic Plane (SIP)
 * U+30000-U+3FFFF, i.e., CJK Unified Ideographs Extension G to Extension H, commonly known as the Tertiary Ideographic Plane (TIP)
-* the non-starnd Private Use Area (PUA)
+* the non-standard Private Use Area (PUA)
 * CJK Compatibility Ideographs in the Basic Multilingual Plane (U+F900-U+FAFF). Only 12 of these code points are standard general-purpose Chinese characters.
 * Unicode usually has unassigned code points at the end of each block to deal with urgent Chinese characters until a block is filled and the unassigned code bits of the next block will be used.
 
 The current client-side input validation for Chinese is fragmented:
 
-* Some use `[\u4e00-\u9fa5]` (20902 characters in total) to restrict the input (equivalent to GBK).
+* Some use `[\u4e00-\u9fa5]` (20,902 characters in total) to restrict the input (equivalent to GBK).
 * Some use `[\u3400-\u9fff]` (i.e., BMP) to restrict the input, which is equivalent to `utf8mb3` in MySQL.
 * Some use GB 18030—2005 (limited to CJK Unified Ideographs Extension B only); GB 18030—2022 is limited to Extension F only, and does not include Extensions G, H, I, and code points at the end of the block.
 * Various organisations and individuals have assigned their own PUA characters which have caused many negative impacts on the information exchange of digital services.
 
 This proposal aims to standardise the client-side input restriction and validation, and the communication with the server, to improve the Unicode usage, and to update the related constraints in time with Unicode.
 
-In client-server communication, the anomalies in the client side, such as appropriate prompts should be given for abnormalities entered at the client side, such as duplicate encoded ideographs, non-standard ideographs, PUA characters, and so on, in order to avoid the proliferation of errors.
+In client-server communication, the anomalies in the client side, such as appropriate prompts should be given for abnormalities entered at the client side, such as duplicate encoded ideographs, non-standard ideographs, PUA characters, and so on, to avoid the proliferation of errors.
 
 ## Goals
 
@@ -50,7 +50,7 @@ What is described herein, contains the following pre-conditions:
 * Unicode characters without glyphs (including future code points for Chinese) should be displayed as the code point, instead of displaying blanks or tofu that make it impossible to distinguish between different characters.
 * PUA characters are not recommended for use, especially when multiple parties are using them for information exchange. However, if they are used, the assignments and glyphs should be disclosed to all users and the relevant fonts should be installed. For existing PUA characters, they should be converted to non-PUA characters periodically according to the frequency of Unicode updates.
 * Full use should be made of the Chinese character code query tool to archive and provide query tools for split or PUA Chinese characters, in order to avoid duplicate encoded characters.
-* For duplicate encoded ideographs already in Unicode, they should be normalised in the same way as in the ctext project (see 3.6 and `[R10]`).
+* For duplicate encoded ideographs already in Unicode, they should be normalised in the same way as in the ctext project (see 3.6 and `[R7][R10]`).
 
 ### Client-side input validation for Chinese characters
 
@@ -96,11 +96,11 @@ Another issue of concern is the IVS mechanism for handling variant characters. A
 
 Variation selectors and the previous code point should be rendered, printed, and processed as a single "character". Glyphs exist in the .ttf file in the form of Format 14. When doing string searching operations, the first code point should be the processing baseline. For example, if the two Chinese characters appear together, such as "龍VS天" (U+9F8D U+E0100 U+5929), typing "龍天" would find "龍VS天". The user agent can also have a method for precise query.
 
-Typical examples of ideographic variation sequences are the HanaMinA/HanaMinB fonts and the Macao Supplementary Character Set [R17].
+Typical examples of ideographic variation sequences are the HanaMinA/HanaMinB fonts and the Macao Supplementary Character Set `[R17]`.
 
 #### Filtering implementation
 
-This may vary from programming language to programming language, refer to [R11-R14] for generic JavaScript as an example.
+This may vary from programming language to programming language, refer to `[R11-R14]` for generic JavaScript as an example.
 
 1. UTF-16 surrogates method: use `[\uD800-\uDFFF]` for SIP and TIP, which can be difficult to handle when controlling the scope.
 2. Character method: starting and ending Chinese characters such as `[一-龥]`, which uses UTF-8 encoding, but not intuitive enough from a readability perspective.
@@ -153,9 +153,9 @@ This method has been used in handwriting, telegraph codes, and manual reading. H
 
 As shown in the figure above, Chinese telegraph code uses four-digit numbers to represent Chinese characters. `7115 2051 6671` corresponds to 陈伟达 in a Simplified Chinese environment, and 陳偉達 in a Traditional Chinese environment.
 
-As for compatibility ideographs, only 12 of them are regular Chinese characters for input and storage. The other code points are generally treated as variant characters, as shown in [R8]: "U+2F8A6 (慈) is canonically equivalent to U+ 6148 (慈).”
+As for compatibility ideographs, only 12 of them are regular Chinese characters for input and storage. The other code points are generally treated as variant characters, as shown in `[R8]`: "U+2F8A6 (慈) is canonically equivalent to U+ 6148 (慈).”
 
-For existing PUA Chinese character data, as mentioned in [Client-side input validation for Chinese characters], they should be checked and updated regularly (no more than 3 years after the new Unicode release). [R5]
+For existing PUA Chinese character data, as mentioned in the [Client-side input validation for Chinese characters] section, they should be checked and updated regularly (no more than 3 years after the new Unicode release). `[R5]`
 
 ## Key scenarios
 
@@ -172,10 +172,10 @@ Modern personal name and place name scenarios:
 * More than 10 million Chinese residents use characters not in Unicode.
 * In a digital society, each person needs to deal with at least 10 other people, which involves hundreds of millions of people providing public and government services, and the ability to input, display, store, read, print, and exchange information is a basic requirement.
 * The service industries, which is estimated to employ over 10 million people, requires real-name network verification in accordance with anti-money-laundering regulations.
-Historically, names of people and places were handwritten and orally transmitted, but in a digital society, every character needs to be encoded.
+Historically, names of people and places were handwritten or spoken, but in a digital society, every character needs to be encoded.
 * Since GB 2312, GBK, and Big5 encodings were used in the early days, a few missing characters were encoded with PUA, including 52 characters in GBK (later officially included in [CJK Unified Ideographs Extension A](https://www.unicode.org/charts/PDF/U3400.pdf)), 415 characters created by [Sogou Pinyin](https://en.wikipedia.org/wiki/Sogou_Pinyin), more than 4,700 characters created by Mainland China's Resident Identity Cards (more than 4,500 characters have been officially encoded in September 2023), more than 5,000 characters created by the Government of Hong Kong, and so on.
 * The addition of Chinese characters in Unicode is a complicated project. Some characters are actually typos, called "ghost characters" (e.g. ⿺辵袁, which is really 遠), and some characters are duplicate encoded (e.g. 㖈 and 䎛、㦳 and 㘽, etc.), which need to be handled correctly in order to avoid legal disputes.
-* General processing methods, such as the National Ethnic Affairs Commission [R18], clearly state that only Chinese characters within the GB 18030 and GB 13000 standards are allowed to be used, and other characters not included in the standards are replaced by pinyin. Other livelihood service operating procedures [R22] state that personal names are not fully checked when using alternative approaches (split characters or pinyin) for PUA or other non-standard characters.
+* General processing methods, such as the National Ethnic Affairs Commission `[R18]`, clearly state that only Chinese characters within the GB 18030 and GB 13000 standards are allowed to be used, and other characters not included in the standards are replaced by pinyin. Other livelihood service operating procedures `[R22]` state that personal names are not fully checked when using alternative approaches (split characters or pinyin) for PUA or other non-standard characters.
 * Taiwan's household registration convention allows only the use of Chinese characters in a general dictionary for names, which may be 30,000-50,000 characters. The Korean character list for personal names contains 8,142 Hanja characters.
 
 ### Scenario 2
@@ -204,7 +204,7 @@ Chinese archaeology and philology scenarios:
 1. Following Unihan is a dynamic process. How to follow it? Can there be a requirement for timeframe?
   * 3-5 years after the publication of ISO/IEC 10646?
 2. How to deal with duplicate encoded Chinese characters in Unihan?
-  * Generally, the first encoded Chinese characters are allowed, and the later encoded ones are normalised, like ctext.org.
+  * Generally, the first encoded Chinese character is allowed, and the later encoded ones are normalised, like ctext.org.
   * Maybe do normalisation in the server side and prompt the user in the client side.
 3. Is PUA allowed? How is it handled?
   * PUA is not allowed by common standards, regulations and industry standards, and most of them are processed by splitting characters or pinyin instead.
@@ -219,11 +219,11 @@ Chinese archaeology and philology scenarios:
   * Generally, it is necessary to hint the user to avoid further proliferation of the character.
 8. Special Characters
   * Fullwidth Latin letters and halfwidth Latin letters: generally, halfwidth letters should be used. They are easier to input and take up less space.
-  * Name separators (U+00B7 [·]) should be used in personal name scenarios according to [R18]
+  * Name separators (U+00B7 [·]) should be used in personal name scenarios according to `[R18]`
   * U+3007 [〇] should not be used. 零 should be used instead.
 9. Method of displaying Chinese characters without glyphs or with the same glyphs but in different code points
   * in GNU/Linux, the code point is rendered
-  * Firefox under Windows also uses this and it should be recommended
+  * Firefox under Windows also uses this and it is recommended to use this method
   * Currently, the rendering in different mobile phones and apps varies: blank, U+FFFD, Hong Kong Private Character Set characters, emoji, and so on.
   * For characters with duplicated code points and radical code points, a clear distinction of the glyph should be made, like 张䶮/张 and 工人/⼯⼈.
 10. Design of the evaluation mechanism
@@ -266,7 +266,7 @@ Many thanks for valuable feedback and advice from:
 4. [Unicode汉字正则表达式方法比较](https://zhuanlan.zhihu.com/p/537245858)
 5. [PUA](https://wiki.suikawiki.org/n/PUA#gsc.tab=0) ([Chinese version](https://zhuanlan.zhihu.com/p/360408639))
 6. Addison Phillips et al. Character Model for the World Wide Web: String Matching Section 2.2.1 Canonical vs. Compatibility Equivalence. 11 August 2021. W3C Note. URL: https://www.w3.org/TR/charmod-norm/#canonical_compatibility
-7. @@TODO@@
+7. P. Hoffman; M. Blanchet. Preparation of Internationalized Strings ("stringprep"). December 2002. Proposed Standard. URL: https://www.rfc-editor.org/rfc/rfc3454 See also: P. Saint-Andre; M. Blanchet. PRECIS Framework: Preparation, Enforcement, and Comparison of Internationalized Strings in Application Protocols. October 2017. Proposed Standard. URL: https://www.rfc-editor.org/rfc/rfc8264
 8. [Unicode等价性与正规化](https://medium.com/@wanxiao1994/unicode%E7%AD%89%E4%BB%B7%E6%80%A7%E4%B8%8E%E6%AD%A3%E8%A7%84%E5%8C%96-2eb50b343bc1)
 9. [标准中文电码查询 by NJStar](https://www.njstar.com/tools/telecode/search_cn.php)
 10. [ctext.org漢字標準化實例](https://zhuanlan.zhihu.com/p/651291004)
