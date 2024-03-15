@@ -157,6 +157,9 @@ By contrast, I18N has asked for language metadata dating back over 30 years. As 
 
 ## If I have direction metadata, how can I make use of it in APIs or display frameworks? Are there APIs that use this metadata?
 
+> [!NOTE]
+> The Internationalization Working Group welcomes additional links or pointers to APIs and developer documentation.
+
 Here are some links to ways in which developers can use direction metadata to manage the display of text:
 
 * Cocoa (Mac): https://developer.apple.com/documentation/uikit/nswritingdirection?language=objc
@@ -173,8 +176,6 @@ Here are some links to ways in which developers can use direction metadata to ma
 * Angular: https://material.angular.io/cdk/bidi/overview
 
 * Qt: https://doc.qt.io/qt-6/qtquick-positioning-righttoleft.html
-
-(submit more links!)
 
 ## Are there other alternatives? What other solutions have been considered?
 
