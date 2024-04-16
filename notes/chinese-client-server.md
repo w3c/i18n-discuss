@@ -308,7 +308,7 @@ Implementation Details](https://ccjktype.fonts.adobe.com/wp-content/uploads/2017
 21. [The Unicode Standard](https://www.unicode.org/versions/latest/). URL: https://www.unicode.org/versions/latest/
 22. [广东省人力资源和社会保障厅关于印发《广东省社会保障卡业务经办规程（第二版）》的通知](https://hrss.gd.gov.cn/slh/zcfgk/content/post_4171329.html)
 
-23. Duplicate encoded ideographs: when China Electronics Standardization Institute (CESI) solicited feedback on GB 13000 in December 2023, the following 22 pairs were confirmed (generally, the former one should be used):
+23. Duplicate encoded ideographs: when China Electronics Standardization Institute (CESI) solicited feedback on GB 13000 in December 2023, the following 22 pairs were confirmed (generally, the one with a smaller code point should be used):
 
 | **Seq** | **U1**  | **C1** | **U2**  | **C2** |
 |---------|---------|--------|---------|--------|
