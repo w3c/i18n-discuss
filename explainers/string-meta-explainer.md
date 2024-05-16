@@ -4,13 +4,17 @@ The [W3C Internationalization (I18N) Working Group](https://www.w3.org/Internati
 
 ## What is the problem?
 
-The Arabic script is the second most widely used script in the world after Latin, and there are many other RTL scripts. If you try to display a string without setting the correct base direction, you will get garbled text.  For example [^1]:
+The Arabic script is the second most widely used script in the world after Latin, and there are many other RTL scripts. If you try to display a string without setting the correct base direction, you will get garbled text.  For example:
 
-<img width="702" alt="Screenshot 2023-03-02 at 11 31 37" src="https://user-images.githubusercontent.com/4839211/222420395-186bb379-ccc5-4cbb-844c-de594bc7b0d2.png">
+![image](https://github.com/w3c/i18n-discuss/assets/69082/c07e5f2d-19ed-497a-9647-2e07aa45e9ec)
 
-will become the very garbled [^2]:
+will become the very garbled:
 
-<img width="702" alt="Screenshot 2023-03-02 at 11 31 25" src="https://user-images.githubusercontent.com/4839211/222420448-aaed7f58-087c-4b26-91ca-d48b35dd4ebf.png">
+![image](https://github.com/w3c/i18n-discuss/assets/69082/7b126488-85c4-49b2-9e3e-7b8d5fbdcfed)
+
+
+(See the above in your browser: [RTL (correct)](https://w3c.github.io/i18n-discuss/explainers/bidi-html-demo.html?item=4&dir=rtl&selectLang=ar) [LTR (broken)](https://w3c.github.io/i18n-discuss/explainers/bidi-html-demo.html?item=4&dir=ltr&selectLang=en))
+
 
 Sometimes this problem (and others) can be avoided by setting a base direction that is the same as that of the first character in the string. However, many strings start with characters that are not representative of the string as a whole: in those cases the string has to come with metadata that indicates the expected display direction.
 
@@ -19,9 +23,11 @@ If you are displaying a string of Han ideographs to a user, you'll need to know 
 ![ja_zh_fonts](https://user-images.githubusercontent.com/4839211/222422731-8b6f4aff-599c-4326-99f0-b09811428f65.png)
 
 As markdown:
-> <span lang="ja">雪, 刃, 直, 令, 垔</span> (Japanese) [^3]
+> <span lang="ja">雪, 刃, 直, 令, 垔</span> (Japanese) 
 
-> <span lang="zh-Hans">雪, 刃, 直, 令, 垔</span> (Simplfied Chinese) [^4]
+> <span lang="zh-Hant">雪, 刃, 直, 令, 垔</span> (Traditional Chinese)
+
+(See these examples in your browser [(Japanese)](https://w3c.github.io/i18n-discuss/explainers/bidi-html-demo.html?item=5&selectLang=ja) [(T.Chinese)](https://w3c.github.io/i18n-discuss/explainers/bidi-html-demo.html?item=5&selectLang=zh-Hant) [(S.Chinese)](https://w3c.github.io/i18n-discuss/explainers/bidi-html-demo.html?item=5&selectLang=zh-Hans))
 
 This is a problem that affects other languages besides Japanese and Chinese and the functionality includes more than just font selection: language metadata is also needed to support things like hyphenation, voice browser rendering, line breaking behaviour, spell checking, sorting  lists, or formatting values, and so on.
 
@@ -78,7 +84,7 @@ Because language selection is not merely the exact matching of language tag stri
 ```
 
 (Here is the description:)
-```json
+```
 { value: string, dir?: string, lang?: string }
 ```
 
@@ -107,7 +113,6 @@ The second is to use an array of objects:
 "name": {
     {"value":"This is English", "lang": "en", "dir": "ltr"},
     {"value":"C'est français", "lang": "fr", "dir": "ltr"},
-    ...
 ```
 
 The problem with object arrays is that not only must each entry be deserialized when matching but, in order to ensure the best match, **_every_** entry must be deserialized to check whether its language tag matches better than any of the preceding entries.
@@ -239,9 +244,4 @@ _Feel free to paste the above texts into our [playground page](https://w3c.githu
 *    [7b] https://github.com/w3c/webauthn/issues?q=is%3Aissue+is%3Aopen+label%3Ai18n-needs-resolution
 
 ---
-<!-- footnotes -->
 
-[^1]: [Example 1](https://w3c.github.io/i18n-discuss/explainers/bidi-html-demo.html?item=4&dir=rtl)
-[^2]: [Example 2](https://w3c.github.io/i18n-discuss/explainers/bidi-html-demo.html?item=4&dir=ltr)
-[^3]: [`ja` Example](https://w3c.github.io/i18n-discuss/explainers/bidi-html-demo.html?item=5&selectLang=ja)
-[^4]: [`zh-Hans` Example](https://w3c.github.io/i18n-discuss/explainers/bidi-html-demo.html?item=5&selectLang=zh-Hans)
