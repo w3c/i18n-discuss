@@ -304,6 +304,34 @@ Implementation Details](https://ccjktype.fonts.adobe.com/wp-content/uploads/2017
 17. [澳門特別行政區資訊系統中文編碼統一方案 Proposta de uniformização da codificação dos caracteres chineses dos sistemas informáticos da Região Administrativa Especial de Macau](https://g2e.gov.mo/zh-hant/content/chncode-extdoc/)
 18. 民委发[2016]33号文《[关于在政府管理和社会公共服务信息系统中统一姓名采集应用规范的通知](https://www.gov.cn/xinwen/2016-05/09/content_5071481.htm)》
 19. Richard Ishida. [Character encodings: Essential concepts](https://www.w3.org/International/articles/definitions-characters/). URL: https://www.w3.org/International/articles/definitions-characters/
-20. [Ghost characters](https://en.wikipedia.org/wiki/Ghost_characters)
+20. [Ghost characters](https://en.wikipedia.org/wiki/Ghost_characters). See also: [A Spectre is Haunting Unicode](https://www.dampfkraft.com/ghost-characters.html).
 21. [The Unicode Standard](https://www.unicode.org/versions/latest/). URL: https://www.unicode.org/versions/latest/
 22. [广东省人力资源和社会保障厅关于印发《广东省社会保障卡业务经办规程（第二版）》的通知](https://hrss.gd.gov.cn/slh/zcfgk/content/post_4171329.html)
+
+23. Duplicate encoded ideographs: when China Electronics Standardization Institute (CESI) solicited feedback on GB 13000 in December 2023, the following 22 pairs were confirmed (generally, the one with a smaller code point should be used):
+
+| **Seq** | **U1**  | **C1** | **U2**  | **C2** |
+|---------|---------|--------|---------|--------|
+| 1       | U+5E50  | 幐     | U+3B3A  | 㬺     |
+| 2       | U+8416  | 萖     | U+26BF5 | 𦯵     |
+| 3       | U+9094  | 邔     | U+2866C | 𨙬     |
+| 4       | U+34A8  | 㒨     | U+20457 | 𠑗     |
+| 5       | U+3588  | 㖈     | U+439B  | 䎛     |
+| 6       | U+363D  | 㘽     | U+39B3  | 㦳     |
+| 7       | U+3DB7  | 㶷     | U+2420E | 𤈎     |
+| 8       | U+FA23  | 﨣     | U+27EAF | 𧺯     |
+| 9       | U+2028D | 𠊍     | U+28940 | 𨥀     |
+| 10      | U+204F2 | 𠓲     | U+23515 | 𣔕     |
+| 11      | U+21018 | 𡀘     | U+2103C | 𡀼     |
+| 12      | U+21F37 | 𡼷     | U+2439A | 𤎚     |
+| 13      | U+23F41 | 𣽁     | U+23F9E | 𣾞     |
+| 14      | U+23761 | 𣝡     | U+237BC | 𣞼     |
+| 15      | U+24425 | 𤐥     | U+2444B | 𤑋     |
+| 16      | U+249BC | 𤦼     | U+249E9 | 𤧩     |
+| 17      | U+24BD2 | 𤯒     | U+2A415 | 𪐕     |
+| 19      | U+22472 | 𢑲     | U+26133 | 𦄳     |
+| 19      | U+2633D | 𦌽     | U+27B80 | 𧮀     |
+| 20      | U+26B60 | 𦭠     | U+26B6B | 𦭫     |
+| 21      | U+2947F | 𩑿     | U+2948B | 𩒋     |
+| 22      | U+29FCE | 𩿎     | U+29FD7 | 𩿗     |
+
