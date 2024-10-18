@@ -99,9 +99,6 @@
        var attr = document.createAttribute('lang');
        attr.value = getLocale();
        displayMe.setAttributeNode(attr);
-
-       var langbox = document.getElementById('langbox');
-       langbox.innerText = 'lang: ' + getLocale();
      }
      
      function updateDisplayMe(val) {
@@ -140,36 +137,50 @@
        
        displayDiv.append(h2);
 
-       var ta = document.createElement('textarea');
-       ta.dir = displayMeDir;
+       displayDiv = document.getElementById('displayMe2');
+       while (displayDiv.firstChild) {
+         displayDiv.removeChild(displayDiv.firstChild);
+       }
+
+       // get the direction selected in the radio buttons
+       var displayMeDir = 'auto'; // hack
+       var displayMeLang = getLocale2();
+
+       var h2 = document.createElement('h2');
+       h2.dir = displayMeDir;
        var attr = document.createAttribute('id');
-       attr.value = 'editableContent';
-       ta.setAttributeNode(attr);
+       attr.value = 'displayableContent2';
+       h2.setAttributeNode(attr);
+
        var langAttr = document.createAttribute('lang');
        langAttr.value = displayMeLang;
-       ta.setAttributeNode(langAttr);
-       var spellAttr = document.createAttribute('spellcheck');
-       spellAttr.value = true;
-       ta.setAttributeNode(spellAttr);
+       h2.setAttributeNode(langAttr);
+       console.log("lang:" + langAttr.value);
+
        var classAttr = document.createAttribute('class');
-       classAttr.value = 'editableContent';
-       ta.setAttributeNode(classAttr);
+       classAttr.value = 'displayableContent';
+       h2.setAttributeNode(classAttr);
+
        // hack: if there appears to be HTML in the string, set innerHTML 
        // instead of just text node
        if (val.indexOf("<") >= 0) {
-           ta.innerHTML = val;
+           h2.innerHTML = val;
        } else {
-           ta.append(document.createTextNode(val));
+           h2.append(document.createTextNode(val));
        }
-       displayDiv.append(ta);
+       
+       displayDiv.append(h2);
 
-       var langbox = document.getElementById('langbox');
-       langbox.innerText = 'lang: ' + getLocale();
        capitalizeDisplay();
      }
      
      function getLocale() {
        var selectLang = document.getElementById('selectLang');
+       return selectLang.options[selectLang.selectedIndex].value;
+     }
+
+    function getLocale2() {
+       var selectLang = document.getElementById('selectLang2');
        return selectLang.options[selectLang.selectedIndex].value;
      }
        
@@ -242,21 +253,30 @@
       updateDisplay(removed);
     }
         
-      function loadLocales() {
+    function loadLocales() {
      var select = document.getElementById('selectLang');
+     var select2 = document.getElementById('selectLang2');
      for (locale in locales) {
        const loc = new Intl.Locale(locales[locale]);
        const display = new Intl.DisplayNames(loc, {type: 'language', style: 'short'});
        var option = document.createElement('option');
+       var option2 = document.createElement('option');
        option.value = locales[locale]; // use the language tag
+       option2.value = locales[locale];
        var title = document.createAttribute('title');
        title.value = locales[locale];
        option.setAttributeNode(title);
+       var title2 = document.createAttribute('title');
+       title2.value = locales[locale];
+       option2.setAttributeNode(title2);
 
        option.appendChild(document.createTextNode(display.of(locales[locale]) + '\u00a0(' + locales[locale] + ')'));
+       option2.appendChild(document.createTextNode(display.of(locales[locale]) + '\u00a0(' + locales[locale] + ')'));
        select.appendChild(option);
+       select2.appendChild(option2);
      }
          select.value = 'en-US';
+         select2.value = 'en-US';
          document.getElementById('displayableContent').text = currentlyShowing;
          console.log(currentlyShowing);
    }
@@ -265,13 +285,16 @@
  function capitalizeDisplay() {
   let checkbox = document.getElementById("capitalize");
   let targetElement = document.getElementById("displayMe");
+  let targetElement2 = document.getElementById("displayMe2");
   if (checkbox.checked) {
     // Apply the style if checked
     targetElement.style.textTransform = "capitalize"; 
+    targetElement2.style.textTransform = "capitalize";
     console.log("capitalize");
   } else {
     // Remove the style if unchecked
     targetElement.style.textTransform = ""; 
+    targetElement2.style.textTransform = "";
     console.log("remove capitalize");
   }
 }
@@ -322,12 +345,7 @@
     <option value="5" lang="de">Freundschaftsbeziehungen Rechtsschutzversicherungsgesellschaften zum Beispiel Donaudampfschiffahrtsgesellschaftskapitän</option>
     <option value="6" lang="hi">लौहपथगामिनीसूचकदर्शकहरितताम्रलौहपट्टिका अधिकरणीयतावादी संविधानिकतावाद</option>
     <option value="7" lang="tr">ılık ilik Diyarbakır</option>
-    <option value="8" lang="ar">({([{([){()([])]}}[{(X)})[)])})}}{([])[]})</option>
-    <option value="9" lang="ar">((a + b) * (b + 9a)) + ((2a – 1) * (2b + 17)) = –1</option>
-    <option value="10" lang="ar">المعرف:  01:02:aa:4a:bb:06</option>
   </select>
-
-
 
 
   <h1></h1>
@@ -351,6 +369,7 @@ it to escapes.</p>
 <button type=button name="spanButton" onclick="insertAtCursor(escaped, '\\u2068')">FSI</button>
 <button type=button name="spanButton" onclick="insertAtCursor(escaped, '\\u2069')">PDI</button>
 <button type=button name="removeCtrlsButton" onclick="removeAllControls()">Remove Controls</button>
+<input type="checkbox" id="capitalize" onchange="capitalizeDisplay()"><label for="capitalize">Capitalize</label>
 <br>
 
 
@@ -363,17 +382,25 @@ it to escapes.</p>
   </div>
 
   <p id="langbox" style="font-family:monospace;"></p>
+  <p>
+    <select name="selectLang" id="selectLang" onchange="updateFromSelect()">
+    </select>
+  </p>
 </div>
 
-<h4>Language:</h4>
-<p>Select the language to use for the <code>lang</code> attribute in the display box below. Choosing a different language can result in changes
-to font selection, processing, line-breaking, and more.</p>
-<p>
-  <select name="selectLang" id="selectLang" onchange="updateFromSelect()">
-  </select>
-</p>
+<div style="border:1pt solid black; width:100%; margins: 12px;">
 
-<input type="checkbox" id="capitalize" onchange="capitalizeDisplay()"><label for="capitalize">Capitalize</label>
+  <div id="displayMe2" class="display">
+    <p id="displayableContent"></p>
+  </div>
+
+  <p id="langbox2" style="font-family:monospace;"></p>
+  <p>
+    <select name="selectLang2" id="selectLang2" onchange="updateFromSelect()">
+    </select>
+  </p>
+</div>
+
 
 <input type="submit" style="visibility:hidden">
 </form>
