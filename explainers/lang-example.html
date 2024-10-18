@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="UTF-8">
+<title>Example of lang</title>
+     <script>
+    
+     var currentlyShowing = ""; 
+     var locales = ['en-US',
+                    'ar',
+                    'ar-EG',
+                    'de',
+                    'fr',
+                    'he',
+                    'he-IL',
+                    'hi-IN',
+                    'ja',
+                    'ko',
+                    'tr',
+                    'zh-Hans',
+                    'zh-Hant'
+       ];
+         
+     function dialogRender() {
+       var dialog = document.getElementById('nativeDialog');
+       dialog.show();
+     }
+     
+     // Update the display from URL parameters
+     function updateFromParameter() {
+       // note that this API handles URI percent-encoding
+       const query = window.location.search;
+       console.log(query);
+       const params = new URLSearchParams(query);
+       
+       if (params.has('item')) {
+         var select = document.getElementById('values');
+         var index = params.get('item');
+         if (index < 0 || index > select.options.length) {
+           index = 0;
+         }
+         select.selectedIndex = params.get('item');
+         updateFromSelect();
+         }
+         
+       if (params.has('dir')) {
+         var passedDir = params.get('dir').toLowerCase();
+         switch (passedDir) {
+           case 'ltr':
+           case 'rtl':
+           case 'auto':
+              document.forms.form.elements.displayMeDir.value = passedDir;
+              updateDir();
+              break;
+           default: // do nothing
+         }
+       }
+       
+       if (params.has('text')) {
+         updateDisplay(unescapeUnicode(params.get('text')));
+       }
+       
+       if (params.has('selectLang')) {
+         var selectedLang = params.get('selectLang');
+         var index = Math.max(0, locales.indexOf(selectedLang));
+         document.getElementById('selectLang').selectedIndex = index;
+         updateLang();
+         }
+     }
+     
+     function updateFromSelect() {
+       var select = document.getElementById('examples');
+       var val = select.options[select.selectedIndex].text;
+       updateDisplay(val);
+       console.log(val);
+     }
+     
+     function updateFromEscaped() {
+       var escaped = document.getElementById('escaped');
+       var escValue = escaped.value;
+           updateDisplay(unescapeUnicode(escValue));
+       }
+       
+       function updateDir() {
+       var dir = document.forms.form.elements.displayMeDir.value;
+       var displayMe = document.getElementById('displayableContent');
+       var attr = document.createAttribute('dir');
+       attr.value = dir;
+       displayMe.setAttributeNode(attr);
+     }
+     
+     function updateLang() {
+       var displayMe = document.getElementById('displayableContent');
+       var attr = document.createAttribute('lang');
+       attr.value = getLocale();
+       console.log("lang" + attr.value);
+
+       displayMe.setAttributeNode(attr);
+       displayMe = document.getElementById('editableContent');
+       var attr = document.createAttribute('lang');
+       attr.value = getLocale();
+       displayMe.setAttributeNode(attr);
+
+       var langbox = document.getElementById('langbox');
+       langbox.innerText = 'lang: ' + getLocale();
+     }
+     
+     function updateDisplayMe(val) {
+       currentlyShowing = val;
+       var displayDiv = document.getElementById('displayMe');
+       while (displayDiv.firstChild) {
+         displayDiv.removeChild(displayDiv.firstChild);
+       }
+
+       // get the direction selected in the radio buttons
+       var displayMeDir = 'auto'; // hack
+       var displayMeLang = getLocale();
+
+       var h2 = document.createElement('h2');
+       h2.dir = displayMeDir;
+       var attr = document.createAttribute('id');
+       attr.value = 'displayableContent';
+       h2.setAttributeNode(attr);
+
+       var langAttr = document.createAttribute('lang');
+       langAttr.value = displayMeLang;
+       h2.setAttributeNode(langAttr);
+       console.log("lang:" + langAttr.value);
+
+       var classAttr = document.createAttribute('class');
+       classAttr.value = 'displayableContent';
+       h2.setAttributeNode(classAttr);
+
+       // hack: if there appears to be HTML in the string, set innerHTML 
+       // instead of just text node
+       if (val.indexOf("<") >= 0) {
+           h2.innerHTML = val;
+       } else {
+           h2.append(document.createTextNode(val));
+       }
+       
+       displayDiv.append(h2);
+
+       var ta = document.createElement('textarea');
+       ta.dir = displayMeDir;
+       var attr = document.createAttribute('id');
+       attr.value = 'editableContent';
+       ta.setAttributeNode(attr);
+       var langAttr = document.createAttribute('lang');
+       langAttr.value = displayMeLang;
+       ta.setAttributeNode(langAttr);
+       var spellAttr = document.createAttribute('spellcheck');
+       spellAttr.value = true;
+       ta.setAttributeNode(spellAttr);
+       var classAttr = document.createAttribute('class');
+       classAttr.value = 'editableContent';
+       ta.setAttributeNode(classAttr);
+       // hack: if there appears to be HTML in the string, set innerHTML 
+       // instead of just text node
+       if (val.indexOf("<") >= 0) {
+           ta.innerHTML = val;
+       } else {
+           ta.append(document.createTextNode(val));
+       }
+       displayDiv.append(ta);
+
+       var langbox = document.getElementById('langbox');
+       langbox.innerText = 'lang: ' + getLocale();
+       capitalizeDisplay();
+     }
+     
+     function getLocale() {
+       var selectLang = document.getElementById('selectLang');
+       return selectLang.options[selectLang.selectedIndex].value;
+     }
+       
+       
+     function updateDisplay(val) {
+       var escaped = document.getElementById('escaped');
+       escaped.value = unicodeEscape(val);
+       updateDisplayMe(val);
+     }
+     
+       // thanks to Mathias Bynens; converts text to backslash-u escapes
+       // note the fixed line; notice that this works with supplementary
+       // characters because they are already encoded as UTF-16 surrogates
+       function unicodeEscape(str) {
+         return str.replace(/[\s\S]/g, function(character) {
+           var escape = character.charCodeAt().toString(16),
+               longhand = escape.length > 2;
+               return ( ! longhand) ? character : '\\u' + ('0000' + escape).slice(-4);
+         });
+       }
+       
+       // converts JavaScript escapes to UTF-16 code units
+       // this only handles pre-JS6 backslash-u escapes
+       function unescapeUnicode(str) {
+       var r = /[\\\/]u([\d\w]{4})/gi;
+           str = str.replace(r, function (match, grp) {
+              return String.fromCharCode(parseInt(grp, 16)); } );
+           return str;
+     }
+     
+     // thanks to stackoverflow; inserts 'myValue' at the cursor in 'myField'
+     function insertAtCursor(myField, myValue) {
+          if (document.selection) {
+        // IE support
+              myField.focus();
+              sel = document.selection.createRange();
+              sel.text = myValue;
+          } else if (myField.selectionStart || myField.selectionStart == '0') {
+        // Mozilla and friends
+              var startPos = myField.selectionStart;
+              var endPos = myField.selectionEnd;
+              myField.value = myField.value.substring(0, startPos)
+                  + myValue
+                  + myField.value.substring(endPos, myField.value.length);
+              myField.selectionStart = startPos + myValue.length;
+              myField.selectionEnd = startPos + myValue.length;
+          } else {
+              myField.value += myValue;
+          }
+      }
+        
+      function removeAllControls() {
+      var escaped = document.getElementById('escaped');
+      var text = unescapeUnicode(escaped.value);
+      var removed = text.replace(/[\s\S]/g, function(character) {
+        switch (character) {
+          case '\u061c':
+          case '\u200e':
+          case '\u200f':
+          case '\u2066':
+          case '\u2067':
+          case '\u2068':
+          case '\u2069':
+          case '\u202a':
+          case '\u202b':
+          case '\u202c': return '';
+          default: return character;
+        }
+      });
+      updateDisplay(removed);
+    }
+        
+      function loadLocales() {
+     var select = document.getElementById('selectLang');
+     for (locale in locales) {
+       const loc = new Intl.Locale(locales[locale]);
+       const display = new Intl.DisplayNames(loc, {type: 'language', style: 'short'});
+       var option = document.createElement('option');
+       option.value = locales[locale]; // use the language tag
+       var title = document.createAttribute('title');
+       title.value = locales[locale];
+       option.setAttributeNode(title);
+
+       option.appendChild(document.createTextNode(display.of(locales[locale]) + '\u00a0(' + locales[locale] + ')'));
+       select.appendChild(option);
+     }
+         select.value = 'en-US';
+         document.getElementById('displayableContent').text = currentlyShowing;
+         console.log(currentlyShowing);
+   }
+
+
+ function capitalizeDisplay() {
+  let checkbox = document.getElementById("capitalize");
+  let targetElement = document.getElementById("displayMe");
+  if (checkbox.checked) {
+    // Apply the style if checked
+    targetElement.style.textTransform = "capitalize"; 
+    console.log("capitalize");
+  } else {
+    // Remove the style if unchecked
+    targetElement.style.textTransform = ""; 
+    console.log("remove capitalize");
+  }
+}
+   </script>
+   
+   <style>
+   .blocktitle {
+     font-family: sans-serif;
+     background-color: #fafafa;
+   }
+   
+   div.display, .displayableContent {
+     font-size: 24pt;
+     background-color: #fafafa;
+
+   }
+   
+   span.magenta {
+     color:magenta;
+   }
+
+   .editableContent {
+      hyphens: auto;
+      font-family: serif;
+      width: 90%;
+   }
+
+   .displayableContent {
+      hyphens: auto;
+      font-family: sans-serif;
+   }
+
+   </style>
+</head>
+<body onload="loadLocales(); updateFromParameter()">
+<h1>Demo page for the effect of the <kbd>lang</kbd> attribute</h1>
+
+<form>
+
+  <label for="examples">Examples:</label>
+  <select id="examples" name="examples" onchange="updateFromSelect()">
+    <option value="1">雪, 刃, 直, 令, 垔</option>
+    <option value="2" lang="en">Extraordinary extravagant indolent cantankerous curmudgeon's catafalque</option>
+    <option value="3" dir="rtl" lang="ar">
+لحجز مواعيد اللقاح ضد COVID-19 انتقل إلى، www.nhs.uk/covid-vaccination أو اتصل برقم 119 الذي ويوفر مترخمين عند الطلب.
+</option>
+    <option value="4" lang="fr">Anticonstitutionnellement hexakosioihexekontahexaphobie caoutchouc inébranlablement heureuse</option>
+    <option value="5" lang="de">Freundschaftsbeziehungen Rechtsschutzversicherungsgesellschaften zum Beispiel Donaudampfschiffahrtsgesellschaftskapitän</option>
+    <option value="6" lang="hi">लौहपथगामिनीसूचकदर्शकहरितताम्रलौहपट्टिका अधिकरणीयतावादी संविधानिकतावाद</option>
+    <option value="7" lang="tr">ılık ilik Diyarbakır</option>
+    <option value="8" lang="ar">({([{([){()([])]}}[{(X)})[)])})}}{([])[]})</option>
+    <option value="9" lang="ar">((a + b) * (b + 9a)) + ((2a – 1) * (2b + 17)) = –1</option>
+    <option value="10" lang="ar">المعرف:  01:02:aa:4a:bb:06</option>
+  </select>
+
+
+
+
+  <h1></h1>
+<p>Shows the underlying code point sequence with non-ASCII characters escaped using JavaScript's <code>\u</code> escape syntax.
+Edits in this box can be reflected into the "display" box by clicking <kbd>Update</kbd>. HTML inserted here is treated as
+markup in the display box. Use bidi control buttons or <kbd>span</kbd>-inserting buttons to insert controls into the text (for example,
+to provide bidi isolation). You can directly enter plain text (including any <em>non-ASCII</em> text) into this box: clicking <code>update</code> will convert 
+it to escapes.</p>
+<textarea rows=5 cols=80 id="escaped" dir="ltr" style="font-size: 16pt"></textarea><br>
+<button type="button" name="escButton" onclick="updateFromEscaped()">Update</button> 
+<button type=button name="spanButton" onclick="insertAtCursor(escaped, '<span class=magenta dir=auto>')">Open Span</button>
+<button type=button name="spanButton" onclick="insertAtCursor(escaped, '</span>')">Close Span</button> Marks: 
+<button type=button name="spanButton" onclick="insertAtCursor(escaped, '\\u200e')">LRM</button>
+<button type=button name="spanButton" onclick="insertAtCursor(escaped, '\\u200f')">RLM</button>
+<button type=button name="spanButton" onclick="insertAtCursor(escaped, '\\u061c')">ALM</button> Embedding Ctrls:
+<button type=button name="spanButton" onclick="insertAtCursor(escaped, '\\u202a')">LRE</button>
+<button type=button name="spanButton" onclick="insertAtCursor(escaped, '\\u202b')">RLE</button>
+<button type=button name="spanButton" onclick="insertAtCursor(escaped, '\\u202c')">PDF</button> Isolate Ctrls:
+<button type=button name="spanButton" onclick="insertAtCursor(escaped, '\\u2066')">LRI</button>
+<button type=button name="spanButton" onclick="insertAtCursor(escaped, '\\u2067')">RLI</button>
+<button type=button name="spanButton" onclick="insertAtCursor(escaped, '\\u2068')">FSI</button>
+<button type=button name="spanButton" onclick="insertAtCursor(escaped, '\\u2069')">PDI</button>
+<button type=button name="removeCtrlsButton" onclick="removeAllControls()">Remove Controls</button>
+<br>
+
+
+
+
+<div style="border:1pt solid black; width:100%; margins: 12px;">
+
+  <div id="displayMe" class="display">
+    <p id="displayableContent"></p>
+  </div>
+
+  <p id="langbox" style="font-family:monospace;"></p>
+</div>
+
+<h4>Language:</h4>
+<p>Select the language to use for the <code>lang</code> attribute in the display box below. Choosing a different language can result in changes
+to font selection, processing, line-breaking, and more.</p>
+<p>
+  <select name="selectLang" id="selectLang" onchange="updateFromSelect()">
+  </select>
+</p>
+
+<input type="checkbox" id="capitalize" onchange="capitalizeDisplay()"><label for="capitalize">Capitalize</label>
+
+<input type="submit" style="visibility:hidden">
+</form>
+
+</body>
+</html>
