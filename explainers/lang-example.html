@@ -9,12 +9,16 @@
                     'ar',
                     'ar-EG',
                     'de',
+                    'el',
                     'fr',
                     'he',
                     'he-IL',
                     'hi-IN',
+                    'lt',
+                    'lv',
                     'ja',
                     'ko',
+                    'nl',
                     'tr',
                     'zh-Hans',
                     'zh-Hant'
@@ -103,6 +107,7 @@
      
      function updateDisplayMe(val) {
        currentlyShowing = val;
+       var quote = document.querySelector('input[name="quoteMe"]:checked');
        var displayDiv = document.getElementById('displayMe');
        while (displayDiv.firstChild) {
          displayDiv.removeChild(displayDiv.firstChild);
@@ -127,10 +132,10 @@
        classAttr.value = 'displayableContent';
        h2.setAttributeNode(classAttr);
 
-       // hack: if there appears to be HTML in the string, set innerHTML 
-       // instead of just text node
-       if (val.indexOf("<") >= 0) {
-           h2.innerHTML = val;
+       if (quote) {
+           var qElement = document.createElement('q');
+           qElement.append(document.createTextNode(val));
+           h2.appendChild(qElement);
        } else {
            h2.append(document.createTextNode(val));
        }
@@ -161,10 +166,10 @@
        classAttr.value = 'displayableContent';
        h2.setAttributeNode(classAttr);
 
-       // hack: if there appears to be HTML in the string, set innerHTML 
-       // instead of just text node
-       if (val.indexOf("<") >= 0) {
-           h2.innerHTML = val;
+       if (quote) {
+           var qElement = document.createElement('q');
+           qElement.append(document.createTextNode(val));
+           h2.appendChild(qElement);
        } else {
            h2.append(document.createTextNode(val));
        }
@@ -285,18 +290,31 @@
  var capitalizeState = "";
 
  function capitalizeDisplay() {
-        let targetElement = document.getElementById("displayMe");
-        let targetElement2 = document.getElementById("displayMe2");
+  let targetElement = document.getElementById("displayMe");
+  let targetElement2 = document.getElementById("displayMe2");
         // if (capitalizeRadio[i].checked) {
         //    // Apply the style checked
         //    capitalizeState = captializeRadio[i].value;
         // }
-        capitalizeState = document.querySelector('input[name="capitalize"]:checked').value;
+  capitalizeState = document.querySelector('input[name="capitalize"]:checked').value;
 
-        targetElement.style.textTransform = capitalizeState; 
-        targetElement2.style.textTransform = capitalizeState;
-        console.log("capitalize: " + capitalizeState);
+  targetElement.style.textTransform = capitalizeState; 
+  targetElement2.style.textTransform = capitalizeState;
+  console.log("capitalize: " + capitalizeState);
+}
+
+function quoteItems() {
+  var quote = document.querySelector('input[name="quoteMe"]:checked');
+  if (quote) {
+    let targetElement = document.getElementById("displayMe");
+    var qElement = document.createElement('q');
+    qElement.textContent = targetElement.textContent;
+    targetElement.textContent = '';
+    targetElement.appendChild(qElement);
   }
+  console.log('quoted: ' + quote);
+}
+
    </script>
    
    <style>
@@ -344,6 +362,9 @@
     <option value="5" lang="de">Freundschaftsbeziehungen Rechtsschutzversicherungsgesellschaften zum Beispiel Donaudampfschiffahrtsgesellschaftskapitän</option>
     <option value="6" lang="hi">लौहपथगामिनीसूचकदर्शकहरितताम्रलौहपट्टिका अधिकरणीयतावादी संविधानिकतावाद</option>
     <option value="7" lang="tr">ılık ilik Diyarbakır</option>
+    <option value="8" lang="el">ΟΔΥΣΣΕΥΣ. Θα πάμε στο "Θεϊκό φαΐ" ή στη "Νεράιδα"</option>
+    <option value="9" lang="nl">Ik hou van ijs en ik kan niet liegen</option>
+    <option value="10" lang="lt">Man garšo saldējums, un es nevaru melot. Es varu ēst glāzi, un tas man nekaitē.</option>
   </select>
 
 
@@ -371,6 +392,8 @@ it to escapes.</p>
 <input type="radio" name="capitalize" id="cap-none" value="" onchange="capitalizeDisplay()" checked><label for="cap-none">(none)</label>
 <input type="radio" name="capitalize" id="cap-cap" value="capitalize" onchange="capitalizeDisplay()"><label for="cap-cap">Capitalize</label>
 <input type="radio" name="capitalize" id="cap-uc" value="uppercase" onchange="capitalizeDisplay()"><label for="cap-uc">UPPERCASE</label>
+<input type="radio" name="capitalize" id="cap-lc" value="lowercase" onchange="capitalizeDisplay()"><label for="cap-lc">lowercase</label>
+<input type="checkbox" name="quoteMe" id="quoteMe" onchange="updateDisplayMe(currentlyShowing)"><label for="quoteMe"><q>quoted</q></label>
 <br>
 
 
