@@ -196,52 +196,52 @@
        updateDisplayMe(val);
      }
      
-       // thanks to Mathias Bynens; converts text to backslash-u escapes
-       // note the fixed line; notice that this works with supplementary
-       // characters because they are already encoded as UTF-16 surrogates
-       function unicodeEscape(str) {
-         return str.replace(/[\s\S]/g, function(character) {
-           var escape = character.charCodeAt().toString(16),
-               longhand = escape.length > 2;
-               return ( ! longhand) ? character : '\\u' + ('0000' + escape).slice(-4);
-         });
-       }
+     // thanks to Mathias Bynens; converts text to backslash-u escapes
+     // note the fixed line; notice that this works with supplementary
+     // characters because they are already encoded as UTF-16 surrogates
+     function unicodeEscape(str) {
+       return str.replace(/[\s\S]/g, function(character) {
+         var escape = character.charCodeAt().toString(16),
+         longhand = escape.length > 2;
+         return ( ! longhand) ? character : '\\u' + ('0000' + escape).slice(-4);
+       });
+     }
        
        // converts JavaScript escapes to UTF-16 code units
        // this only handles pre-JS6 backslash-u escapes
        function unescapeUnicode(str) {
-       var r = /[\\\/]u([\d\w]{4})/gi;
-           str = str.replace(r, function (match, grp) {
-              return String.fromCharCode(parseInt(grp, 16)); } );
-           return str;
-     }
+         var r = /[\\\/]u([\d\w]{4})/gi;
+         str = str.replace(r, function (match, grp) {
+          return String.fromCharCode(parseInt(grp, 16)); } );
+         return str;
+       }
      
-     // thanks to stackoverflow; inserts 'myValue' at the cursor in 'myField'
-     function insertAtCursor(myField, myValue) {
-          if (document.selection) {
-        // IE support
-              myField.focus();
-              sel = document.selection.createRange();
-              sel.text = myValue;
-          } else if (myField.selectionStart || myField.selectionStart == '0') {
-        // Mozilla and friends
-              var startPos = myField.selectionStart;
-              var endPos = myField.selectionEnd;
-              myField.value = myField.value.substring(0, startPos)
-                  + myValue
-                  + myField.value.substring(endPos, myField.value.length);
-              myField.selectionStart = startPos + myValue.length;
-              myField.selectionEnd = startPos + myValue.length;
-          } else {
-              myField.value += myValue;
-          }
+       // thanks to stackoverflow; inserts 'myValue' at the cursor in 'myField'
+       function insertAtCursor(myField, myValue) {
+        if (document.selection) {
+          // IE support
+          myField.focus();
+          sel = document.selection.createRange();
+          sel.text = myValue;
+        } else if (myField.selectionStart || myField.selectionStart == '0') {
+          // Mozilla and friends
+          var startPos = myField.selectionStart;
+          var endPos = myField.selectionEnd;
+          myField.value = myField.value.substring(0, startPos)
+          + myValue
+          + myField.value.substring(endPos, myField.value.length);
+          myField.selectionStart = startPos + myValue.length;
+          myField.selectionEnd = startPos + myValue.length;
+        } else {
+          myField.value += myValue;
+        }
       }
         
       function removeAllControls() {
-      var escaped = document.getElementById('escaped');
-      var text = unescapeUnicode(escaped.value);
-      var removed = text.replace(/[\s\S]/g, function(character) {
-        switch (character) {
+        var escaped = document.getElementById('escaped');
+        var text = unescapeUnicode(escaped.value);
+        var removed = text.replace(/[\s\S]/g, function(character) {
+          switch (character) {
           case '\u061c':
           case '\u200e':
           case '\u200f':
@@ -253,10 +253,10 @@
           case '\u202b':
           case '\u202c': return '';
           default: return character;
-        }
-      });
-      updateDisplay(removed);
-    }
+          }
+        });
+        updateDisplay(removed);
+      }
         
     function loadLocales() {
      var select = document.getElementById('selectLang');
@@ -342,12 +342,19 @@ function quoteItems() {
    .displayableContent {
       hyphens: auto;
       font-family: sans-serif;
+      background-color: #ececec;
+   }
+
+   h1,h3 {
+      font-family: Raleway, "Aptos Black", "Amazon Ember", sans-serif;
+      color: #9fd3c7;
+      background-color: #142d4c;
    }
 
    </style>
 </head>
-<body onload="loadLocales(); updateFromParameter()">
-<h1>Demo page for the effect of the <kbd>lang</kbd> attribute</h1>
+<body onload="loadLocales(); updateFromSelect(); updateFromParameter()">
+<h1>Demo page: Effect of the <kbd>lang</kbd> attribute</h1>
 
 <form name="langform">
 
@@ -368,33 +375,32 @@ function quoteItems() {
   </select>
 
 
-  <h1></h1>
 <p>Shows the underlying code point sequence with non-ASCII characters escaped using JavaScript's <code>\u</code> escape syntax.
-Edits in this box can be reflected into the "display" box by clicking <kbd>Update</kbd>. HTML inserted here is treated as
-markup in the display box. Use bidi control buttons or <kbd>span</kbd>-inserting buttons to insert controls into the text (for example,
-to provide bidi isolation). You can directly enter plain text (including any <em>non-ASCII</em> text) into this box: clicking <code>update</code> will convert 
-it to escapes.</p>
+Edits in this box can be reflected into the language boxes by clicking <kbd>Update</kbd>. Use bidi control buttons to insert controls into the text (for example, to provide bidi isolation). You can directly enter plain text (including any <em>non-ASCII</em> text) into this box: clicking <code>update</code> will convert it to escapes.</p>
 <textarea rows=5 cols=80 id="escaped" dir="ltr" style="font-size: 16pt"></textarea><br>
 <button type="button" name="escButton" onclick="updateFromEscaped()">Update</button> 
-<button type=button name="spanButton" onclick="insertAtCursor(escaped, '<span class=magenta dir=auto>')">Open Span</button>
-<button type=button name="spanButton" onclick="insertAtCursor(escaped, '</span>')">Close Span</button> Marks: 
+Marks: 
 <button type=button name="spanButton" onclick="insertAtCursor(escaped, '\\u200e')">LRM</button>
 <button type=button name="spanButton" onclick="insertAtCursor(escaped, '\\u200f')">RLM</button>
-<button type=button name="spanButton" onclick="insertAtCursor(escaped, '\\u061c')">ALM</button> Embedding Ctrls:
+<button type=button name="spanButton" onclick="insertAtCursor(escaped, '\\u061c')">ALM</button> 
+Embedding Ctrls:
 <button type=button name="spanButton" onclick="insertAtCursor(escaped, '\\u202a')">LRE</button>
 <button type=button name="spanButton" onclick="insertAtCursor(escaped, '\\u202b')">RLE</button>
-<button type=button name="spanButton" onclick="insertAtCursor(escaped, '\\u202c')">PDF</button> Isolate Ctrls:
+<button type=button name="spanButton" onclick="insertAtCursor(escaped, '\\u202c')">PDF</button> 
+Isolate Ctrls:
 <button type=button name="spanButton" onclick="insertAtCursor(escaped, '\\u2066')">LRI</button>
 <button type=button name="spanButton" onclick="insertAtCursor(escaped, '\\u2067')">RLI</button>
 <button type=button name="spanButton" onclick="insertAtCursor(escaped, '\\u2068')">FSI</button>
 <button type=button name="spanButton" onclick="insertAtCursor(escaped, '\\u2069')">PDI</button>
-<button type=button name="removeCtrlsButton" onclick="removeAllControls()">Remove Controls</button><br>
+<button type=button name="removeCtrlsButton" onclick="removeAllControls()">Remove Controls</button>
+<div style="width:100%; margins: 12px; padding:6px;">
+  <h3>Transforms</h3>
 <input type="radio" name="capitalize" id="cap-none" value="" onchange="capitalizeDisplay()" checked><label for="cap-none">(none)</label>
 <input type="radio" name="capitalize" id="cap-cap" value="capitalize" onchange="capitalizeDisplay()"><label for="cap-cap">Capitalize</label>
 <input type="radio" name="capitalize" id="cap-uc" value="uppercase" onchange="capitalizeDisplay()"><label for="cap-uc">UPPERCASE</label>
 <input type="radio" name="capitalize" id="cap-lc" value="lowercase" onchange="capitalizeDisplay()"><label for="cap-lc">lowercase</label>
 <input type="checkbox" name="quoteMe" id="quoteMe" onchange="updateDisplayMe(currentlyShowing)"><label for="quoteMe"><q>quoted</q></label>
-<br>
+</div>
 
 
 
