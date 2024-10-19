@@ -282,22 +282,21 @@
    }
 
 
+ var capitalizeState = "";
+
  function capitalizeDisplay() {
-  let checkbox = document.getElementById("capitalize");
-  let targetElement = document.getElementById("displayMe");
-  let targetElement2 = document.getElementById("displayMe2");
-  if (checkbox.checked) {
-    // Apply the style if checked
-    targetElement.style.textTransform = "capitalize"; 
-    targetElement2.style.textTransform = "capitalize";
-    console.log("capitalize");
-  } else {
-    // Remove the style if unchecked
-    targetElement.style.textTransform = ""; 
-    targetElement2.style.textTransform = "";
-    console.log("remove capitalize");
+        let targetElement = document.getElementById("displayMe");
+        let targetElement2 = document.getElementById("displayMe2");
+        // if (capitalizeRadio[i].checked) {
+        //    // Apply the style checked
+        //    capitalizeState = captializeRadio[i].value;
+        // }
+        capitalizeState = document.querySelector('input[name="capitalize"]:checked').value;
+
+        targetElement.style.textTransform = capitalizeState; 
+        targetElement2.style.textTransform = capitalizeState;
+        console.log("capitalize: " + capitalizeState);
   }
-}
    </script>
    
    <style>
@@ -332,7 +331,7 @@
 <body onload="loadLocales(); updateFromParameter()">
 <h1>Demo page for the effect of the <kbd>lang</kbd> attribute</h1>
 
-<form>
+<form name="langform">
 
   <label for="examples">Examples:</label>
   <select id="examples" name="examples" onchange="updateFromSelect()">
@@ -368,8 +367,10 @@ it to escapes.</p>
 <button type=button name="spanButton" onclick="insertAtCursor(escaped, '\\u2067')">RLI</button>
 <button type=button name="spanButton" onclick="insertAtCursor(escaped, '\\u2068')">FSI</button>
 <button type=button name="spanButton" onclick="insertAtCursor(escaped, '\\u2069')">PDI</button>
-<button type=button name="removeCtrlsButton" onclick="removeAllControls()">Remove Controls</button>
-<input type="checkbox" id="capitalize" onchange="capitalizeDisplay()"><label for="capitalize">Capitalize</label>
+<button type=button name="removeCtrlsButton" onclick="removeAllControls()">Remove Controls</button><br>
+<input type="radio" name="capitalize" id="cap-none" value="" onchange="capitalizeDisplay()" checked><label for="cap-none">(none)</label>
+<input type="radio" name="capitalize" id="cap-cap" value="capitalize" onchange="capitalizeDisplay()"><label for="cap-cap">Capitalize</label>
+<input type="radio" name="capitalize" id="cap-uc" value="uppercase" onchange="capitalizeDisplay()"><label for="cap-uc">UPPERCASE</label>
 <br>
 
 
