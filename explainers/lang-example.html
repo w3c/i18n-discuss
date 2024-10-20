@@ -323,14 +323,17 @@ function quoteItems() {
      background-color: #fafafa;
    }
    
-   div.display, .displayableContent {
-     font-size: 24pt;
-     background-color: #fafafa;
-
-   }
-   
+ 
    span.magenta {
      color:magenta;
+   }
+
+   .container {
+    border:1pt solid black; 
+    width:100%; 
+    margins: 12px;
+    padding: 6px;
+    background-color: #ddddff;
    }
 
    .editableContent {
@@ -342,25 +345,30 @@ function quoteItems() {
    .displayableContent {
       hyphens: auto;
       font-family: sans-serif;
-      background-color: #ececec;
+      font-size: 24pt;
+      background-color: white;
    }
 
    h1,h3 {
       font-family: Raleway, "Aptos Black", "Amazon Ember", sans-serif;
-      color: #9fd3c7;
-      background-color: #142d4c;
+      color: #142d4c;
+   }
+
+   .pagetitle {
+      text-align: center;
+      font-family: "Veneer Two", "Impact", sans-serif;
    }
 
    </style>
 </head>
-<body onload="loadLocales(); updateFromSelect(); updateFromParameter()">
-<h1>Demo page: Effect of the <kbd>lang</kbd> attribute</h1>
+<body onload="loadLocales(); updateFromSelect(); updateFromParameter()" style="background-color: #eeeeff">
+<h1 class="pagetitle">Demo page: Effect of the <kbd>lang</kbd> attribute</h1>
 
 <form name="langform">
 
   <label for="examples">Examples:</label>
   <select id="examples" name="examples" onchange="updateFromSelect()">
-    <option value="1">雪, 刃, 直, 令, 垔</option>
+    <option value="1">骨, 雪, 刃, 直, 令, 垔</option>
     <option value="2" lang="en">Extraordinary extravagant indolent cantankerous curmudgeon's catafalque</option>
     <option value="3" dir="rtl" lang="ar">
 لحجز مواعيد اللقاح ضد COVID-19 انتقل إلى، www.nhs.uk/covid-vaccination أو اتصل برقم 119 الذي ويوفر مترخمين عند الطلب.
@@ -405,7 +413,7 @@ Isolate Ctrls:
 
 
 
-<div style="border:1pt solid black; width:100%; margins: 12px;">
+<div class="container">
 
   <div id="displayMe" class="display">
     <p id="displayableContent"></p>
@@ -418,7 +426,7 @@ Isolate Ctrls:
   </p>
 </div>
 
-<div style="border:1pt solid black; width:100%; margins: 12px;">
+<div class="container">
 
   <div id="displayMe2" class="display">
     <p id="displayableContent"></p>
