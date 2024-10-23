@@ -62,14 +62,14 @@ In client-server communication, appropriate prompts should be given for abnormal
 
 Using the latest version of Unihan as the basis, standardise Chinese digital data and continuously improve the standardisation process of Chinese.
 
-As Chinese characters will be continuously added in Unicode, and the glyphs of desktop and mobile devices may lack of update when there is no glyph in the local fonts, the user agent should not display U+FFFD or blank to the user, and should display the code point (like the behaviour of Firefox under GNU/Linux).
+As Chinese characters will be continuously added in Unicode, and the glyphs of desktop and mobile devices may lack of update when there is no glyph in the local fonts, the user agent should not display U+FFFD or blank to the user. The glyph that is displayed should identify the code point value (like the behaviour of Firefox under GNU/Linux).
 
 ## Proposal
 
 What is described herein, contains the following pre-conditions:
 
-* It is possible to enter all Chinese characters in Unicode. For not yet encoded Chinese characters, it is generally recommended to use the correct character splitting method to represent them (for example, use `钅监` or `⿰钅监` to represent the simplified version of U+30FAB `鑑`) to reduce ambiguity and facilitate future updates.
-* Unicode characters without glyphs (including future code points for Chinese) should be displayed as the code point, instead of displaying blanks or tofu that make it impossible to distinguish between different characters.
+* It is possible to enter all Chinese characters in Unicode. For not yet encoded Chinese characters, it is generally recommended to use the correct character splitting method to describe them (for example, use `钅监` or `⿰钅监` to describe the simplified version of `鑑`, currently encoded as `U+30FAB`) to reduce ambiguity and facilitate future updates.
+* For Unicode characters without glyphs (including future code points for Chinese), the glyph that is displayed should identify the code point value. Blanks or tofu (U+FFFD/U+3000/U+2370/U+2612/...) makes it impossible to distinguish between different characters.
 * PUA characters are not recommended for use. This is especially true when multiple parties are using them for information exchange. However, if they are used, the assignments and glyphs should be disclosed to all users and the relevant fonts should be installed. For existing PUA characters, they should be converted to non-PUA characters periodically according to the frequency of Unicode updates.
 * Full use should be made of the Chinese character code query tool to archive and provide query tools for split or PUA Chinese characters, in order to avoid duplicate encoded characters.
 * Duplicate encoded ideographs in Unicode should be normalized in the same way as in the ctext project (see [Compatibility processing mechanism in client and server side](https://github.com/w3c/i18n-discuss/blob/gh-pages/notes/chinese-client-server.md#compatibility-processing-mechanism-in-client-and-server-side) and `[R7][R10]`).
@@ -99,7 +99,7 @@ Restrictions:
 
 Because of the continuous expansion of Unicode Chinese characters, many old systems won't have glyphs for some recently encoded Chinese characters. These characters are often displayed as `U+FFFD REPLACEMENT CHARACTER`, `U+2612 BALLOT BOX WITH X`, or blank, resulting in the user not being able to identify the specific content.
 
-Firefox on Linux renders the code point in order to avoid mapping a glyph to thousands or tens of thousands of different Chinese characters, because it can not be recognised by the user normally.
+For Firefox under Linux, the glyph that is displayed identifies the code point value in order to avoid mapping a glyph to thousands or tens of thousands of different Chinese characters, because it can not be recognised by the user normally.
 
 #### UI optimisation
 
@@ -198,7 +198,7 @@ Historically, names of people and places were handwritten or spoken, but in a di
 * Since GB 2312, GBK, and Big5 encodings were used in the early days, a few missing characters were encoded with PUA, including 52 characters in GBK (later officially included in [CJK Unified Ideographs Extension A](https://www.unicode.org/charts/PDF/U3400.pdf)), 415 characters created by [Sogou Pinyin](https://en.wikipedia.org/wiki/Sogou_Pinyin), more than 4,700 characters created by Mainland China's Resident Identity Cards (more than 4,500 characters have been officially encoded in September 2023), more than 5,000 characters created by the Government of Hong Kong, and so on.
 * The addition of Chinese characters in Unicode is a complicated project. Some characters are actually typos, called "ghost characters" (e.g. ⿺辵袁, which is really 遠), and some characters are duplicate encoded (e.g. 㖈 and 䎛、㦳 and 㘽, etc.), which need to be handled correctly in order to avoid legal disputes.
 * General processing methods, such as the National Ethnic Affairs Commission `[R18]`, clearly state that only Chinese characters within the GB 18030 and GB 13000 standards are allowed to be used, and other characters not included in the standards are replaced by pinyin. Other livelihood service operating procedures `[R22]` state that personal names are not fully checked when using alternative approaches (split characters or pinyin) for PUA or other non-standard characters.
-* Taiwan's household registration convention allows only the use of Chinese characters in a general dictionary, which may be 30,000-50,000 characters. The Korean character list for personal names contains 8,142 Hanja characters.
+* Taiwan's household registration allows only the use of Chinese characters in a general dictionary, which may be 30,000-50,000 characters. The Korean character list for personal names contains 8,142 Hanja characters.
 
 ### Scenario 2
 
@@ -244,7 +244,7 @@ Chinese archaeology and philology scenarios:
   * Name separators (U+00B7 [·]) should be used in personal name scenarios according to `[R18]`
   * U+3007 [〇] should not be used. 零 should be used instead.
 9. Method of displaying Chinese characters without glyphs or with the same glyphs but in different code points
-  * in GNU/Linux, the code point is rendered
+  * in GNU/Linux, the glyph that is displayed identifies the code point value
   * Firefox under Windows also uses this and it is recommended to use this method
   * Currently, the rendering in different mobile phones and apps varies: blank, U+FFFD, Hong Kong Private Character Set characters, emoji, and so on.
   * For characters with duplicated code points and radical code points, a clear distinction of the glyph should be made, like 张䶮/张 and 工人/⼯⼈.
