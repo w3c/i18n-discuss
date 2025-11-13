@@ -13,3 +13,5 @@ Documents:
 [Default styling for multilingual quotes & quotation marks in HTML](http://w3c.github.io/i18n-discuss/default-quote-styling)
 
 [Ruby content model](https://w3c.github.io/i18n-discuss/notes/ruby-content-model)
+
+[Explainer: Message Resources](https://github.com/w3c/i18n-discuss/blob/gh-pages/explainers/message-resources.md)
