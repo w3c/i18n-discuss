@@ -1,0 +1,87 @@
+; A resource consists of any number of
+; section headers, entries, comments and empty lines.
+; These are all separated from each other by LF or CRLF line endings.
+; Except for empty lines, all lines start with a non-whitespace character.
+resource = line *(newline line)
+line = frontmatter / section-head / entry / metadata / comment / empty-line
+
+; Comments and metadata before the frontmatter attach to the entire resource.
+; A valid resource must have at most one frontmatter,
+; and it must not have any section-head or entry lines before the frontmatter.
+frontmatter = "---" [ws]
+
+; As in TOML, entries after a section-head belong to the section.
+; Sections do not nest under preceding sections,
+; but must always define their full id path.
+section-head = "[" [ws] id [ws] "]" [ws]
+entry = id [ws] "=" [ws] value
+
+; Metadata attaches properties to the subsequent frontmatter, section-head or entry.
+; Other metadata lines are valid between metadata and its target,
+; but comments and empty lines are not.
+; As with entries, the value of metadata may span multiple lines,
+; provided that each beyond the first is indented by some whitespace.
+metadata = "@" id-part [ws value]
+
+; Adjacent comments should be considered as a single multi-line comment.
+; Comments attach to a subsequent frontmatter, section-head or entry,
+; if not separated from it by any empty lines.
+; Metadata lines are valid between comments and their target.
+comment = "#" *(content / backslash)
+empty-line = [ws]
+
+ws = 1*(SP / HTAB)
+newline = CRLF / LF
+
+; An identifier is made up of one or more non-empty parts separated by dots.
+; Common symbols and non-printable characters must be \escaped in identifiers.
+; To avoid conflicts with frontmatter, and id starting with `---`
+; or consisting only of `-` characters must `\-` escape at least one of them.
+id = id-start *([ws] "." [ws] id-part)
+id-start = (["-"] ["-"] id-char [id-part]) / ("-" ["-"])
+id-part = 1*(id-char / "-")
+id-char = id-safe / id-escape
+id-safe = ALPHA / DIGIT / "_"
+        / %x00A1-1FFF / %x200C-200D / %x2030-205E / %x2070-2FEF
+        / %x3001-D7FF / %xF900-FDCF / %xFDF0-FFFD / %x10000-EFFFF
+id-escape = backslash (escaped / symbols)
+symbols = %x21-2F / %x3A-40 / %x5B-60 / %x7B-7E ; ASCII symbols and punctuation
+        / %xA1-BF / %xD7 / %xF7 ; Latin-1 symbols and punctuation
+        / %x2010-2027 / %x2030-205E / %x2190-2BFF ; General symbols and punctuation
+
+; Values must be parsed as MF2 messages.
+; A message may be defined on multiple lines,
+; as long as each line after the first is indented by at least one space.
+; If a message body line starts with significant whitespace,
+; its first character must be \escaped.
+; When a newline occurs in a value,
+; it is always considered to represent a single U+000A LF character.
+; To include a U+000D CR character in a value, it must be \r escaped.
+value = value-line *(newline ws value-line)
+value-line = [(value-start / value-escape) *(content / value-escape)]
+; A resource must not contain any control characters or vertical whitespace
+; which might be mistaken for newlines.
+value-start = %x21-5B ; omit C0 controls, SP, and \
+            / %x5D-7E ; omit C1 controls
+            / %x00A0-2027 ; omit LSEP & PSEP
+            / %x202A-D7FF ; omit surrogates
+            / %xE000-10FFFF
+content = SP / HTAB / value-start
+; Each of the escape sequences recognised by MF2 \\, \{, \|, \}
+; pass through resource parsing as complete and intact,
+; so that they do not need to be double-escaped.
+value-escape = backslash (escaped / "{" / "|" / "}")
+
+; The bulk of valid escapes is shared between id-escape and value-escape.
+; If a newline is \ escaped, it (and the subsequent whitespace indentation) is ignored.
+; This allows for long keys and values to be wrapped for legibility.
+; As an example, each of the these is a valid representation of a horizontal tab:
+; \	, \t, \x09, \u0009, \U000009
+escaped = backslash
+        / (newline ws)
+        / SP / HTAB
+        / %s"n" / %s"r" / %s"t" ; represent LF, CR, HTAB
+        / (%s"x" HEXDIG HEXDIG)
+        / (%s"u" HEXDIG HEXDIG HEXDIG HEXDIG)
+        / (%s"U" HEXDIG HEXDIG HEXDIG HEXDIG HEXDIG HEXDIG)
+backslash = "\"

@@ -1,0 +1,71 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "https://w3c.github.io/i18n-discuss/explainers/message-resource.json",
+
+  "type": "object",
+  "properties": {
+    "comment": { "type": "string" },
+    "meta": { "$ref": "#/$defs/meta" },
+    "sections": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "comment": { "type": "string" },
+          "id": { "$ref": "#/$defs/id" },
+          "meta": { "$ref": "#/$defs/meta" },
+          "entries": {
+            "type": "array",
+            "items": {
+              "oneOf": [
+                { "$ref": "#/$defs/comment" },
+                { "$ref": "#/$defs/entry" }
+              ]
+            }
+          }
+        },
+        "required": ["entries"]
+      }
+    }
+  },
+  "required": ["sections"],
+
+  "$defs": {
+    "comment": {
+      "type": "object",
+      "properties": {
+        "type": { "const": "comment" },
+        "comment": { "type": "string" }
+      },
+      "required": ["type", "comment"]
+    },
+    "entry": {
+      "type": "object",
+      "properties": {
+        "type": { "const": "entry" },
+        "comment": { "type": "string" },
+        "id": { "$ref": "#/$defs/id" },
+        "meta": { "$ref": "#/$defs/meta" },
+        "value": {
+          "$ref": "https://github.com/unicode-org/message-format-wg/blob/main/spec/data-model/message.json"
+        }
+      },
+      "required": ["type", "id", "value"]
+    },
+    "id": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "meta": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "$ref": "#/$defs/id" },
+          "value": { "type": "string" }
+        },
+        "required": ["id", "value"]
+      }
+    }
+  }
+}
