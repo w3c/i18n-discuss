@@ -146,6 +146,8 @@ As currently proposed,
 a message resource looks like this
 (syntax highlighting only approximate):
 
+<!-- {% raw %} -->
+
 ```ini
 # The resource-level locale is the only required property.
 @locale en-US
@@ -177,6 +179,8 @@ four =
 # This message (section.more.five) should not be modified from the original.
 five = Foo
 ```
+
+<!-- {% endraw %} -->
 
 This represents five `en-US` messages with keys `one`, `two`, `three`, `section.four`, and `section.more.five`.
 The comments and `@properties` each attach to the next
