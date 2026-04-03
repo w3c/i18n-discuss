@@ -4,7 +4,7 @@ A place to hold discussions on i18n topics, and to put documents that summarise,
 
 Documents:
 
-[Recommendations for language and direction attributes in data formats](http://w3c.github.io/i18n-discuss/notes/i18n-action-612.html)
+[Recommendations for language and direction attributes in data formats](https://w3c.github.io/i18n-discuss/notes/i18n-action-612.html)
 
 [Use cases for language information in web annotations](https://w3c.github.io/i18n-discuss/notes/annotation-language-use-cases)
 
