@@ -97,7 +97,15 @@ Restrictions:
 
 #### Optimisation of the rendering of missing-glyph Chinese characters
 
-Because of the continuous expansion of Unicode Chinese characters, many old systems won't have glyphs for some recently encoded Chinese characters. These characters are often displayed as `U+FFFD REPLACEMENT CHARACTER`, `U+2612 BALLOT BOX WITH X`, or blank, resulting in the user not being able to identify the specific content.
+Because of the continuous expansion of Unicode Chinese characters, many old systems won't have glyphs for some recently encoded Chinese characters. These characters are often displayed as `U+FFFD REPLACEMENT CHARACTER`, a "tofu" glyph, or blank, leaving the user unable to identify the original character.
+
+Personal-name systems expose the cost. Founder's population information solution contains 102,863 Chinese characters, including PUA characters used in public-security population records. The solution was developed in 2004 and has been adopted by national systems for population information management, ID card issuance, passport issuance, and related services. The dataset has included more than 4,800 PUA mappings. Currently, more than 4,500 of the corresponding ideographs have received official Unicode code points.
+
+In many cases, a PUA code point and an official Unicode code point have the same glyph. Older identity-card chips and records may retain the PUA code point, while newer records use the official code point. Because the font deliberately renders both code points with the same glyph, an operator cannot detect the difference by looking at the name. An interface may therefore appear to show the correct name even when the underlying code point should be converted.
+
+Many government and commercial service systems read identity-card chip data directly. If the downstream system lacks the relevant PUA or Unicode glyph, a person's name may appear as a blank, `U+FFFD`, or a square on screen and in print. The operator can no longer identify the character and may incorrectly regard a genuine identity card as invalid or refuse service. The same person may also be unable to enter the PUA character using a general-purpose input method. Missing-glyph rendering therefore affects identity verification and access to services as well as typography.
+
+Installing current fonts is important, but cannot solve every case. More than 100,000 Chinese characters are encoded in Unicode, font coverage varies widely, and existing population data still contains thousands of PUA characters. If every unsupported character is rendered with the same replacement glyph, thousands of distinct code points become visually indistinguishable.
 
 For Firefox under Linux, the glyph that is displayed identifies the code point value in order to avoid mapping a glyph to thousands or tens of thousands of different Chinese characters, because it can not be recognised by the user normally.
 
@@ -334,4 +342,3 @@ Implementation Details](https://ccjktype.fonts.adobe.com/wp-content/uploads/2017
 | 20      | U+26B60 | 𦭠     | U+26B6B | 𦭫     |
 | 21      | U+2947F | 𩑿     | U+2948B | 𩒋     |
 | 22      | U+29FCE | 𩿎     | U+29FD7 | 𩿗     |
-
