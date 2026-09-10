@@ -1,16 +1,16 @@
 # Explainer: Why is W3C I18N trying to define a common data structure for language and direction metadata on the Web?
 
-The [W3C Internationalization (I18N) Working Group](https://www.w3.org/International/i18n-activity/i18n-wg/) has been working on getting Web specifications to provide language and base direction metadata in document formats and protocols. We have documented our work in a Working Group Note ["String-Meta"](https://w3c.github.io/string-meta) and a [use cases](https://www.w3.org/International/articles/lang-bidi-use-cases/) document that describe requirements and potential approaches in depth. We encourage readers to seek out those documents, of which this is a summary.
+The [W3C Internationalization (I18N) Working Group](https://www.w3.org/International/i18n-activity/i18n-wg/) has been working on getting Web specifications to provide language and base direction metadata in document formats and protocols. We have documented our work in a Working Draft, ["Strings on the Web: Language and Direction Metadata"](https://www.w3.org/TR/string-meta/) (informally known as "String-Meta"), and in a [use cases](https://www.w3.org/International/articles/lang-bidi-use-cases/) document that describes requirements and potential approaches in depth. We encourage readers to seek out those documents, of which this is a summary.
 
 ## What is the problem?
 
-The Arabic script is the second most widely used script in the world after Latin, and there are many other RTL scripts. If you try to display a string without setting the correct base direction, you will get garbled text.  For example:
+The Arabic script is one of the most widely used scripts in the world, and there are many other RTL scripts. If you try to display a string without setting the correct base direction, you will get garbled text. Here is a string displayed with the correct base direction:
 
-![image](https://github.com/w3c/i18n-discuss/assets/69082/c07e5f2d-19ed-497a-9647-2e07aa45e9ec)
+![Arabic text containing an embedded Latin URL, displayed with a right-to-left base direction, so that the runs appear in the right order](https://github.com/w3c/i18n-discuss/assets/69082/c07e5f2d-19ed-497a-9647-2e07aa45e9ec)
 
-will become the very garbled:
+and here is the same string displayed with a left-to-right base direction, which garbles the order of the runs:
 
-![image](https://github.com/w3c/i18n-discuss/assets/69082/7b126488-85c4-49b2-9e3e-7b8d5fbdcfed)
+![The same Arabic text, displayed with a left-to-right base direction, with the runs in the wrong order](https://github.com/w3c/i18n-discuss/assets/69082/7b126488-85c4-49b2-9e3e-7b8d5fbdcfed)
 
 
 (See the above in your browser: [RTL (correct)](https://w3c.github.io/i18n-discuss/explainers/bidi-html-demo.html?item=4&dir=rtl&selectLang=ar) [LTR (broken)](https://w3c.github.io/i18n-discuss/explainers/bidi-html-demo.html?item=4&dir=ltr&selectLang=en))
@@ -20,9 +20,9 @@ Sometimes this problem (and others) can be avoided by setting a base direction t
 
 If you are displaying a string of Han ideographs to a user, you'll need to know which language they speak in order to get the right font. Otherwise, Japanese users will be presented with text that reads like Chinese, and vice versa. The following shows examples of characters that appear differently depending on the language:
 
-![ja_zh_fonts](https://user-images.githubusercontent.com/4839211/222422731-8b6f4aff-599c-4326-99f0-b09811428f65.png)
+![Japanese and Chinese glyph variants of the same Han characters, which differ in shape depending on the language](https://user-images.githubusercontent.com/4839211/222422731-8b6f4aff-599c-4326-99f0-b09811428f65.png)
 
-As markdown:
+The same characters, shown here with HTML `lang` attributes:
 > <span lang="ja">雪, 刃, 直, 令, 垔</span> (Japanese) 
 
 > <span lang="zh-Hant">雪, 刃, 直, 令, 垔</span> (Traditional Chinese)
@@ -52,7 +52,7 @@ Many data values are represented by strings. When strings represent values that 
 "id": "987-654-321.a3" // just a string with some data
 ```
 
-When a string is intended to store natural language, it needs to have both a language and base paragraph direction associated with it. In JSON, this can be done by associating language and direction metadata with the string using a object:
+When a string is intended to store natural language, it needs to have both a language and base paragraph direction associated with it. In JSON, this can be done by associating language and direction metadata with the string using an object:
 ```json
 "name": {
     "value": "Here is my string",
@@ -73,7 +73,7 @@ This representation is at its best if there are only a few natural language stri
 }
 ```
 
-The world is not monolingual. Having a single language per document would mean providing many iterations of the document, one for each language. It might also requires language negotiation at the document request level. One way to address this is to allow multilingual values for a field inside the document.
+The world is not monolingual. Having a single language per document would mean providing many iterations of the document, one for each language. It might also require language negotiation at the document request level. One way to address this is to allow multilingual values for a field inside the document.
 Because language selection is not merely the exact matching of language tag string values and because the normal object representation of a localized string requires that the object be deserialized in order to try and match it, it’s best if language maps are used to organize localized string values. These maps need an object on the value side of the map, since both language and direction might need to be overridden for the string value.
 ```json
 "name": {
@@ -81,6 +81,7 @@ Because language selection is not merely the exact matching of language tag stri
     "en-GB": {"value": "This is UK English", "dir": "ltr"},
     "fr":    {"value": "C'est français", "lang": "fr-CA", "dir": "ltr"},
     "ar":    {"value": "هذه عربية", "dir": "rtl"}
+}
 ```
 
 (Here is the description:)
@@ -102,7 +103,7 @@ There are two other broadly available means of serializing multiple language val
 ```json
 "name": {
     "en": "This is English",
-    "fr": "C'est français",
+    "fr": "C'est français"
 }
 ```
 
@@ -110,9 +111,10 @@ The problem with language maps is that the value is a plain string and there is 
 
 The second is to use an array of objects:
 ```json
-"name": {
+"name": [
     {"value":"This is English", "lang": "en", "dir": "ltr"},
-    {"value":"C'est français", "lang": "fr", "dir": "ltr"},
+    {"value":"C'est français", "lang": "fr", "dir": "ltr"}
+]
 ```
 
 The problem with object arrays is that not only must each entry be deserialized when matching but, in order to ensure the best match, **_every_** entry must be deserialized to check whether its language tag matches better than any of the preceding entries.
@@ -142,7 +144,7 @@ In addition to font selection, many application functions are linked to content 
 
 Direction metadata is needed because the Unicode Bidirectional Algorithm often needs help to get the right results for display and interpolating the value is difficult. There are two ways that base paragraph direction affects data on the Web:
 
-First, when text is presented as paragraphs, having the correct base paragraph direction results is proper layout and overcomes problems with text that has misleading initial directional runs.
+First, when text is presented as paragraphs, having the correct base paragraph direction results in proper layout and overcomes problems with text that has misleading initial directional runs.
 
 Second (and potentially more important for data on the Web), when text is _inserted_ into a page or display element (such as a larger message), the text should always be bidirectionally isolated from the surrounding message. In HTML this requires adding a `dir` attribute with a specific value. In plain text this requires adding Unicode isolating control character pairs around the string. While "first-strong" detection can sometimes provide the correct result for such placement, there are many strings where this is not the case.
 
@@ -156,7 +158,7 @@ Generally speaking, most specifications for APIs or data format should not requi
 
 ## Why didn't you ask for direction metadata earlier?
 
-We didn't identify this as a problem early enough. The need for base direction metadata grew out of efforts by the bidi community to improve usability in HTML. This lead to improvements and changes in the Unicode Bidirectional Algorithm and a better understanding of the difficulties faced by bidi language speakers.
+We didn't identify this as a problem early enough. The need for base direction metadata grew out of efforts by the bidi community to improve usability in HTML. This led to improvements and changes in the Unicode Bidirectional Algorithm and a better understanding of the difficulties faced by bidi language speakers.
 
 By contrast, I18N has asked for language metadata dating back over 30 years. As a result, such metadata is widely available in structured document formats and many protocols. Base direction metadata is less prevalent and I18N's request for this metadata was less consistent prior to work on HTML5.
 
@@ -165,22 +167,7 @@ By contrast, I18N has asked for language metadata dating back over 30 years. As 
 > [!NOTE]
 > The Internationalization Working Group welcomes additional links or pointers to APIs and developer documentation.
 
-Here are some links to ways in which developers can use direction metadata to manage the display of text:
-
-* Cocoa (Mac): https://developer.apple.com/documentation/uikit/nswritingdirection?language=objc
-
-* Java: https://docs.oracle.com/javase/8/docs/api/java/awt/ComponentOrientation.html
-
-* Tutorial for Win32: https://learn.microsoft.com/en-us/windows/apps/design/globalizing/design-for-bidi-text
-
-* Android: https://developer.android.com/reference/android/text/BidiFormatter
-  - https://developer.android.com/training/basics/supporting-devices/languages#MirroringUpdateResources
-  - https://medium.com/android-news/rtl-support-on-android-here-is-all-you-need-know-e13f2df512e2
-  - https://developer.android.com/reference/android/view/View#attr_android:layoutDirection  <- this one
-
-* Angular: https://material.angular.io/cdk/bidi/overview
-
-* Qt: https://doc.qt.io/qt-6/qtquick-positioning-righttoleft.html
+See https://www.w3.org/International/questions/qa-direction-native for some links to ways in which developers can use direction metadata to manage the display of text.
 
 ## Are there other alternatives? What other solutions have been considered?
 
@@ -189,7 +176,7 @@ Yes. The other options for providing base direction metadata on the Web include:
 * Provide a `Localizable` dictionary definition that each Specification can define locally. _While this would be effective in addressing the needs of a given API or document format, interoperability might be harmed since there would be no built-in support in core libraries and since mapping between specifications/APIs/formats would have to be done manually._
 * Provide a `Localizable` type in [WebIDL](https://github.com/whatwg/webidl/issues/1025) that Specifications can just reference. _This would be effective for specifications that use IDL, but might not address the needs found in libraries, runtimes, etc. Also, IDL tries to mirror what ECMAScript does._
 * Use [JSON-LD serialization forms](https://www.w3.org/TR/json-ld/#base-direction) based on the `i18n` namespace. _This solution is already effective for JSON-LD, but is limited to JSON-LD._
-* Use an application-specific means of encoding the values into a string’s character sequence (such as used by [WebAuthn](https://www.w3.org/TR/webauthn-2/#sctn-strings-langdir); note I18N's [comments](https://github.com/w3c/webauthn/issues?q=is%3Aissue+is%3Aopen+label%3Ai18n-needs-resolution) about this). _This solution solves a specifications immediate local needs, but does not address interoperability concerns._
+* Use an application-specific means of encoding the values into a string’s character sequence (such as used by [WebAuthn](https://www.w3.org/TR/webauthn-2/#sctn-strings-langdir); note I18N's [comments](https://github.com/w3c/webauthn/issues?q=is%3Aissue+is%3Aopen+label%3Ai18n-needs-resolution) about this). _This solution solves a specification's immediate local needs, but does not address interoperability concerns._
 
 
 ### What else is I18N doing? 
@@ -230,7 +217,7 @@ For the subset of data values that are natural language text, however, the lack 
 
 _Feel free to paste the above texts into our [playground page](https://w3c.github.io/i18n-discuss/explainers/bidi-html-demo.html) or choose examples from the drop down box. Screen shots in this section were taken from the playground page in Firefox/Windows._
 
-# References 
+# References
 
 * [1] https://w3c.github.io/string-meta/
 * [2] https://github.com/whatwg/webidl/issues/1025
@@ -244,4 +231,3 @@ _Feel free to paste the above texts into our [playground page](https://w3c.githu
 *    [7b] https://github.com/w3c/webauthn/issues?q=is%3Aissue+is%3Aopen+label%3Ai18n-needs-resolution
 
 ---
-
