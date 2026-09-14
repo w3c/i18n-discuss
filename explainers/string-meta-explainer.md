@@ -8,7 +8,7 @@ Some scripts are written predominately from right-to-left. One of these, the Ara
 
 ![Arabic text containing an embedded Latin URL, displayed with a right-to-left base direction, so that the runs appear in the right order](https://github.com/w3c/i18n-discuss/assets/69082/c07e5f2d-19ed-497a-9647-2e07aa45e9ec)
 
-and here is the same string displayed with a left-to-right base direction, which garbles the order of the runs:
+and here is the same string displayed with a left-to-right base direction, which is garbled, with portions of the text in the wrong order:
 
 ![The same Arabic text, displayed with a left-to-right base direction, with the runs in the wrong order](https://github.com/w3c/i18n-discuss/assets/69082/7b126488-85c4-49b2-9e3e-7b8d5fbdcfed)
 
