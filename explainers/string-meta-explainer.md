@@ -1,6 +1,6 @@
 # Explainer: Why is W3C I18N trying to define a common data structure for language and direction metadata on the Web?
 
-The [W3C Internationalization (I18N) Working Group](https://www.w3.org/International/i18n-activity/i18n-wg/) has been working on getting Web specifications to provide language and base direction metadata in document formats and protocols. We have documented our work in a Working Draft, ["Strings on the Web: Language and Direction Metadata"](https://www.w3.org/TR/string-meta/) (informally known as "String-Meta"), and in a [use cases](https://www.w3.org/International/articles/lang-bidi-use-cases/) document that describes requirements and potential approaches in depth. We encourage readers to seek out those documents, of which this is a summary.
+The [W3C Internationalization (I18N) Working Group](https://www.w3.org/International/i18n-activity/i18n-wg/) has been working on getting Web specifications to provide language and base direction metadata in document formats and protocols. We have documented our work in a Rec-track document, ["Strings on the Web: Language and Direction Metadata"](https://www.w3.org/TR/string-meta/) (informally known as "String-Meta"), and in a [use cases](https://www.w3.org/International/articles/lang-bidi-use-cases/) document that describes requirements and potential approaches in depth. We encourage readers to seek out those documents, of which this is a summary.
 
 ## What is the problem?
 
