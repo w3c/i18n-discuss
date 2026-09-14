@@ -6,7 +6,7 @@ The [W3C Internationalization (I18N) Working Group](https://www.w3.org/Internati
 
 Some scripts are written predominately from right-to-left. One of these, the Arabic script, is one of the most widely used scripts in the world. If you try to display a string that uses one of these scripts without setting the correct base direction, you might get garbled text. Here is a string displayed with the correct base direction:
 
-![Arabic text containing an embedded Latin URL, displayed with a right-to-left base direction, so that the runs appear in the right order](https://github.com/w3c/i18n-discuss/assets/69082/c07e5f2d-19ed-497a-9647-2e07aa45e9ec)
+![Arabic text containing an embedded Latin URL, displayed with a right-to-left base direction, so that the runs appear in the correct visual order](https://github.com/w3c/i18n-discuss/assets/69082/c07e5f2d-19ed-497a-9647-2e07aa45e9ec)
 
 and here is the same string displayed with a left-to-right base direction, which is garbled, with portions of the text in the wrong order:
 
