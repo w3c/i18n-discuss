@@ -20,7 +20,7 @@ Message resources are a prerequisite for [DOM Localization].
 
 [dom localization]: https://github.com/mozilla/explainers/blob/main/dom-localization.md
 
-### Why?
+## Why?
 
 The prior work on a new message format has identified the following challenges
 that go beyond or arise from defining the syntax and behavior of a single message,
@@ -75,7 +75,7 @@ complementing the [message data model].
 [message data model]: https://github.com/unicode-org/message-format-wg/tree/main/spec/data-model
 [OASIS Standard]: https://docs.oasis-open.org/xliff/xliff-core/v2.1/os/xliff-core-v2.1-os.html
 
-### Paths to Adoption
+## Paths to Adoption
 
 The field of localization is not new, and already features many competing solutions,
 with workflows, tools and practices used by many different projects,
@@ -98,7 +98,7 @@ could be adopted completely separately from the rest of the specification.
 It could be defined within the context of the new resource format,
 or as a separate action by the [Unicode MessageFormat WG][unicode messageformat].
 
-### Non-Goals
+## Non-Goals
 
 At least initially, the work should focus on the definition of
 the data held within a localization resource, including its data model representation,
