@@ -35,8 +35,8 @@ newline = CRLF / LF
 
 ; An identifier is made up of one or more non-empty parts separated by dots.
 ; Common symbols and non-printable characters must be \escaped in identifiers.
-; To avoid conflicts with frontmatter, and id starting with `---`
-; or consisting only of `-` characters must `\-` escape at least one of them.
+; To avoid conflicts with frontmatter,
+; an id starting with `---` must `\-` escape at least one of those characters.
 id = id-start *([ws] "." [ws] id-part)
 id-start = (["-"] ["-"] id-char [id-part]) / ("-" ["-"])
 id-part = 1*(id-char / "-")
@@ -51,13 +51,16 @@ symbols = %x21-2F / %x3A-40 / %x5B-60 / %x7B-7E ; ASCII symbols and punctuation
 
 ; Values must be parsed as MF2 messages.
 ; A message may be defined on multiple lines,
-; as long as each line after the first is indented by at least one space.
+; as long as each line after the first is indented by at least one space or is empty.
 ; If a message body line starts with significant whitespace,
 ; its first character must be \escaped.
 ; When a newline occurs in a value,
 ; it is always considered to represent a single U+000A LF character.
 ; To include a U+000D CR character in a value, it must be \r escaped.
-value = value-line *(newline ws value-line)
+; In the resolved value of a message, leading and trailing whitespace is trimmed from each line,
+; and empty lines are trimmed from the beginning and end of the message.
+; To retain any whitespace, they must be \escaped.
+value = value-line *(1*newline ws value-line)
 value-line = [(value-start / value-escape) *(content / value-escape)]
 ; A resource must not contain any control characters or vertical whitespace
 ; which might be mistaken for newlines.
