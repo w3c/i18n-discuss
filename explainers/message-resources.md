@@ -20,7 +20,7 @@ Message resources are a prerequisite for [DOM Localization].
 
 [dom localization]: https://github.com/mozilla/explainers/blob/main/dom-localization.md
 
-### Why?
+## Why?
 
 The prior work on a new message format has identified the following challenges
 that go beyond or arise from defining the syntax and behavior of a single message,
@@ -49,18 +49,22 @@ but which are not well addressed by existing resource formats:
 
 Some of these aspects are well supported by existing formats,
 but no one resource format serves all of the identified use cases.
-For instance:
 
-- Comments in Gettext .po files come in multiple types and each [clearly attaches] to the following entry,
-  but the format's representation of multi-line values is rather clumsy.
-- Fluent supports composability via [attributes] and [message references],
-  but its FTL format is tightly coupled with its own message format.
-- XLIFF is an [OASIS Standard],
-  but it is primarily a machine interchange format that is not designed for human authoring
-  and its message representation does not provide for message variants.
+## Alternatives Considered
 
-It would of course be possible to define a JSON or XML Schema
-for a resource format that would address all of the above issues.
+A number of text-based file formats already exist that have been designed for localization, including:
+
+- Android string resources (strings.xml)
+- Fluent FTL (.ftl)
+- Gettext PO File Format (.po, .pot)
+- Java properties (.properties)
+- Ruby i18n locale files (.yml)
+- Web extension JSON (messages.json)
+- Xcode string catalogs (.xcstrings)
+- XLIFF (.xlf, .xliff, application/xliff+xml)
+
+Many (but not all) of these are based on JSON or XML as a base format,
+and can be represented by defining a JSON or XML schema for them.
 However, while JSON and XML are relatively easy to read, they are not easy to _write_.
 This is a disadvantage to users, such as developers or translators,
 who expect to use existing editors, especially simple text editors,
@@ -69,13 +73,88 @@ JSON/XML schemas should be defined as a part of the effort,
 to represent a data model view of the resource formats,
 complementing the [message data model].
 
-[clearly attaches]: https://www.gnu.org/software/gettext/manual/html_node/PO-Files.html
-[attributes]: https://projectfluent.org/fluent/guide/attributes.html
-[message references]: https://projectfluent.org/fluent/guide/references.html
+It should be specifically noted that while XLIFF is an [OASIS Standard],
+it is an XML-based format that is not designed for human authoring,
+but primarily for use as a machine interchange format.
+
+Furthermore, many of the file formats tie in with some specific localization system,
+and are not easily generalisable for use outside it.
+Such tight coupling makes them incompatible with use as general-purpose message resource formats.
+
+After leaving out JSON and XML -based formats and other tightly coupled formats,
+only Java .properties and Gettext .po/.pot files remain as candidates for consideration.
+
+[Java .properties] only support key-value pairs and unattached comments,
+which is not sufficient for representing comments that relate to a specific message,
+or for representing the metadata relating to a message, or the resource as a whole.
+
+[Gettext .po/.pot files] are perhaps the most common localization file format in current use,
+as they do not effectively have any viable alternatives.
+Structurally, the format provides many of the features that are required here:
+
+- Comments come in multiple types and each clearly attaches to the following entry.
+- The resource starts with a header,
+  which can represent comments and metadata relating to the resource as a whole.
+- Multi-line values are supported.
+
+However, the Gettext format also has some issues in this context:
+
+- Messages are usually identified by their full source string contents,
+  rather than an explicit string identifier.
+  In addition to leaving out a possibly important indicator of the message's usage,
+  this underlines the expectation that the file format is used for translation,
+  and that the base source of truth for messages is inline in code elsewhere.
+- The only capability for hierarchically grouping messages is by defining each message's `msgctxt` value.
+- The built-in support for plural variance depends on
+  inlining a snippet of C code that defines an integer `plural` value,
+  rather than depending on the locale-specific CLDR plural keys that are now available.
+- The built-in support for plural variance effectively expects for the source language to
+  always be English, or at the very least a language
+- The syntax used within a message needs to be separately defined for each message.
+- Representing multi-line messages requires wrapping each line separately with `"`...`\n"`.
+- The format has evolved and [is evolving][po-evolution] as a part of the Gettext localization system
+  since its inception in the 1990s, with new features getting added on top of old ones,
+  rather than having been designed with them from the start.
+  For instance, resource headers are defined by
+  defining a translation for an empty `msgid ""` at the top of the file,
+  using a syntax reminiscent of HTTP headers.
+
+It is possible to include MF2 messages in a .po file, including metadata,
+but this ends up being rather clumsy in practice.
+For example, here's how a message with a plural selector would end up looking like,
+when translated into Finnish:
+
+```pot
+#, mf2-format
+msgid ""
+  ".input {$count :integer}\n"
+  ".match $count\n"
+  "0   {{You have no messages.}}\n"
+  "one {{You have {$count} message.}}\n"
+  "*   {{You have {$count} messages.}}"
+msgstr ""
+  ".input {$count :integer}\n"
+  ".match $count\n"
+  "0   {{Sinulla ei ole viestejä.}}\n"
+  "one {{Sinulla on {$count} viesti.}}\n"
+  "*   {{Sinulla on {$count} viestiä.}}"
+```
+
+This representation needs to explicitly leave out the format's built-in plural variance support,
+and with the tools that are commonly used with the format,
+it'll consider e.g. changes in whitespace in the source message to always be significant,
+even if they do not change the message's [data model representation][message data model] at all.
+
+For localizing the web, we can and should provide a better solution,
+in particular one that's better suited for [DOM Localization].
+
+[Gettext .po/.pot files]: https://www.gnu.org/software/gettext/manual/html_node/PO-Files.html
+[Java .properties]: https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/Properties.html#load(java.io.Reader)
 [message data model]: https://github.com/unicode-org/message-format-wg/tree/main/spec/data-model
+[po-evolution]: https://www.gnu.org/software/gettext/manual/gettext.html#Evolution-of-the-PO-File-Format
 [OASIS Standard]: https://docs.oasis-open.org/xliff/xliff-core/v2.1/os/xliff-core-v2.1-os.html
 
-### Paths to Adoption
+## Paths to Adoption
 
 The field of localization is not new, and already features many competing solutions,
 with workflows, tools and practices used by many different projects,
@@ -98,7 +177,7 @@ could be adopted completely separately from the rest of the specification.
 It could be defined within the context of the new resource format,
 or as a separate action by the [Unicode MessageFormat WG][unicode messageformat].
 
-### Non-Goals
+## Non-Goals
 
 At least initially, the work should focus on the definition of
 the data held within a localization resource, including its data model representation,
