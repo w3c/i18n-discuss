@@ -16,13 +16,24 @@ This work has been [presented](https://www.youtube.com/watch?v=ksgm_B-uUCU)
 at the [2024 Unicode Tech Workshop](https://www.unicode.org/events/utw/2024/),
 and accepted for incubation by the W3C Internationalization WG at TPAC 2025.
 
-Message resources are a prerequisite for [DOM Localization].
+Message resources are a prerequisite for [DOM Localization],
+a WHATWG proposal.
 
-[dom localization]: https://github.com/mozilla/explainers/blob/main/dom-localization.md
+[dom localization]: https://github.com/whatwg/proposal-dom-localization
 
 ### Why?
 
-The prior work on a new message format has identified the following challenges
+From an end-user perspective,
+improving the representation of MF2 messages is important,
+as they represent the state of the art in
+representing and translating dynamic localizable messages.
+When localization systems lack proper message formatting:
+
+- Interface elements display incorrectly formatted plurals and dates.
+- Translated content loses important contextual information.
+- The design space of user interfaces is unnecessarily limited.
+
+Prior work on MF2 has identified the following challenges
 that go beyond or arise from defining the syntax and behavior of a single message,
 but which are not well addressed by existing resource formats:
 
