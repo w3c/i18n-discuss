@@ -81,7 +81,7 @@ Furthermore, many of the file formats tie in with some specific localization sys
 and are not easily generalisable for use outside it.
 Such tight coupling makes them incompatible with use as general-purpose message resource formats.
 
-After leaving out JSON and XML -based formats and other tightly coupled formats,
+After leaving out JSON and XML-based formats and other tightly coupled formats,
 only Java .properties and Gettext .po/.pot files remain as candidates for consideration.
 
 [Java .properties] only support key-value pairs and unattached comments,
